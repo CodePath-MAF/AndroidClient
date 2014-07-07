@@ -12,8 +12,8 @@ public class MAFApplication extends Application {
         super.onCreate();
 
         // Initializing Parse
-        Parse.initialize(this, "YeCq7QZpwMg4vEqaZlJs2ZVZvQ7gJrTi1zN9aa4t",
-                "DgHFqxILVyV2qIGA0pLNrbMlNMQBqDIpI5PZjV9x");
+        Parse.initialize(this, getString(R.string.parseApplicationId),
+                getString(R.string.parseClientId));
     }
 
 }
