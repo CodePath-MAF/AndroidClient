@@ -1,9 +1,14 @@
 
 package org.missionassetfund.apps.android;
 
+import org.missionassetfund.apps.android.models.Goal;
+import org.missionassetfund.apps.android.models.Transaction;
+import org.missionassetfund.apps.android.models.User;
+
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 public class MAFApplication extends Application {
 
@@ -11,9 +16,14 @@ public class MAFApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        // Register the parse models
+        ParseObject.registerSubclass(User.class);
+        ParseObject.registerSubclass(Transaction.class);
+        ParseObject.registerSubclass(Goal.class);
+
         // Initializing Parse
-        Parse.initialize(this, "YeCq7QZpwMg4vEqaZlJs2ZVZvQ7gJrTi1zN9aa4t",
-                "DgHFqxILVyV2qIGA0pLNrbMlNMQBqDIpI5PZjV9x");
+        Parse.initialize(this, getString(R.string.parseApplicationId),
+                getString(R.string.parseClientId));
     }
 
 }
