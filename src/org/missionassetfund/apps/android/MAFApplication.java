@@ -12,8 +12,10 @@ public class MAFApplication extends Application {
         super.onCreate();
 
         // Initializing Parse
-        Parse.initialize(this, "YeCq7QZpwMg4vEqaZlJs2ZVZvQ7gJrTi1zN9aa4t",
-                "DgHFqxILVyV2qIGA0pLNrbMlNMQBqDIpI5PZjV9x");
+        Parse.initialize(this, "qK7qJuFt6weBIrBx9eTzK1UBWJvkqb3jH6l8aw22",
+                "SPC4XFKVlnX4ChVu7jS0IwTjfKDAY9uxXh1Y8jsy");
+        
+        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
     }
 
 }
