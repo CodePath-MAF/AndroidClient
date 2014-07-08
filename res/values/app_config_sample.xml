@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="parseApplicationId">PARSE_APPLICATION_ID</string>
-    <string name="parseClientId">PARSE_CLIENT_ID</string>
-
-</resources>
