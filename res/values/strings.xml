@@ -15,4 +15,9 @@
     <string name="label_due_date">Due On</string>
     <string name="sample_due_date">JUL 25</string>
     <string name="sample_due_date_human">2 DAYS FROM NOW</string>
+    <string name="label_receive">You will receive</string>
+    <string name="sample_payment_number">payment 5 of 10</string>
+    <string name="nothing"></string>
+    <string name="label_amount">Amount</string>
+    <string name="label_goal_frequency">Frequency</string>    
 </resources>
