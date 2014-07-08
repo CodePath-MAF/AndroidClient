@@ -12,11 +12,27 @@
 - Tom Gurka ([@tomgurka](http://github.com/tomgurka))
 
 ## Setup Instructions
-1. Clone the repository
+* **Clone the repository**
+
 `git clone https://github.com/CodePath-MAF/AndroidClient.git`
 
-2. Edit the config file
-Rename `res/values/app_config_sample.xml` to `res/values/app_config.xml` and add in the Parse Application & Client ID for the project.
+* **Create the config file**
+
+Create `res/values/app_config.xml` and add in the Parse Application & Client ID for the project following this sample:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="parseApplicationId">PARSE_APPLICATION_ID</string>
+    <string name="parseClientId">PARSE_CLIENT_ID</string>
+</resources>
+```
+
+**Note:** This config file will be gitginore.
+
+* **Import Third-party Libraries**
+
+Libraries are included within the `third-party-libs` folder.
 
 ## Third-party Libraries
 
