@@ -20,4 +20,5 @@
     <string name="nothing"></string>
     <string name="label_amount">Amount</string>
     <string name="label_goal_frequency">Frequency</string>    
+    <string name="label_goal_due_date">Due Date</string>    
 </resources>

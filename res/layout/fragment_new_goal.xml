@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvBorder1"
-            android:text="@string/label_amount"
+            android:text="@string/label_goal_due_date"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvBorder2"
-            android:text="@string/label_amount"
+            android:text="@string/label_goal_frequency"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
