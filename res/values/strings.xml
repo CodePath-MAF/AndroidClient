@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MAF App</string>
+    <string name="app_name">Mission Asset Fund</string>
+    <string name="title_add_goal">Add Goal</string>
+    <string name="title_liquid_asset">Liquid Assets</string>
+    <string name="label_remaining">Remaining</string>
+    <string name="label_spent_today">Spent Today</string>
+    <string name="sample_avg_per_day">AVG $5.62 PER DAY</string>
+    <string name="sample_remaining_amount">$234.64</string>
+    <string name="sample_spent_today">$42.00</string>
+    <string name="sample_goal_title">Lending Circle Bill</string>
+    <string name="label_payment">Total Payment of</string>
+    <string name="sample_total_payment">$35.00</string>
+    <string name="label_due_date">Due On</string>
+    <string name="sample_due_date">JUL 25</string>
+    <string name="sample_due_date_human">2 DAYS FROM NOW</string>
     <string name="action_logout">Log Out</string>
     <string name="parse_signup_button_text">Create Account</string>
     <string name="parse_login_button_text">Log In</string>

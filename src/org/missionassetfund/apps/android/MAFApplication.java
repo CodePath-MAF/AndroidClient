@@ -1,21 +1,29 @@
-
 package org.missionassetfund.apps.android;
+
+import org.missionassetfund.apps.android.models.Goal;
+import org.missionassetfund.apps.android.models.Transaction;
+import org.missionassetfund.apps.android.models.User;
 
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 public class MAFApplication extends Application {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+	@Override
+	public void onCreate() {
+		super.onCreate();
 
-        // Initializing Parse
-        Parse.initialize(this, "qK7qJuFt6weBIrBx9eTzK1UBWJvkqb3jH6l8aw22",
-                "SPC4XFKVlnX4ChVu7jS0IwTjfKDAY9uxXh1Y8jsy");
-        
-        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
-    }
+		// Register the parse models
+		ParseObject.registerSubclass(User.class);
+		ParseObject.registerSubclass(Transaction.class);
+		ParseObject.registerSubclass(Goal.class);
+
+		// Initializing Parse
+		Parse.initialize(this, getString(R.string.parseApplicationId),
+				getString(R.string.parseClientId));
+		Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+	}
 
 }

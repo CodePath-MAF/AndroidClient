@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/llLiquidAsset"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_card"
+        android:orientation="vertical"
+        android:paddingBottom="10dp" >
+
+        <TextView
+            android:id="@+id/tvLiquidAssetTitle"
+            style="@style/DashboardBoxTitle"
+            android:background="@color/darkgray"
+            android:includeFontPadding="false"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/title_liquid_asset" />
+
+        <RelativeLayout
+            android:id="@+id/rlLiquidAssetData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/tvRemainingLabel"
+                style="@style/DashboardSmallText"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/label_remaining"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/tvRemaining"
+                style="@style/DashboardLargeAmount"
+                android:layout_alignLeft="@+id/tvRemainingLabel"
+                android:layout_below="@+id/tvRemainingLabel"
+                android:text="@string/sample_remaining_amount"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/tvSpentTodayLabel"
+                style="@style/DashboardSmallText"
+                android:layout_alignBaseline="@+id/tvRemainingLabel"
+                android:layout_alignBottom="@+id/tvRemainingLabel"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:text="@string/label_spent_today"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/tvSpentToday"
+                style="@style/DashboardMediumAmount"
+                android:layout_alignRight="@+id/tvSpentTodayLabel"
+                android:layout_alignTop="@+id/tvRemaining"
+                android:text="@string/sample_spent_today"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/tvAvgPerDay"
+                style="@style/DashboardSmallText"
+                android:layout_alignRight="@+id/tvSpentToday"
+                android:layout_below="@+id/tvSpentToday"
+                android:text="@string/sample_avg_per_day"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llGoal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_card"
+        android:orientation="vertical"
+        android:paddingBottom="10dp" >
+
+        <TextView
+            android:id="@+id/tvGoalTitle"
+            style="@style/DashboardBoxTitle"
+            android:background="@color/darkgray"
+            android:includeFontPadding="false"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/sample_goal_title" />
+
+        <RelativeLayout
+            android:id="@+id/rlGoalData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/tvTotalPaymentLabel"
+                style="@style/DashboardSmallText"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/label_payment"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/tvTotalPayment"
+                style="@style/DashboardLargeAmount"
+                android:layout_alignLeft="@+id/tvTotalPaymentLabel"
+                android:layout_below="@+id/tvTotalPaymentLabel"
+                android:text="@string/sample_total_payment"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/tvDueDateLabel"
+                style="@style/DashboardSmallText"
+                android:layout_alignBaseline="@+id/tvTotalPaymentLabel"
+                android:layout_alignBottom="@+id/tvTotalPaymentLabel"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:text="@string/label_due_date"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/tvDueDate"
+                style="@style/DashboardMediumAmount"
+                android:layout_alignRight="@+id/tvDueDateLabel"
+                android:layout_alignTop="@+id/tvTotalPayment"
+                android:text="@string/sample_due_date"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/tvDueDateHuman"
+                style="@style/DashboardSmallText"
+                android:layout_alignRight="@+id/tvDueDate"
+                android:layout_below="@+id/tvDueDate"
+                android:text="@string/sample_due_date_human"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/pbGoalProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:progress="50" />
+    </LinearLayout>
+
+</LinearLayout>
