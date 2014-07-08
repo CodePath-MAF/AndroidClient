@@ -18,5 +18,6 @@
     <string name="action_logout">Log Out</string>
     <string name="parse_signup_button_text">Create Account</string>
     <string name="parse_login_button_text">Log In</string>
+    <string name="title_activity_liquid_assets">Liquid Assets</string>
 
 </resources>
