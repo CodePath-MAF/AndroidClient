@@ -15,4 +15,8 @@
     <string name="label_due_date">Due On</string>
     <string name="sample_due_date">JUL 25</string>
     <string name="sample_due_date_human">2 DAYS FROM NOW</string>
+    <string name="action_logout">Log Out</string>
+    <string name="parse_signup_button_text">Create Account</string>
+    <string name="parse_login_button_text">Log In</string>
+
 </resources>
