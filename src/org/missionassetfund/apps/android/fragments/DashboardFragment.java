@@ -5,9 +5,6 @@ import org.missionassetfund.apps.android.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,12 +15,14 @@ import android.widget.LinearLayout;
 
 public class DashboardFragment extends Fragment {
 
-  private FragmentActivity myContext;
   LinearLayout llGoal;
+
+  public interface SwitchMainFragmentListener {
+    void SwitchToFragment(Class<? extends Fragment> klass);
+  }
 
   @Override
   public void onAttach(Activity activity) {
-    myContext = (FragmentActivity) activity;
     super.onAttach(activity);
   }
 
@@ -41,11 +40,8 @@ public class DashboardFragment extends Fragment {
 
       @Override
       public void onClick(View v) {
-        // Toast.makeText(getActivity(), "Hi", Toast.LENGTH_LONG).show();
-        FragmentManager mgr = myContext.getSupportFragmentManager();
-        FragmentTransaction transaction = mgr.beginTransaction();
-        transaction.replace(R.id.frmMainContent, new GoalFragment());
-        transaction.commit();
+        SwitchMainFragmentListener fragmentChanger = (SwitchMainFragmentListener) getActivity();
+        fragmentChanger.SwitchToFragment(GoalFragment.class);
       }
     });
 
