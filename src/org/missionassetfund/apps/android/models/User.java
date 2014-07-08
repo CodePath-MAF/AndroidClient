@@ -4,7 +4,7 @@ package org.missionassetfund.apps.android.models;
 import com.parse.ParseClassName;
 import com.parse.ParseUser;
 
-@ParseClassName("_User")
+@ParseClassName("User")
 public class User extends ParseUser {
     public static final String NAME_KEY = "name";
     public static final String PHONE_NUMBER_KEY = "phoneNumber";
