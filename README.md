@@ -3,13 +3,13 @@
 ## Team
 
 **Devs**
-- Amit Bharadwaj (@amitbharadwaj)
-- Felipe Duarte (@fcduarte)
-- Jose Montes de Oca (@josemontesdeoca)
+- Amit Bharadwaj ([@amitbharadwaj](http://github.com/amitbharadwaj))
+- Felipe Duarte ([@fcduarte](http://github.com/fcduarte))
+- Jose Montes de Oca ([@josemontesdeoca](http://github.com/josemontesdeoca))
 
 **Designers**
-- Jairo Avalos (@jairoavalos)
-- Tom Gurka (@tomgurka)
+- Jairo Avalos ([@jairoavalos](http://github.com/jairoavalos))
+- Tom Gurka ([@tomgurka](http://github.com/tomgurka))
 
 ## Setup Instructions
 1. Clone the repository
