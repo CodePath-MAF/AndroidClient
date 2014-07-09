@@ -6,6 +6,7 @@
     <string name="title_liquid_asset">Liquid Assets</string>
     <string name="label_remaining">Remaining</string>
     <string name="label_spent_today">Spent Today</string>
+    <string name="label_spent_this_week">Spent this week</string>
     <string name="sample_avg_per_day">AVG $5.62 PER DAY</string>
     <string name="sample_remaining_amount">$234.64</string>
     <string name="sample_spent_today">$42.00</string>
@@ -18,6 +19,5 @@
     <string name="action_logout">Log Out</string>
     <string name="parse_signup_button_text">Create Account</string>
     <string name="parse_login_button_text">Log In</string>
-    <string name="title_activity_liquid_assets">Liquid Assets</string>
 
 </resources>

@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="Remaining"
+            android:text="@string/label_remaining"
             android:textColor="@color/light_blue" />
 
         <TextView
@@ -37,30 +37,22 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="Spent this week"
+            android:text="@string/label_spent_this_week"
             android:textColor="@color/light_blue" />
 
         <TextView
             android:id="@+id/tv_remaining_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/tv_remaining"
-            android:text="$123.45"
             android:textColor="@color/navy_blue"
-            android:textSize="36dp"
-            android:textStyle="bold" />
+            style="@style/LargeAmount" />
 
         <TextView
             android:id="@+id/tv_spent_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tv_spent_this_week"
-            android:text="(- $153.00)"
             android:textColor="@color/navy_blue"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            style="@style/MediumAmount" />
 
         <TextView
             android:id="@+id/tv_average_spent"
@@ -68,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tv_spent_amount"
-            android:text="AVG $5.62 PER DAY"
+            android:text="@string/sample_avg_per_day"
             android:textColor="@color/light_blue" />
     </RelativeLayout>
 

@@ -26,7 +26,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
     
-    <style name="DashboardLargeAmount" parent="@android:style/TextAppearance">
+    <style name="LargeAmount" parent="@android:style/TextAppearance">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">30sp</item>
         <item name="android:typeface">normal</item>
@@ -34,7 +34,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
     
-    <style name="DashboardMediumAmount" parent="@android:style/TextAppearance">
+    <style name="MediumAmount" parent="@android:style/TextAppearance">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
         <item name="android:typeface">normal</item>
