@@ -17,8 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 public class DashboardFragment extends Fragment {
-    LinearLayout llGoal;
-
+    private LinearLayout llGoal;
     private LinearLayout llLiquidAsset;
 
     public interface SwitchMainFragmentListener {
@@ -35,7 +34,7 @@ public class DashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         llGoal = (LinearLayout) view.findViewById(R.id.llGoal);
-        setupListeners();
+        llGoal.setOnClickListener(goalDetailsClickListener);
 
         llLiquidAsset = (LinearLayout) view.findViewById(R.id.llLiquidAsset);
         llLiquidAsset.setOnClickListener(liquidAssetClickListener);
@@ -50,18 +49,6 @@ public class DashboardFragment extends Fragment {
         inflater.inflate(R.menu.dashboard, menu);
     }
 
-    private void setupListeners() {
-        llGoal.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                SwitchMainFragmentListener fragmentChanger = (SwitchMainFragmentListener) getActivity();
-                fragmentChanger.SwitchToFragment(GoalDetailFragment.class);
-            }
-        });
-
-    }
-
     private OnClickListener liquidAssetClickListener = new OnClickListener() {
 
         @Override
@@ -70,4 +57,14 @@ public class DashboardFragment extends Fragment {
             getActivity().startActivity(intent);
         }
     };
+
+    private OnClickListener goalDetailsClickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            SwitchMainFragmentListener fragmentChanger = (SwitchMainFragmentListener) getActivity();
+            fragmentChanger.SwitchToFragment(GoalDetailFragment.class);
+        }
+    };
+
 }
