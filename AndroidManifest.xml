@@ -18,13 +18,44 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.missionassetfund.apps.android.activities.MainActivity"
+            android:name="org.missionassetfund.apps.android.activities.MAFDispatchActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.parse.ui.ParseLoginActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" >
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.APP_LOGO"
+                android:resource="@drawable/logo" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
+                android:value="true" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME"
+                android:value="true" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_ENABLED"
+                android:value="false" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.TWITTER_LOGIN_ENABLED"
+                android:value="false" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.PARSE_SIGNUP_BUTTON_TEXT"
+                android:value="@string/parse_signup_button_text" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_BUTTON_TEXT"
+                android:value="@string/parse_login_button_text" />
+        </activity>
+        <activity
+            android:name="org.missionassetfund.apps.android.activities.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" >
         </activity>
     </application>
 
