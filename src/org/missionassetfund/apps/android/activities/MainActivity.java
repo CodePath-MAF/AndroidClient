@@ -3,6 +3,9 @@ package org.missionassetfund.apps.android.activities;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.DashboardFragment;
+import org.missionassetfund.apps.android.fragments.GoalDetailFragment;
+import org.missionassetfund.apps.android.fragments.NewGoalFragment;
+import org.missionassetfund.apps.android.fragments.DashboardFragment.SwitchMainFragmentListener;
 
 import android.content.Intent;
 import android.os.Build;
@@ -17,7 +20,7 @@ import android.view.MenuItem;
 
 import com.parse.ParseUser;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements SwitchMainFragmentListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class MainActivity extends FragmentActivity {
     @SuppressWarnings("rawtypes")
     private void showFragment(Class activeFragmentClass) {
         Class[] fragmentClasses = new Class[] {
-                DashboardFragment.class
+                DashboardFragment.class, GoalDetailFragment.class
         };
         FragmentManager mgr = getSupportFragmentManager();
         FragmentTransaction transaction = mgr.beginTransaction();
@@ -61,6 +64,11 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Override
+    public void SwitchToFragment(Class<? extends Fragment> klass) {
+        showFragment(klass);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
@@ -73,6 +81,11 @@ public class MainActivity extends FragmentActivity {
 
             case R.id.action_logout:
                 logoutParse();
+                break;
+            case R.id.action_add_goal:
+                FragmentManager fm = getSupportFragmentManager();
+                NewGoalFragment newGoalFragment = new NewGoalFragment();
+                newGoalFragment.show(fm, "fragment_new_goal");
                 break;
             default:
                 break;
@@ -95,5 +108,4 @@ public class MainActivity extends FragmentActivity {
             finish();
         }
     }
-
 }

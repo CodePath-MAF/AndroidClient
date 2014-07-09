@@ -10,6 +10,7 @@
             <solid android:color="@color/gray" />
         </shape>
     </item>
+    
     <item android:bottom="2dp">
         <shape
             android:dither="true"
