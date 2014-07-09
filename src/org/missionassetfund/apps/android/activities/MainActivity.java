@@ -3,6 +3,8 @@ package org.missionassetfund.apps.android.activities;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.DashboardFragment;
+import org.missionassetfund.apps.android.fragments.GoalDetailFragment;
+import org.missionassetfund.apps.android.fragments.NewGoalFragment;
 import org.missionassetfund.apps.android.fragments.DashboardFragment.SwitchMainFragmentListener;
 
 import android.content.Intent;
@@ -35,7 +37,7 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
     @SuppressWarnings("rawtypes")
     private void showFragment(Class activeFragmentClass) {
         Class[] fragmentClasses = new Class[] {
-                DashboardFragment.class
+                DashboardFragment.class, GoalDetailFragment.class
         };
         FragmentManager mgr = getSupportFragmentManager();
         FragmentTransaction transaction = mgr.beginTransaction();
@@ -79,6 +81,11 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
 
             case R.id.action_logout:
                 logoutParse();
+                break;
+            case R.id.action_add_goal:
+                FragmentManager fm = getSupportFragmentManager();
+                NewGoalFragment newGoalFragment = new NewGoalFragment();
+                newGoalFragment.show(fm, "fragment_new_goal");
                 break;
             default:
                 break;

@@ -41,7 +41,7 @@ public class DashboardFragment extends Fragment {
       @Override
       public void onClick(View v) {
         SwitchMainFragmentListener fragmentChanger = (SwitchMainFragmentListener) getActivity();
-        fragmentChanger.SwitchToFragment(GoalFragment.class);
+        fragmentChanger.SwitchToFragment(GoalDetailFragment.class);
       }
     });
 

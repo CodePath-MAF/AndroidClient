@@ -10,7 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class GoalFragment extends Fragment implements View.OnClickListener {
+public class GoalDetailFragment extends Fragment implements View.OnClickListener {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

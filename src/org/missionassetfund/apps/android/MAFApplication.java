@@ -26,5 +26,4 @@ public class MAFApplication extends Application {
                 getString(R.string.parseClientId));
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
     }
-
 }
