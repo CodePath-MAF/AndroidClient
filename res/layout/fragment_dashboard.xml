@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/tvRemaining"
-                style="@style/DashboardLargeAmount"
+                style="@style/LargeAmount"
                 android:layout_alignLeft="@+id/tvRemainingLabel"
                 android:layout_below="@+id/tvRemainingLabel"
                 android:text="@string/sample_remaining_amount"
@@ -59,7 +59,7 @@
 
             <TextView
                 android:id="@+id/tvSpentToday"
-                style="@style/DashboardMediumAmount"
+                style="@style/MediumAmount"
                 android:layout_alignRight="@+id/tvSpentTodayLabel"
                 android:layout_alignTop="@+id/tvRemaining"
                 android:text="@string/sample_spent_today"
@@ -112,7 +112,7 @@
 
             <TextView
                 android:id="@+id/tvTotalPayment"
-                style="@style/DashboardLargeAmount"
+                style="@style/LargeAmount"
                 android:layout_alignLeft="@+id/tvTotalPaymentLabel"
                 android:layout_below="@+id/tvTotalPaymentLabel"
                 android:text="@string/sample_total_payment"
@@ -130,7 +130,7 @@
 
             <TextView
                 android:id="@+id/tvDueDate"
-                style="@style/DashboardMediumAmount"
+                style="@style/MediumAmount"
                 android:layout_alignRight="@+id/tvDueDateLabel"
                 android:layout_alignTop="@+id/tvTotalPayment"
                 android:text="@string/sample_due_date"

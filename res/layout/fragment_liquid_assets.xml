@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <com.echo.holographlibrary.PieGraph
+        android:id="@+id/liquid_assets_donut_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp" />
+
+    <RelativeLayout
+        android:id="@+id/rlAssetsSummary"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/liquid_assets_donut_chart"
+        android:background="@color/white"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/tv_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/label_remaining"
+            android:textColor="@color/light_blue" />
+
+        <TextView
+            android:id="@+id/tv_spent_this_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/label_spent_this_week"
+            android:textColor="@color/light_blue" />
+
+        <TextView
+            android:id="@+id/tv_remaining_amount"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tv_remaining"
+            android:textColor="@color/navy_blue"
+            style="@style/LargeAmount" />
+
+        <TextView
+            android:id="@+id/tv_spent_amount"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_spent_this_week"
+            android:textColor="@color/navy_blue"
+            style="@style/MediumAmount" />
+
+        <TextView
+            android:id="@+id/tv_average_spent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_spent_amount"
+            android:text="@string/sample_avg_per_day"
+            android:textColor="@color/light_blue" />
+    </RelativeLayout>
+
+    <ExpandableListView
+        android:id="@+id/elxLiquidAssets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlAssetsSummary"
+        android:background="@color/white" >
+    </ExpandableListView>
+
+</RelativeLayout>

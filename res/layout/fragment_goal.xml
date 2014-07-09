@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/tvTotalPayment"
-            style="@style/DashboardLargeAmount"
+            style="@style/LargeAmount"
             android:layout_alignLeft="@+id/tvTotalPaymentLabel"
             android:layout_below="@+id/tvTotalPaymentLabel"
             android:text="@string/sample_total_payment"
@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/tvDueDate"
-            style="@style/DashboardMediumAmount"
+            style="@style/MediumAmount"
             android:layout_alignRight="@+id/tvDueDateLabel"
             android:layout_alignTop="@+id/tvTotalPayment"
             android:text="@string/sample_due_date"
@@ -85,7 +85,7 @@
 
             <TextView
                 android:id="@+id/tvTotalTargetPayment"
-                style="@style/DashboardLargeAmount"
+                style="@style/LargeAmount"
                 android:layout_alignLeft="@+id/tvTotalTargetLabel"
                 android:layout_below="@+id/tvTotalTargetLabel"
                 android:text="@string/sample_total_payment"
@@ -103,7 +103,7 @@
 
             <TextView
                 android:id="@+id/tvTargetDate"
-                style="@style/DashboardMediumAmount"
+                style="@style/MediumAmount"
                 android:layout_alignRight="@+id/tvTargetDateLabel"
                 android:layout_alignTop="@+id/tvTotalTargetPayment"
                 android:text="@string/sample_due_date"
