@@ -59,7 +59,11 @@
         </activity>
         <activity
             android:name=".activities.LiquidAssetsActivity"
-            android:label="@string/title_activity_liquid_assets" >
+            android:label="@string/title_activity_liquid_assets"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.missionassetfund.apps.activities.MainActivity" />
         </activity>
     </application>
 

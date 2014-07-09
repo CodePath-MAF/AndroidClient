@@ -1,15 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/imageView1"
+    <fragment
+        android:id="@+id/liquid_assets_fragment"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/logo" />
+        class="org.missionassetfund.apps.android.fragments.LiquidAssetsFragment" >
+    </fragment>
 
-</RelativeLayout>
+</LinearLayout>
