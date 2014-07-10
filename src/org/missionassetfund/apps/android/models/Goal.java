@@ -18,69 +18,6 @@ public class Goal extends ParseObject {
     public static final String NUM_PAYMENTS_KEY = "numPayments";
     public static final String GOAL_DATE_KEY = "goalDate";
 
-    public enum GoalStatus {
-        UNDEFINED(0),
-        IN_PROGRESS(1),
-        ACHIEVED(2);
-
-        private int statusValue;
-
-        private GoalStatus(int statusValue) {
-            this.statusValue = statusValue;
-        }
-
-        public int toInt() {
-            return statusValue;
-        }
-
-        public static GoalStatus getTypeFromInt(int statusValue) {
-            switch (statusValue) {
-                case 1:
-                    return IN_PROGRESS;
-                case 2:
-                    return ACHIEVED;
-                default:
-                    return UNDEFINED;
-            }
-        }
-    }
-
-    public enum GoalPaymentInterval {
-        UNDEFINED(0),
-        DAILY(1),
-        WEEKLY(7),
-        BIWEEKLY(14),
-        MONTHLY(30),
-        BIMONTHLY(60);
-
-        private int intervalValue;
-
-        private GoalPaymentInterval(int intervalValue) {
-            this.intervalValue = intervalValue;
-        }
-
-        public int toInt() {
-            return intervalValue;
-        }
-
-        public static GoalPaymentInterval getTypeFromInt(int intervalValue) {
-            switch (intervalValue) {
-                case 1:
-                    return DAILY;
-                case 7:
-                    return WEEKLY;
-                case 14:
-                    return BIWEEKLY;
-                case 30:
-                    return MONTHLY;
-                case 60:
-                    return BIMONTHLY;
-                default:
-                    return UNDEFINED;
-            }
-        }
-    }
-
     public Goal() {
     }
 
