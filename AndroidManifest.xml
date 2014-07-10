@@ -65,6 +65,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.missionassetfund.apps.activities.MainActivity" />
         </activity>
+                <activity
+            android:name=".activities.GoalDetailsActivity"
+            android:label="@string/title_goal_details"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.missionassetfund.apps.activities.MainActivity" />
+        </activity>
+        
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@
     <string name="app_name">Mission Asset Fund</string>
     <string name="title_add_goal">Add Goal</string>
     <string name="title_liquid_asset">Liquid Assets</string>
+    <string name="title_goal_details">Goals</string>
     <string name="label_remaining">Remaining</string>
     <string name="label_spent_today">Spent Today</string>
     <string name="label_spent_this_week">Spent this week</string>
@@ -20,6 +21,7 @@
     <string name="sample_payment_number">payment 5 of 10</string>
     <string name="nothing"></string>
     <string name="label_new_savings_goal">Add New Savings Goal</string>
+    <string name="label_goal_payment">Make Goal Payment</string>
     <string name="label_new_goal_name">Goal Name</string>
     <string name="sample_new_goal_name">Vegas Trip</string>
     <string name="label_amount">Amount</string>
@@ -32,5 +34,6 @@
     <string name="parse_login_button_text">Log In</string>
     <string name="label_btn_cancel">Cancel</string>
     <string name="label_btn_create_goal">Create Goal</string>
-
+    <string name="label_btn_goal_payment">Make Payment</string>
+    
 </resources>
