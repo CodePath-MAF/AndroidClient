@@ -2,6 +2,7 @@
 package org.missionassetfund.apps.android.fragments;
 
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.activities.GoalDetailsActivity;
 import org.missionassetfund.apps.android.activities.LiquidAssetsActivity;
 
 import android.app.Activity;
@@ -62,8 +63,8 @@ public class DashboardFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            SwitchMainFragmentListener fragmentChanger = (SwitchMainFragmentListener) getActivity();
-            fragmentChanger.SwitchToFragment(GoalDetailFragment.class);
+            Intent intent = new Intent(getActivity(), GoalDetailsActivity.class);
+            getActivity().startActivity(intent);
         }
     };
 
