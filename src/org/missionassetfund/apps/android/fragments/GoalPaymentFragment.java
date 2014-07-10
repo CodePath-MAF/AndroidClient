@@ -3,6 +3,7 @@ package org.missionassetfund.apps.android.fragments;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Goal;
+import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
 
 import com.parse.ParseException;
@@ -21,11 +22,16 @@ import android.widget.Toast;
 
 public class GoalPaymentFragment extends DialogFragment {
 
+    private Goal goal;
     EditText etAmount;
     Button btnGoalPayment;
 
-    public static GoalPaymentFragment newInstance() {
+    public static GoalPaymentFragment newInstance(Goal goal) {
         GoalPaymentFragment goalPaymentFragment = new GoalPaymentFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable("goal", goal);
+        goalPaymentFragment.setArguments(args);
         return goalPaymentFragment;
     }
 
@@ -37,6 +43,7 @@ public class GoalPaymentFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(STYLE_NORMAL, R.style.NewGoalDialog);
+        goal = (Goal) getArguments().getSerializable("goal");
     }
 
     @Override
@@ -54,22 +61,19 @@ public class GoalPaymentFragment extends DialogFragment {
 
         @Override
         public void onClick(View v) {
-            // Goal goal = new Goal();
-            // User user = (User) ParseUser.getCurrentUser();
-            // goal.setUser(user);
-            // Float amount = Float.parseFloat(etAmount.getText().toString());
-            // goal.setAmount(amount);
-            // goal.saveInBackground(new SaveCallback() {
-            //
-            // @Override
-            // public void done(ParseException arg0) {
-            // Toast.makeText(getActivity(), "Done saving goal.",
-            // Toast.LENGTH_SHORT).show();
-            // dismiss();
-            //
-            // }
-            //
-            // });
+            Float amount = Float.parseFloat(etAmount.getText().toString());
+            Transaction txn = new Transaction();
+            txn.setAmount(amount);
+            txn.setUser((User) ParseUser.getCurrentUser());
+            txn.setGoal(goal);
+            txn.saveInBackground(new SaveCallback() {
+
+                @Override
+                public void done(ParseException arg0) {
+                    Toast.makeText(getActivity(), "Done savign txn", Toast.LENGTH_LONG).show();
+                    dismiss();
+                }
+            });
         }
     };
 
