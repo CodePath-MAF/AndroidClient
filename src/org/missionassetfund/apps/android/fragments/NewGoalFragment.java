@@ -88,14 +88,15 @@ public class NewGoalFragment extends DialogFragment {
             try {
                 goalDate = dateFormat.parse(etGoalDate.getText().toString());
             } catch (java.text.ParseException e) {
-                Log.e("error", "date parsing issue", e);
+                Log.e("error", getString(R.string.error_parse_date), e);
             }
             goal.setGoalDate(goalDate);
             goal.saveInBackground(new SaveCallback() {
 
                 @Override
                 public void done(ParseException arg0) {
-                    Toast.makeText(getActivity(), "Done saving goal.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.toast_done_saving_goal),
+                            Toast.LENGTH_SHORT).show();
                     dismiss();
 
                 }
