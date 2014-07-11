@@ -6,13 +6,6 @@ import java.util.List;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.GoalPaymentFragment;
 import org.missionassetfund.apps.android.models.Goal;
-import org.missionassetfund.apps.android.models.User;
-
-import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -21,11 +14,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 public class GoalDetailsActivity extends FragmentActivity {
 
     private Goal goal;
+
+    TextView tvTotalPayment;
+    TextView tvDueDate;
+    TextView tvDueDateHuman;
+    TextView tvTotalTargetPayment;
+    TextView tvTargetDate;
+    TextView tvTargetDateHuman;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +39,7 @@ public class GoalDetailsActivity extends FragmentActivity {
         // Goal will come from Dashboard. For now let's get one from parse
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
         // query.whereEqualTo("user", (User) ParseUser.getCurrentUser());
-        query.whereEqualTo("name", "Payment Test Goal");
+        query.whereEqualTo("name", "Test Goal Details");
 
         query.findInBackground(new FindCallback<Goal>() {
 
