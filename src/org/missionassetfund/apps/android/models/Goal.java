@@ -17,7 +17,7 @@ public class Goal extends ParseObject implements Serializable {
     public static final String TYPE_KEY = "type";
     public static final String STATUS_KEY = "status";
     public static final String PAYMENT_INTERVAL_KEY = "paymentInterval";
-    public static final String AMOUNT_KEY = "paymentAmount";
+    public static final String AMOUNT_KEY = "amount";
     public static final String NUM_PAYMENTS_KEY = "numPayments";
     public static final String GOAL_DATE_KEY = "goalDate";
 

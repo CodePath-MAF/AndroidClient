@@ -49,7 +49,6 @@ public class NewGoalFragment extends DialogFragment {
 
         frequencyAdapter = new ArrayAdapter<GoalPaymentInterval>(getActivity(),
                 android.R.layout.simple_spinner_item, GoalPaymentInterval.values());
-        // Specify the layout to use when the list of choices appears
         frequencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
     }
@@ -64,7 +63,6 @@ public class NewGoalFragment extends DialogFragment {
         spinnerGoalFrequency = (Spinner) view.findViewById(R.id.spinnerGoalFrequency);
         etGoalDate = (EditText) view.findViewById(R.id.etGoalDate);
 
-        // Apply the adapter to the spinner
         spinnerGoalFrequency.setAdapter(frequencyAdapter);
 
         btnCreateGoal.setOnClickListener(newGoalClickListener);
