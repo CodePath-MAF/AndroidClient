@@ -111,7 +111,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
-                android:id="@+id/tvTotalPayment"
+                android:id="@+id/tvPaymentDue"
                 style="@style/LargeAmount"
                 android:layout_alignLeft="@+id/tvTotalPaymentLabel"
                 android:layout_below="@+id/tvTotalPaymentLabel"
@@ -132,7 +132,7 @@
                 android:id="@+id/tvDueDate"
                 style="@style/MediumAmount"
                 android:layout_alignRight="@+id/tvDueDateLabel"
-                android:layout_alignTop="@+id/tvTotalPayment"
+                android:layout_alignTop="@+id/tvPaymentDue"
                 android:text="@string/sample_due_date"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
