@@ -1,10 +1,7 @@
 
 package org.missionassetfund.apps.android.activities;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.GoalPaymentFragment;
@@ -24,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.missionassetfund.apps.android.adapters.GoalPaymentsArrayAdapter;
+import com.missionassetfund.apps.android.utils.FormatterUtils;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -93,12 +91,11 @@ public class GoalDetailsActivity extends FragmentActivity {
             public void done(List<Transaction> txns, ParseException e) {
                 if (e == null) {
                     paymentsAdapter = new GoalPaymentsArrayAdapter(GoalDetailsActivity.this,
-                            R.layout.item_past_payment, txns);
+                            R.layout.item_past_payment, txns, goal.getNumPayments());
                     lvPastPayments.setAdapter(paymentsAdapter);
                 } else {
                     Log.e("error", "", e);
                 }
-
             }
         });
     }
@@ -106,12 +103,11 @@ public class GoalDetailsActivity extends FragmentActivity {
     private void populateViews() {
         // Once goal is available let's setup views
         tvTotalTargetPayment.setText(Double.toString(goal.getAmount()));
-        DateFormat monthDayFormat = new SimpleDateFormat("MMM dd", Locale.US);
-        tvTargetDate.setText(monthDayFormat.format(goal.getGoalDate()));
+        tvTargetDate.setText(FormatterUtils.formatMonthDate(goal.getGoalDate()));
 
         // Payment related fields will need all payment to be analyzed.
         Double currentPayment = goal.getPaymentAmount();
-        tvPaymentDue.setText(String.format("%.2f", currentPayment));
+        tvPaymentDue.setText(FormatterUtils.formatAmount(currentPayment));
 
     }
 
