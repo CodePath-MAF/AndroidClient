@@ -1,13 +1,16 @@
 
 package org.missionassetfund.apps.android.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Goal")
-public class Goal extends ParseObject {
+public class Goal extends ParseObject implements Serializable {
+    private static final long serialVersionUID = 6160272793326362343L;
+
     public static final String USER_KEY = "user";
     public static final String NAME_KEY = "name";
     public static final String DESCRIPTION_KEY = "description";

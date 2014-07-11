@@ -1,19 +1,28 @@
 
 package org.missionassetfund.apps.android.models;
 
-
 public enum GoalPaymentInterval {
-    UNDEFINED(0),
-    DAILY(1),
-    WEEKLY(7),
-    BIWEEKLY(14),
-    MONTHLY(30),
-    BIMONTHLY(60);
+    UNDEFINED(0, "Undefined"),
+    DAILY(1, "Daily"),
+    WEEKLY(7, "Weekly"),
+    BIWEEKLY(14, "Bi-weekly"),
+    MONTHLY(30, "Monthly"),
+    BIMONTHLY(60, "Bi-monthly");
 
     private int intervalValue;
+    private String prettyName;
 
     private GoalPaymentInterval(int intervalValue) {
         this.intervalValue = intervalValue;
+    }
+
+    private GoalPaymentInterval(int intervalValue, String prettyName) {
+        this.intervalValue = intervalValue;
+        this.prettyName = prettyName;
+    }
+
+    private GoalPaymentInterval(String prettyName) {
+        this.prettyName = prettyName;
     }
 
     public int toInt() {
@@ -35,5 +44,10 @@ public enum GoalPaymentInterval {
             default:
                 return UNDEFINED;
         }
+    }
+
+    @Override
+    public String toString() {
+        return prettyName;
     }
 }
