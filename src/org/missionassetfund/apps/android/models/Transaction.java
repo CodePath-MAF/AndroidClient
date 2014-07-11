@@ -15,22 +15,22 @@ public class Transaction extends ParseObject {
     public static final String DESCRIPTION_KEY = "description";
     public static final String TYPE_KEY = "type";
     public static final String CATEGORY_KEY = "category";
-    
+
     public enum TransactionType {
         UNDEFINED(0),
         DEBIT(1),
         CREDIT(2);
-        
+
         private int typeValue;
-        
+
         private TransactionType(int typeValue) {
             this.typeValue = typeValue;
         }
-        
+
         public int toInt() {
             return typeValue;
         }
-        
+
         public static TransactionType getTypeFromInt(int typeValue) {
             switch (typeValue) {
                 case 1:
@@ -94,13 +94,11 @@ public class Transaction extends ParseObject {
         put(TYPE_KEY, type.toInt());
     }
 
-    // TODO: Discuss if hardcode 'category' via an enum or have a dummy
-    // Transaction Type Model
-    public String getCategory() {
-        return getString(CATEGORY_KEY);
+    public Category getCategory() {
+        return (Category) getParseObject(CATEGORY_KEY);
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         put(CATEGORY_KEY, category);
     }
 }
