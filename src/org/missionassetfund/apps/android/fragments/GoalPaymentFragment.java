@@ -61,7 +61,7 @@ public class GoalPaymentFragment extends DialogFragment {
 
         @Override
         public void onClick(View v) {
-            Float amount = Float.parseFloat(etAmount.getText().toString());
+            Double amount = Double.parseDouble(etAmount.getText().toString());
             Transaction txn = new Transaction();
             txn.setAmount(amount);
             txn.setUser((User) ParseUser.getCurrentUser());

@@ -30,6 +30,8 @@ import com.parse.SaveCallback;
 
 public class NewGoalFragment extends DialogFragment {
 
+    private static final long ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
+
     EditText etGoalName;
     EditText etGoalAmount;
     Spinner spinnerGoalFrequency;
@@ -78,9 +80,11 @@ public class NewGoalFragment extends DialogFragment {
             User user = (User) ParseUser.getCurrentUser();
             goal.setUser(user);
             goal.setName(etGoalName.getText().toString());
-            Float amount = Float.parseFloat(etGoalAmount.getText().toString());
+            Double amount = Double.parseDouble(etGoalAmount.getText().toString());
             goal.setAmount(amount);
-            goal.setPaymenyInterval((GoalPaymentInterval) spinnerGoalFrequency.getSelectedItem());
+            GoalPaymentInterval paymentInterval = (GoalPaymentInterval) spinnerGoalFrequency
+                    .getSelectedItem();
+            goal.setPaymenyInterval(paymentInterval);
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
             Date goalDate = new Date();
             try {
@@ -89,6 +93,13 @@ public class NewGoalFragment extends DialogFragment {
                 Log.e("error", getString(R.string.error_parse_date), e);
             }
             goal.setGoalDate(goalDate);
+
+            int numDaysToTargetDate = (int) ((goalDate.getTime() - new Date().getTime()) / ONE_DAY_IN_MILLIS);
+            Integer numPayments = numDaysToTargetDate / paymentInterval.toInt();
+            goal.setNumPayments(numPayments);
+
+            goal.setPaymentAmount(amount / numPayments);
+
             goal.saveInBackground(new SaveCallback() {
 
                 @Override

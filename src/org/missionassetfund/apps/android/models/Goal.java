@@ -18,6 +18,7 @@ public class Goal extends ParseObject implements Serializable {
     public static final String STATUS_KEY = "status";
     public static final String PAYMENT_INTERVAL_KEY = "paymentInterval";
     public static final String AMOUNT_KEY = "amount";
+    public static final String PAYMENT_AMOUNT_KEY = "paymentAmount";
     public static final String NUM_PAYMENTS_KEY = "numPayments";
     public static final String GOAL_DATE_KEY = "goalDate";
 
@@ -74,12 +75,20 @@ public class Goal extends ParseObject implements Serializable {
         put(PAYMENT_INTERVAL_KEY, paymenyInterval.toInt());
     }
 
-    public Float getAmount() {
-        return (Float) getNumber(AMOUNT_KEY);
+    public Double getAmount() {
+        return getDouble(AMOUNT_KEY);
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         put(AMOUNT_KEY, amount);
+    }
+
+    public Double getPaymentAmount() {
+        return getDouble(PAYMENT_AMOUNT_KEY);
+    }
+
+    public void setPaymentAmount(Double amount) {
+        put(PAYMENT_AMOUNT_KEY, amount);
     }
 
     public Integer getNumPayments() {
