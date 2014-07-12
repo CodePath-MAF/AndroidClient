@@ -3,7 +3,6 @@ package org.missionassetfund.apps.android.activities;
 
 import org.missionassetfund.apps.android.R;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
