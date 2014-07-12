@@ -5,7 +5,7 @@
     <color name="lightgray">#E5E5E5</color>
     <color name="darkgray">#575757</color>
     <color name="gray">#CCCCCC</color>
-    <color name="light_blue">#C3E4ED</color>
-    <color name="navy_blue">#000080</color>
+    <color name="light_blue">#c1dbee</color>
+    <color name="navy_blue">#165b8c</color>
 
 </resources>

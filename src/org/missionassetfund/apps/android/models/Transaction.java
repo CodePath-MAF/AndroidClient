@@ -1,7 +1,10 @@
 
 package org.missionassetfund.apps.android.models;
 
+import java.math.BigDecimal;
 import java.util.Date;
+
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -77,5 +80,10 @@ public class Transaction extends ParseObject {
 
     public void setCategory(String category) {
         put(CATEGORY_KEY, category);
+    }
+
+    public String getAmountFormattedAsNegative() {
+        return String.format("- %s",
+                CurrencyUtils.getCurrencyValueFormatted(BigDecimal.valueOf(this.getAmount())));
     }
 }
