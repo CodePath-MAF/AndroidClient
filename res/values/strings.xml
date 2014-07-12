@@ -46,5 +46,7 @@
     <string name="parse_success_transaction_save">Transaction saved!</string>
     <string name="toast_done_saving_goal">Done saving goal.</string>
     <string name="error_parse_date">date parsing issue</string>
+    <string name="label_dashboard_title">Dashboard</string>
+    <string name="title_edit_profile">Edit Profile</string>
 
 </resources>
