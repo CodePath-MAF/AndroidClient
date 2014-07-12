@@ -1,6 +1,7 @@
 
 package org.missionassetfund.apps.android.activities;
 
+import org.missionassetfund.apps.android.EditProfileActivity;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.DashboardFragment;
 import org.missionassetfund.apps.android.fragments.DashboardFragment.SwitchMainFragmentListener;
@@ -85,6 +86,10 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
                 FragmentManager fm = getSupportFragmentManager();
                 NewGoalFragment newGoalFragment = new NewGoalFragment();
                 newGoalFragment.show(fm, "fragment_new_goal");
+                break;
+            case R.id.action_edit_profile:
+                Intent intent = new Intent(this, EditProfileActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
