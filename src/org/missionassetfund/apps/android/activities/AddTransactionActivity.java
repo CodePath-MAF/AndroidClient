@@ -1,8 +1,10 @@
 
 package org.missionassetfund.apps.android.activities;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.DatePickerFragment;
@@ -86,7 +88,7 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
 
     @Override
     public void onDateSelected(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         etDate.setTag(date);
         etDate.setText(formatter.format(date));
     }
@@ -97,7 +99,7 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
         transaction.setUser((User) User.getCurrentUser());
         transaction.setDescription(etTransactionName.getText().toString());
         transaction.setCategory((Category) sCategory.getSelectedItem());
-        transaction.setAmount(Float.parseFloat(etAmount.getText().toString()));
+        transaction.setAmount(Double.parseDouble(etAmount.getText().toString()));
         transaction.setTransactionDate((Date) etDate.getTag());
 
         transaction.saveInBackground(new SaveCallback() {

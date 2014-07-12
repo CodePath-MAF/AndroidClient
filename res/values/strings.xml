@@ -42,7 +42,9 @@
     <string name="label_category">Category</string>
     <string name="label_transaction_amount">Amount</string>
     <string name="label_transaction_date">Date</string>
-    <string name="parse_error_saving">Oops! something is worng saving. Try again...</string>
+    <string name="parse_error_saving">Oops! something is wrong saving. Try again...</string>
     <string name="parse_success_transaction_save">Transaction saved!</string>
+    <string name="toast_done_saving_goal">Done saving goal.</string>
+    <string name="error_parse_date">date parsing issue</string>
 
 </resources>

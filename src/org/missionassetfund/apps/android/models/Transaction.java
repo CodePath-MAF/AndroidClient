@@ -78,11 +78,11 @@ public class Transaction extends ParseObject implements Serializable {
         put(TRANSACTION_DATE, transactionDate);
     }
 
-    public Float getAmount() {
-        return (Float) getNumber(AMOUNT_KEY);
+    public Double getAmount() {
+        return getDouble(AMOUNT_KEY);
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         put(AMOUNT_KEY, amount);
     }
 
