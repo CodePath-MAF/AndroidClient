@@ -2,6 +2,7 @@
 package org.missionassetfund.apps.android.models;
 
 import java.math.BigDecimal;
+import java.io.Serializable;
 import java.util.Date;
 
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
@@ -10,12 +11,15 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Transaction")
-public class Transaction extends ParseObject {
+public class Transaction extends ParseObject implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    public static final String TRANSACTION_KEY = "transaction";
+
     public static final String USER_KEY = "user";
     public static final String GOAL_KEY = "goal";
-    // Parse stores created at for ParseObject. Why do we need to do it
-    // manually?
-    // public static final String CREATED_AT_KEY = "createdAt";
+    public static final String CREATED_AT_KEY = "createdAt";
+    public static final String TRANSACTION_DATE = "transactionDate";
     public static final String AMOUNT_KEY = "amount";
     public static final String DESCRIPTION_KEY = "description";
     public static final String TYPE_KEY = "type";
@@ -67,15 +71,17 @@ public class Transaction extends ParseObject {
         put(GOAL_KEY, goal);
     }
 
-    // Parse stores created at for ParseObject. Why do we need to do it
-    // manually?
-    // public Date getCreatedAt() {
-    // return getDate(CREATED_AT_KEY);
-    // }
-    //
-    // public void setCreatedAt(Date createdAt) {
-    // put(CREATED_AT_KEY, createdAt);
-    // }
+    public Date getCreatedAt() {
+        return getDate(CREATED_AT_KEY);
+    }
+
+    public Date getTransactionDate() {
+        return getDate(TRANSACTION_DATE);
+    }
+
+    public void setTransactionDate(Date transactionDate) {
+        put(TRANSACTION_DATE, transactionDate);
+    }
 
     public Double getAmount() {
         return getDouble(AMOUNT_KEY);
