@@ -1,12 +1,12 @@
 
-package com.missionassetfund.apps.android.adapters;
+package org.missionassetfund.apps.android.adapters;
 
 import java.util.List;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Transaction;
+import org.missionassetfund.apps.android.utils.FormatterUtils;
 
-import com.missionassetfund.apps.android.utils.FormatterUtils;
 
 import android.content.Context;
 import android.view.LayoutInflater;

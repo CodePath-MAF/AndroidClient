@@ -1,5 +1,5 @@
 
-package com.missionassetfund.apps.android.utils;
+package org.missionassetfund.apps.android.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
