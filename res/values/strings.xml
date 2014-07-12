@@ -42,5 +42,7 @@
     <string name="label_category">Category</string>
     <string name="label_transaction_amount">Amount</string>
     <string name="label_transaction_date">Date</string>
+    <string name="parse_error_saving">Oops! something is worng saving. Try again...</string>
+    <string name="parse_success_transaction_save">Transaction saved!</string>
 
 </resources>

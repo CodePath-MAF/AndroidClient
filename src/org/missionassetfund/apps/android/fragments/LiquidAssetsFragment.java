@@ -9,6 +9,7 @@ import org.missionassetfund.apps.android.activities.AddTransactionActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,11 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
 
 public class LiquidAssetsFragment extends Fragment {
+    public static final int ADD_TRANSACTION_REQUEST_CODE = 1;
 
     private PieGraph pgLiquidAssetDonutChart;
     private TextView tvRemainingAmount;
@@ -58,7 +61,7 @@ public class LiquidAssetsFragment extends Fragment {
             case R.id.action_add_transaction:
                 Intent addTransactionIntent = new Intent(getActivity(),
                         AddTransactionActivity.class);
-                getActivity().startActivity(addTransactionIntent);
+                startActivityForResult(addTransactionIntent, ADD_TRANSACTION_REQUEST_CODE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -86,6 +89,15 @@ public class LiquidAssetsFragment extends Fragment {
     public String getCurrencyValueFormatted(Double value) {
         NumberFormat baseFormat = NumberFormat.getCurrencyInstance();
         return baseFormat.format(value);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == FragmentActivity.RESULT_OK && requestCode == ADD_TRANSACTION_REQUEST_CODE) {
+            // TODO: refresh transaction list
+            Toast.makeText(getActivity(), getString(R.string.parse_success_transaction_save),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

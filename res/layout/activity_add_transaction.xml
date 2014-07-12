@@ -26,8 +26,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10" />
+                android:ems="10" >
 
+                <requestFocus />
+            </EditText>
         </LinearLayout>
 
         <LinearLayout
@@ -45,7 +47,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -65,7 +66,6 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="numberDecimal" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -84,13 +84,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:focusableInTouchMode="false"
                 android:inputType="date" >
-
-                <requestFocus />
             </EditText>
-
         </LinearLayout>
-
     </LinearLayout>
 
     <Button
@@ -100,6 +97,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:text="@string/label_add_transaction_btn" />
+        android:text="@string/label_add_transaction_btn"
+        android:onClick="onAddTransaction" />
 
 </RelativeLayout>
