@@ -16,7 +16,6 @@ public class Transaction extends ParseObject implements Serializable {
 
     public static final String USER_KEY = "user";
     public static final String GOAL_KEY = "goal";
-    public static final String CREATED_AT_KEY = "createdAt";
     public static final String TRANSACTION_DATE = "transactionDate";
     public static final String AMOUNT_KEY = "amount";
     public static final String DESCRIPTION_KEY = "description";
@@ -67,10 +66,6 @@ public class Transaction extends ParseObject implements Serializable {
 
     public void setGoal(Goal goal) {
         put(GOAL_KEY, goal);
-    }
-
-    public Date getCreatedAt() {
-        return getDate(CREATED_AT_KEY);
     }
 
     public Date getTransactionDate() {

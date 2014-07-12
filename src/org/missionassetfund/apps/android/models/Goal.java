@@ -4,6 +4,8 @@ package org.missionassetfund.apps.android.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.missionassetfund.apps.android.utils.MAFDateUtils;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -106,4 +108,17 @@ public class Goal extends ParseObject implements Serializable {
     public void setGoalDate(Date goalDate) {
         put(GOAL_DATE_KEY, goalDate);
     }
+
+    public Date getDueDate() {
+        int nextPaymentNum = getIdealNumPaymentsTillToday() + 1;
+        return MAFDateUtils.addDaysToDate(getCreatedAt(), nextPaymentNum
+                * getPaymentInterval().toInt());
+    }
+
+    public int getIdealNumPaymentsTillToday() {
+        int daysSinceGoalCreation = MAFDateUtils.getDaysSince(getCreatedAt());
+        int idealNumPayments = daysSinceGoalCreation / getPaymentInterval().toInt();
+        return idealNumPayments;
+    }
+
 }

@@ -46,5 +46,8 @@
     <string name="parse_success_transaction_save">Transaction saved!</string>
     <string name="toast_done_saving_goal">Done saving goal.</string>
     <string name="error_parse_date">date parsing issue</string>
-
+    <string name="goal_payment_human">Payment %1$d of %2$d</string>
+    <string name="default_date_in_case_null">NA</string>
+    <string name="goal_payment_desc">Goal Payment</string>
+    
 </resources>

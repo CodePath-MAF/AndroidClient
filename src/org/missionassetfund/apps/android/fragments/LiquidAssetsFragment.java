@@ -41,7 +41,7 @@ import com.parse.FindCallback;
 import com.parse.ParseQuery;
 
 public class LiquidAssetsFragment extends Fragment {
-    
+
     // FIXME temporary stuff
     private static final BigDecimal SPENT_AMOUNT = new BigDecimal(123.45d);
     private static final BigDecimal REMAINING_AMOUNT = new BigDecimal(234.56d);
@@ -57,16 +57,16 @@ public class LiquidAssetsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-       final View view = inflater.inflate(R.layout.fragment_liquid_assets, container, false);
+        final View view = inflater.inflate(R.layout.fragment_liquid_assets, container, false);
 
         pgLiquidAssetDonutChart = (PieGraph) view.findViewById(R.id.liquid_assets_donut_chart);
         tvRemainingAmount = (TextView) view.findViewById(R.id.tv_remaining_amount);
         tvSpentAmount = (TextView) view.findViewById(R.id.tv_spent_amount);
         elvTransactions = (ExpandableListView) view.findViewById(R.id.elvTransactions);
-        
+
         setupChart();
         setupSummary();
-        
+
         ParseQuery<Category> query = ParseQuery.getQuery("Category");
         query.findInBackground(new FindCallback<Category>() {
             @Override
@@ -75,22 +75,23 @@ public class LiquidAssetsFragment extends Fragment {
                     Log.d("LiquidAssetsFragment", "error on querying categories", exception);
                     return;
                 }
-                
+
                 setupTransactions(categories);
-                
-                mTransactionsAdapter = new TransactionsExpandableListAdapter(mTransactionsGroup, view.getContext());
+
+                mTransactionsAdapter = new TransactionsExpandableListAdapter(mTransactionsGroup,
+                        view.getContext());
                 elvTransactions.setAdapter(mTransactionsAdapter);
                 elvTransactions.expandGroup(0);
                 elvTransactions.setGroupIndicator(null);
             }
         });
-        
+
         return view;
     }
 
     private void setupTransactions(List<Category> categories) {
-        List<Transaction> transactions = new ArrayList<>();
-        
+        List<Transaction> transactions = new ArrayList<Transaction>();
+
         Transaction transaction = new Transaction();
         transaction.setAmount(50d);
         transaction.setTransactionDate(this.parse("07/12/2014"));
@@ -98,7 +99,7 @@ public class LiquidAssetsFragment extends Fragment {
         transaction.setCategory(categories.get(0));
         transaction.setType(TransactionType.DEBIT);
         transactions.add(transaction);
-        
+
         transaction = new Transaction();
         transaction.setAmount(60d);
         transaction.setTransactionDate(this.parse("07/11/2014"));
@@ -122,7 +123,7 @@ public class LiquidAssetsFragment extends Fragment {
         transaction.setCategory(categories.get(0));
         transaction.setType(TransactionType.DEBIT);
         transactions.add(transaction);
-        
+
         transaction = new Transaction();
         transaction.setAmount(30d);
         transaction.setTransactionDate(this.parse("07/01/2014"));
@@ -130,7 +131,7 @@ public class LiquidAssetsFragment extends Fragment {
         transaction.setCategory(categories.get(0));
         transaction.setType(TransactionType.DEBIT);
         transactions.add(transaction);
-        
+
         transaction = new Transaction();
         transaction.setAmount(30d);
         transaction.setTransactionDate(this.parse("06/07/2014"));
@@ -142,21 +143,21 @@ public class LiquidAssetsFragment extends Fragment {
         mTransactionsGroup = new ArrayList<TransactionGroup>();
         TransactionGroup tg = null;
         int index = -1;
-        
+
         for (Transaction t : transactions) {
             tg = new TransactionGroup(t.getTransactionDate(), new ArrayList<Transaction>());
             index = mTransactionsGroup.indexOf(tg);
-            
+
             if (index == -1) {
                 tg.getTransactions().add(t);
                 mTransactionsGroup.add(tg);
             } else {
                 mTransactionsGroup.get(index).getTransactions().add(t);
             }
-         }
-        
+        }
+
     }
-    
+
     private Date parse(String date) {
         try {
             return sdf.parse(date);
@@ -201,14 +202,14 @@ public class LiquidAssetsFragment extends Fragment {
         slice.setValue(REMAINING_AMOUNT.floatValue());
         slice.setGoalValue(REMAINING_AMOUNT.floatValue());
         pgLiquidAssetDonutChart.addSlice(slice);
-        
+
         slice = new PieSlice();
         slice.setColor(getResources().getColor(R.color.navy_blue));
         slice.setGoalValue(SPENT_AMOUNT.floatValue());
         pgLiquidAssetDonutChart.addSlice(slice);
 
         pgLiquidAssetDonutChart.setInnerCircleRatio(180);
-        
+
         pgLiquidAssetDonutChart.setDuration(2000);
         pgLiquidAssetDonutChart.setInterpolator(new AccelerateDecelerateInterpolator());
         pgLiquidAssetDonutChart.animateToGoalValues();

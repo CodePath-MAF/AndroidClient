@@ -1,6 +1,7 @@
 
 package org.missionassetfund.apps.android.activities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.missionassetfund.apps.android.R;
@@ -39,6 +40,7 @@ public class GoalDetailsActivity extends FragmentActivity {
     TextView tvTargetDateHuman;
 
     ListView lvPastPayments;
+    List<Transaction> goalPayments;
     GoalPaymentsArrayAdapter paymentsAdapter;
 
     @Override
@@ -53,6 +55,7 @@ public class GoalDetailsActivity extends FragmentActivity {
         tvTargetDate = (TextView) findViewById(R.id.tvTargetDate);
         tvTargetDateHuman = (TextView) findViewById(R.id.tvTargetDateHuman);
         lvPastPayments = (ListView) findViewById(R.id.lvPastPayments);
+        goalPayments = new ArrayList<Transaction>();
 
         // Goal will come from Dashboard. For now let's get one from parse
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
@@ -90,25 +93,41 @@ public class GoalDetailsActivity extends FragmentActivity {
             @Override
             public void done(List<Transaction> txns, ParseException e) {
                 if (e == null) {
+                    goalPayments = txns;
                     paymentsAdapter = new GoalPaymentsArrayAdapter(GoalDetailsActivity.this,
-                            R.layout.item_past_payment, txns, goal.getNumPayments());
+                            R.layout.item_past_payment, goalPayments, goal.getNumPayments());
                     lvPastPayments.setAdapter(paymentsAdapter);
                 } else {
                     Log.e("error", "", e);
                 }
             }
         });
+
     }
 
     private void populateViews() {
         // Once goal is available let's setup views
         tvTotalTargetPayment.setText(Double.toString(goal.getAmount()));
         tvTargetDate.setText(FormatterUtils.formatMonthDate(goal.getGoalDate()));
+        tvTargetDateHuman.setText(FormatterUtils.getRelativeTimeHuman(goal.getGoalDate()));
 
+        int idealNumPayments = goal.getIdealNumPaymentsTillToday();
         // Payment related fields will need all payment to be analyzed.
-        Double currentPayment = goal.getPaymentAmount();
-        tvPaymentDue.setText(FormatterUtils.formatAmount(currentPayment));
+        Double idealPaymentsTotal = idealNumPayments * goal.getPaymentAmount();
+        Double paymentsDone = getPaymentsDone();
+        Double paymentsDue = idealPaymentsTotal - paymentsDone;
+        tvPaymentDue.setText(FormatterUtils.formatAmount(paymentsDue));
 
+        tvDueDate.setText(FormatterUtils.formatMonthDate(goal.getDueDate()));
+        tvDueDateHuman.setText(FormatterUtils.getRelativeTimeHuman(goal.getDueDate()));
+    }
+
+    private Double getPaymentsDone() {
+        Double paymentsDone = 0.0;
+        for (Transaction txn : goalPayments) {
+            paymentsDone += txn.getAmount();
+        }
+        return paymentsDone;
     }
 
     @Override

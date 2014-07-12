@@ -1,10 +1,14 @@
 
 package org.missionassetfund.apps.android.fragments;
 
+import java.util.Date;
+
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.models.Transaction.TransactionType;
+import org.missionassetfund.apps.android.utils.FormatterUtils;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -52,6 +56,7 @@ public class GoalPaymentFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_goal_payment, container);
         btnGoalPayment = (Button) view.findViewById(R.id.btnGoalPayment);
         etAmount = (EditText) view.findViewById(R.id.etAmount);
+        etAmount.setText(FormatterUtils.formatAmount(goal.getPaymentAmount()));
         btnGoalPayment.setOnClickListener(newGoalPaymentListener);
 
         return view;
@@ -66,6 +71,9 @@ public class GoalPaymentFragment extends DialogFragment {
             txn.setAmount(amount);
             txn.setUser((User) ParseUser.getCurrentUser());
             txn.setGoal(goal);
+            txn.setTransactionDate(new Date());
+            txn.setDescription(getString(R.string.goal_payment_desc));
+            txn.setType(TransactionType.DEBIT);
             txn.saveInBackground(new SaveCallback() {
 
                 @Override
