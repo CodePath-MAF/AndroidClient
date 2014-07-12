@@ -88,7 +88,7 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
 
     @Override
     public void onDateSelected(Date date) {
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         etDate.setTag(date);
         etDate.setText(formatter.format(date));
     }

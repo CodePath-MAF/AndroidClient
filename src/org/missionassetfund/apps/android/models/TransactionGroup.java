@@ -7,23 +7,25 @@ import android.text.format.DateUtils;
 
 public class TransactionGroup {
     
-    private Date createdAt;
+    private Date transactionDate;
     private List<Transaction> transactions;
     
-    public TransactionGroup(Date createdAt, List<Transaction> transactions) {
+    public TransactionGroup(Date transactionDate, List<Transaction> transactions) {
         super();
-        this.createdAt = createdAt;
+        this.transactionDate = transactionDate;
         this.transactions = transactions;
     }
     
-    public Date getCreatedAt() {
-        return createdAt;
-    }
     
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public Date getTransactionDate() {
+        return transactionDate;
     }
-    
+
+
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
     public List<Transaction> getTransactions() {
         return transactions;
     }
@@ -33,14 +35,14 @@ public class TransactionGroup {
     }
     
     public CharSequence getRelativeDate() {
-        return DateUtils.getRelativeTimeSpanString(this.createdAt.getTime(), new Date().getTime(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
+        return DateUtils.getRelativeTimeSpanString(this.transactionDate.getTime(), new Date().getTime(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+        result = prime * result + ((transactionDate == null) ? 0 : transactionDate.hashCode());
         return result;
     }
 
@@ -53,10 +55,10 @@ public class TransactionGroup {
         if (getClass() != obj.getClass())
             return false;
         TransactionGroup other = (TransactionGroup) obj;
-        if (createdAt == null) {
-            if (other.createdAt != null)
+        if (transactionDate == null) {
+            if (other.transactionDate != null)
                 return false;
-        } else if (!createdAt.equals(other.createdAt))
+        } else if (!transactionDate.equals(other.transactionDate))
             return false;
         return true;
     }
