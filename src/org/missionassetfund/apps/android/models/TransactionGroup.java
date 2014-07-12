@@ -1,3 +1,4 @@
+
 package org.missionassetfund.apps.android.models;
 
 import java.util.Date;
@@ -6,21 +7,19 @@ import java.util.List;
 import android.text.format.DateUtils;
 
 public class TransactionGroup {
-    
+
     private Date transactionDate;
     private List<Transaction> transactions;
-    
+
     public TransactionGroup(Date transactionDate, List<Transaction> transactions) {
         super();
         this.transactionDate = transactionDate;
         this.transactions = transactions;
     }
-    
-    
+
     public Date getTransactionDate() {
         return transactionDate;
     }
-
 
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
@@ -29,13 +28,14 @@ public class TransactionGroup {
     public List<Transaction> getTransactions() {
         return transactions;
     }
-    
+
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
-    
+
     public CharSequence getRelativeDate() {
-        return DateUtils.getRelativeTimeSpanString(this.transactionDate.getTime(), new Date().getTime(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
+        return DateUtils.getRelativeTimeSpanString(this.transactionDate.getTime(),
+                new Date().getTime(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
     }
 
     @Override

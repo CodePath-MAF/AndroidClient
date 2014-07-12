@@ -2,26 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
-    android:background="@color/lightgray" >
+    android:background="@color/lightgray"
+    android:padding="8dp" >
 
     <TextView
-        android:id="@+id/tv_transaction_category"
+        android:id="@+id/tvTransactionCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
-        android:text="test" />
+        android:layout_centerVertical="true" />
 
     <TextView
-        android:id="@+id/tv_transaction_amount"
+        android:id="@+id/tvTransactionAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
-        android:textStyle="bold"
-        android:text="test" />
+        android:textStyle="bold" />
 
 </RelativeLayout>

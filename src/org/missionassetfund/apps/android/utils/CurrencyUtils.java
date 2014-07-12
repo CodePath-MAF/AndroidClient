@@ -10,4 +10,9 @@ public class CurrencyUtils {
         NumberFormat baseFormat = NumberFormat.getCurrencyInstance();
         return baseFormat.format(value);
     }
+    
+    public static String getCurrencyValueFormattedAsNegative(BigDecimal value) {
+        return String.format("- %s", getCurrencyValueFormatted(value));
+    }
+
 }

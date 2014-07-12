@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
-import org.missionassetfund.apps.android.adapters.ExpensesExpandableListAdapter;
+import org.missionassetfund.apps.android.adapters.TransactionsExpandableListAdapter;
 import org.missionassetfund.apps.android.models.Category;
 import org.missionassetfund.apps.android.models.Transaction;
+import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.TransactionGroup;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.activities.AddTransactionActivity;
@@ -29,6 +30,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +43,7 @@ import com.parse.ParseQuery;
 public class LiquidAssetsFragment extends Fragment {
     
     // FIXME temporary stuff
-    private static final BigDecimal SPENT_AMOUNT = new BigDecimal(-123.45d);
+    private static final BigDecimal SPENT_AMOUNT = new BigDecimal(123.45d);
     private static final BigDecimal REMAINING_AMOUNT = new BigDecimal(234.56d);
     private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
     public static final int ADD_TRANSACTION_REQUEST_CODE = 1;
@@ -50,8 +52,8 @@ public class LiquidAssetsFragment extends Fragment {
     private TextView tvRemainingAmount;
     private TextView tvSpentAmount;
     private List<TransactionGroup> mTransactionsGroup;
-    private ExpandableListView elvExpenses;
-    private ExpensesExpandableListAdapter mExpensesAdapter;
+    private ExpandableListView elvTransactions;
+    private TransactionsExpandableListAdapter mTransactionsAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class LiquidAssetsFragment extends Fragment {
         pgLiquidAssetDonutChart = (PieGraph) view.findViewById(R.id.liquid_assets_donut_chart);
         tvRemainingAmount = (TextView) view.findViewById(R.id.tv_remaining_amount);
         tvSpentAmount = (TextView) view.findViewById(R.id.tv_spent_amount);
-        elvExpenses = (ExpandableListView) view.findViewById(R.id.elvExpenses);
+        elvTransactions = (ExpandableListView) view.findViewById(R.id.elvTransactions);
         
         setupChart();
         setupSummary();
@@ -74,19 +76,19 @@ public class LiquidAssetsFragment extends Fragment {
                     return;
                 }
                 
-                setupExpenses(categories);
+                setupTransactions(categories);
                 
-                mExpensesAdapter = new ExpensesExpandableListAdapter(mTransactionsGroup, view.getContext());
-                elvExpenses.setAdapter(mExpensesAdapter);
-                elvExpenses.expandGroup(0);
-                elvExpenses.setGroupIndicator(null);
+                mTransactionsAdapter = new TransactionsExpandableListAdapter(mTransactionsGroup, view.getContext());
+                elvTransactions.setAdapter(mTransactionsAdapter);
+                elvTransactions.expandGroup(0);
+                elvTransactions.setGroupIndicator(null);
             }
         });
         
         return view;
     }
 
-    private void setupExpenses(List<Category> categories) {
+    private void setupTransactions(List<Category> categories) {
         List<Transaction> transactions = new ArrayList<>();
         
         Transaction transaction = new Transaction();
@@ -94,6 +96,7 @@ public class LiquidAssetsFragment extends Fragment {
         transaction.setTransactionDate(this.parse("07/12/2014"));
         Collections.shuffle(categories);
         transaction.setCategory(categories.get(0));
+        transaction.setType(TransactionType.DEBIT);
         transactions.add(transaction);
         
         transaction = new Transaction();
@@ -101,6 +104,7 @@ public class LiquidAssetsFragment extends Fragment {
         transaction.setTransactionDate(this.parse("07/11/2014"));
         Collections.shuffle(categories);
         transaction.setCategory(categories.get(0));
+        transaction.setType(TransactionType.DEBIT);
         transactions.add(transaction);
 
         transaction = new Transaction();
@@ -108,6 +112,7 @@ public class LiquidAssetsFragment extends Fragment {
         transaction.setTransactionDate(this.parse("07/07/2014"));
         Collections.shuffle(categories);
         transaction.setCategory(categories.get(0));
+        transaction.setType(TransactionType.DEBIT);
         transactions.add(transaction);
 
         transaction = new Transaction();
@@ -115,6 +120,7 @@ public class LiquidAssetsFragment extends Fragment {
         transaction.setTransactionDate(this.parse("07/07/2014"));
         Collections.shuffle(categories);
         transaction.setCategory(categories.get(0));
+        transaction.setType(TransactionType.DEBIT);
         transactions.add(transaction);
         
         transaction = new Transaction();
@@ -122,6 +128,7 @@ public class LiquidAssetsFragment extends Fragment {
         transaction.setTransactionDate(this.parse("07/01/2014"));
         Collections.shuffle(categories);
         transaction.setCategory(categories.get(0));
+        transaction.setType(TransactionType.DEBIT);
         transactions.add(transaction);
         
         transaction = new Transaction();
@@ -129,6 +136,7 @@ public class LiquidAssetsFragment extends Fragment {
         transaction.setTransactionDate(this.parse("06/07/2014"));
         Collections.shuffle(categories);
         transaction.setCategory(categories.get(0));
+        transaction.setType(TransactionType.DEBIT);
         transactions.add(transaction);
 
         mTransactionsGroup = new ArrayList<TransactionGroup>();
@@ -184,20 +192,26 @@ public class LiquidAssetsFragment extends Fragment {
 
     private void setupSummary() {
         tvRemainingAmount.setText(CurrencyUtils.getCurrencyValueFormatted(REMAINING_AMOUNT));
-        tvSpentAmount.setText(CurrencyUtils.getCurrencyValueFormatted(SPENT_AMOUNT));
+        tvSpentAmount.setText(CurrencyUtils.getCurrencyValueFormattedAsNegative(SPENT_AMOUNT));
     }
 
     private void setupChart() {
         PieSlice slice = new PieSlice();
         slice.setColor(getResources().getColor(R.color.white));
         slice.setValue(REMAINING_AMOUNT.floatValue());
+        slice.setGoalValue(REMAINING_AMOUNT.floatValue());
         pgLiquidAssetDonutChart.addSlice(slice);
+        
         slice = new PieSlice();
         slice.setColor(getResources().getColor(R.color.navy_blue));
-        slice.setValue(Math.abs(SPENT_AMOUNT.floatValue()));
+        slice.setGoalValue(SPENT_AMOUNT.floatValue());
         pgLiquidAssetDonutChart.addSlice(slice);
 
         pgLiquidAssetDonutChart.setInnerCircleRatio(180);
+        
+        pgLiquidAssetDonutChart.setDuration(2000);
+        pgLiquidAssetDonutChart.setInterpolator(new AccelerateDecelerateInterpolator());
+        pgLiquidAssetDonutChart.animateToGoalValues();
     }
 
     @Override

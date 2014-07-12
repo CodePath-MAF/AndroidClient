@@ -113,8 +113,11 @@ public class Transaction extends ParseObject implements Serializable {
         put(CATEGORY_KEY, category);
     }
 
-    public String getAmountFormattedAsNegative() {
-        return String.format("- %s",
-                CurrencyUtils.getCurrencyValueFormatted(BigDecimal.valueOf(this.getAmount())));
+    public String getAmountFormatted() {
+        return this.getType() == TransactionType.DEBIT ? CurrencyUtils
+                .getCurrencyValueFormattedAsNegative(BigDecimal
+                        .valueOf(this.getAmount())) : CurrencyUtils
+                .getCurrencyValueFormatted(BigDecimal
+                        .valueOf(this.getAmount()));
     }
 }

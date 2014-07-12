@@ -14,12 +14,12 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-public class ExpensesExpandableListAdapter extends BaseExpandableListAdapter {
+public class TransactionsExpandableListAdapter extends BaseExpandableListAdapter {
 
     private List<TransactionGroup> mTransactionsGroup;
     private LayoutInflater mInflater;
 
-    public ExpensesExpandableListAdapter(List<TransactionGroup> mTransactionsGroup,
+    public TransactionsExpandableListAdapter(List<TransactionGroup> mTransactionsGroup,
             Context context) {
         this.mTransactionsGroup = mTransactionsGroup;
         mInflater = LayoutInflater.from(context);
@@ -66,10 +66,10 @@ public class ExpensesExpandableListAdapter extends BaseExpandableListAdapter {
         final CharSequence relativeDateString = this.getGroup(groupPosition).getRelativeDate();
         
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.expenses_list_group, null);
+            convertView = mInflater.inflate(R.layout.transactions_list_group, null);
         }
         
-        TextView tvExpenseDateGroup = (TextView) convertView.findViewById(R.id.tv_expense_date_group);
+        TextView tvExpenseDateGroup = (TextView) convertView.findViewById(R.id.tvTransactionDateGroup);
         tvExpenseDateGroup.setText(relativeDateString);
         return convertView;
     }
@@ -80,14 +80,14 @@ public class ExpensesExpandableListAdapter extends BaseExpandableListAdapter {
         Transaction transaction = this.getChild(groupPosition, childPosition);
         
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.expenses_list_detail, null);
+            convertView = mInflater.inflate(R.layout.transactions_list_detail, null);
         }
 
-        TextView tvTransactionCategory = (TextView) convertView.findViewById(R.id.tv_transaction_category);
-        TextView tvTransactionAmount = (TextView) convertView.findViewById(R.id.tv_transaction_amount);
+        TextView tvTransactionCategory = (TextView) convertView.findViewById(R.id.tvTransactionCategory);
+        TextView tvTransactionAmount = (TextView) convertView.findViewById(R.id.tvTransactionAmount);
 
         tvTransactionCategory.setText(transaction.getCategory().getName());
-        tvTransactionAmount.setText(transaction.getAmountFormattedAsNegative());
+        tvTransactionAmount.setText(transaction.getAmountFormatted());
         
         return convertView;
     }
