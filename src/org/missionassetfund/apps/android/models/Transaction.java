@@ -9,8 +9,6 @@ import com.parse.ParseObject;
 
 @ParseClassName("Transaction")
 public class Transaction extends ParseObject implements Serializable {
-    public static final String TRANSACTION_KEY = "transaction";
-
     public static final String USER_KEY = "user";
     public static final String GOAL_KEY = "goal";
     public static final String CREATED_AT_KEY = "createdAt";
