@@ -13,7 +13,9 @@ import com.parse.ParseObject;
 public class Transaction extends ParseObject {
     public static final String USER_KEY = "user";
     public static final String GOAL_KEY = "goal";
-    public static final String CREATED_AT_KEY = "createdAt";
+    // Parse stores created at for ParseObject. Why do we need to do it
+    // manually?
+    // public static final String CREATED_AT_KEY = "createdAt";
     public static final String AMOUNT_KEY = "amount";
     public static final String DESCRIPTION_KEY = "description";
     public static final String TYPE_KEY = "type";
@@ -65,13 +67,15 @@ public class Transaction extends ParseObject {
         put(GOAL_KEY, goal);
     }
 
-    public Date getCreatedAt() {
-        return getDate(CREATED_AT_KEY);
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        put(CREATED_AT_KEY, createdAt);
-    }
+    // Parse stores created at for ParseObject. Why do we need to do it
+    // manually?
+    // public Date getCreatedAt() {
+    // return getDate(CREATED_AT_KEY);
+    // }
+    //
+    // public void setCreatedAt(Date createdAt) {
+    // put(CREATED_AT_KEY, createdAt);
+    // }
 
     public Double getAmount() {
         return getDouble(AMOUNT_KEY);
