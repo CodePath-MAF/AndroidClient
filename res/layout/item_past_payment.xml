@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/pastPaymentdate"
+        android:id="@+id/tvPastPaymentDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -13,17 +13,17 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/pastPaymentNumber"
+        android:id="@+id/tvPastPaymentNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/pastPaymentdate"
-        android:layout_alignBaseline="@+id/pastPaymentdate"
+        android:layout_toRightOf="@+id/tvPastPaymentDate"
+        android:layout_alignBaseline="@+id/tvPastPaymentDate"
         android:paddingLeft="5dp"
         android:text="@string/sample_payment_number"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/pastPaymentAmount"
+        android:id="@+id/tvPastPaymentAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

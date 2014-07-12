@@ -53,7 +53,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
-            android:id="@+id/etAmount"
+            android:id="@+id/etGoalAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tvAmountLabel"
@@ -75,15 +75,27 @@
             android:text="@string/label_goal_frequency"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <EditText
-            android:id="@+id/editText2"
+        <!-- <EditText -->
+        <!-- android:id="@+id/editText2" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_alignBaseline="@+id/tvNewGoalFrequencyLabel" -->
+        <!-- android:layout_alignParentRight="true" -->
+        <!-- android:hint="@string/sample_goal_frequency" -->
+        <!-- android:inputType="text" > -->
+        <!-- </EditText> -->
+
+        <Spinner
+            android:id="@+id/spinnerGoalFrequency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tvNewGoalFrequencyLabel"
+            android:layout_alignBottom="@+id/tvNewGoalFrequencyLabel"
             android:layout_alignParentRight="true"
-            android:hint="@string/sample_goal_frequency"
-            android:inputType="text" >
-        </EditText>
+            android:layout_alignTop="@+id/tvNewGoalFrequencyLabel"
+            android:layout_marginLeft="120dp"
+            android:layout_toRightOf="@+id/tvNewGoalFrequencyLabel"
+            android:gravity="right"
+            android:paddingRight="5dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -99,13 +111,13 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/etGoalDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tvDueLabel"
             android:layout_alignParentRight="true"
             android:hint="@string/sample_goal_due_date"
-            android:inputType="text" >
+            android:inputType="date" >
         </EditText>
     </RelativeLayout>
 

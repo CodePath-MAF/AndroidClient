@@ -35,5 +35,7 @@
     <string name="label_btn_cancel">Cancel</string>
     <string name="label_btn_create_goal">Create Goal</string>
     <string name="label_btn_goal_payment">Make Payment</string>
+    <string name="toast_done_saving_goal">Done saving goal.</string>
+    <string name="error_parse_date">date parsing issue</string>
     
 </resources>

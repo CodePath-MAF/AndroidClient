@@ -1,23 +1,28 @@
 
 package org.missionassetfund.apps.android.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Goal")
-public class Goal extends ParseObject {
+public class Goal extends ParseObject implements Serializable {
+    private static final long serialVersionUID = 6160272793326362343L;
+
     public static final String USER_KEY = "user";
     public static final String NAME_KEY = "name";
     public static final String DESCRIPTION_KEY = "description";
     public static final String TYPE_KEY = "type";
+    public static final String STATUS_KEY = "status";
+    public static final String PAYMENT_INTERVAL_KEY = "paymentInterval";
     public static final String AMOUNT_KEY = "amount";
+    public static final String PAYMENT_AMOUNT_KEY = "paymentAmount";
     public static final String NUM_PAYMENTS_KEY = "numPayments";
     public static final String GOAL_DATE_KEY = "goalDate";
 
     public Goal() {
-        super();
     }
 
     public User getUser() {
@@ -44,7 +49,8 @@ public class Goal extends ParseObject {
         put(DESCRIPTION_KEY, description);
     }
 
-    // TODO: Discuss if hardcode 'type' via an enum or have a dummy Transaction Type Model
+    // TODO: Discuss if hardcode 'type' via an enum or have a dummy Transaction
+    // Type Model
     public String getType() {
         return getString(TYPE_KEY);
     }
@@ -53,12 +59,36 @@ public class Goal extends ParseObject {
         put(TYPE_KEY, type);
     }
 
-    public Float getAmount() {
-        return (Float) getNumber(AMOUNT_KEY);
+    public GoalStatus getStatus() {
+        return GoalStatus.getTypeFromInt(getInt(STATUS_KEY));
     }
 
-    public void setAmount(Float amount) {
+    public void setStatus(GoalStatus goalStatus) {
+        put(STATUS_KEY, goalStatus.toInt());
+    }
+
+    public GoalPaymentInterval getPaymentInterval() {
+        return GoalPaymentInterval.getTypeFromInt(getInt(PAYMENT_INTERVAL_KEY));
+    }
+
+    public void setPaymenyInterval(GoalPaymentInterval paymenyInterval) {
+        put(PAYMENT_INTERVAL_KEY, paymenyInterval.toInt());
+    }
+
+    public Double getAmount() {
+        return getDouble(AMOUNT_KEY);
+    }
+
+    public void setAmount(Double amount) {
         put(AMOUNT_KEY, amount);
+    }
+
+    public Double getPaymentAmount() {
+        return getDouble(PAYMENT_AMOUNT_KEY);
+    }
+
+    public void setPaymentAmount(Double amount) {
+        put(PAYMENT_AMOUNT_KEY, amount);
     }
 
     public Integer getNumPayments() {

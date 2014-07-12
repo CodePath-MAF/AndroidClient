@@ -19,8 +19,34 @@ public class Transaction extends ParseObject {
     public static final String TYPE_KEY = "type";
     public static final String CATEGORY_KEY = "category";
 
+    public enum TransactionType {
+        UNDEFINED(0),
+        DEBIT(1),
+        CREDIT(2);
+
+        private int typeValue;
+
+        private TransactionType(int typeValue) {
+            this.typeValue = typeValue;
+        }
+
+        public int toInt() {
+            return typeValue;
+        }
+
+        public static TransactionType getTypeFromInt(int typeValue) {
+            switch (typeValue) {
+                case 1:
+                    return DEBIT;
+                case 2:
+                    return CREDIT;
+                default:
+                    return UNDEFINED;
+            }
+        }
+    }
+
     public Transaction() {
-        super();
     }
 
     public User getUser() {
@@ -47,11 +73,11 @@ public class Transaction extends ParseObject {
         put(CREATED_AT_KEY, createdAt);
     }
 
-    public Float getAmount() {
-        return (Float) getNumber(AMOUNT_KEY);
+    public Double getAmount() {
+        return getDouble(AMOUNT_KEY);
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         put(AMOUNT_KEY, amount);
     }
 
@@ -63,22 +89,19 @@ public class Transaction extends ParseObject {
         put(DESCRIPTION_KEY, description);
     }
 
-    // TODO: Discuss if hardcode 'type' via an enum or have a dummy Transaction Type Model
-    public String getType() {
-        return getString(TYPE_KEY);
+    public TransactionType getType() {
+        return TransactionType.getTypeFromInt(getInt(TYPE_KEY));
     }
 
-    public void setType(String type) {
-        put(TYPE_KEY, type);
+    public void setType(TransactionType type) {
+        put(TYPE_KEY, type.toInt());
     }
 
-    // TODO: Discuss if hardcode 'category' via an enum or have a dummy
-    // Transaction Type Model
-    public String getCategory() {
-        return getString(CATEGORY_KEY);
+    public Category getCategory() {
+        return (Category) getParseObject(CATEGORY_KEY);
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         put(CATEGORY_KEY, category);
     }
 
