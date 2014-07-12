@@ -16,6 +16,7 @@ import com.parse.SaveCallback;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +26,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class GoalPaymentFragment extends DialogFragment {
+
+    public interface UpdatePaymentsListener {
+        public void updatePayment(Transaction txn);
+    }
 
     private Goal goal;
     EditText etAmount;
@@ -67,7 +72,7 @@ public class GoalPaymentFragment extends DialogFragment {
         @Override
         public void onClick(View v) {
             Double amount = Double.parseDouble(etAmount.getText().toString());
-            Transaction txn = new Transaction();
+            final Transaction txn = new Transaction();
             txn.setAmount(amount);
             txn.setUser((User) ParseUser.getCurrentUser());
             txn.setGoal(goal);
@@ -77,9 +82,17 @@ public class GoalPaymentFragment extends DialogFragment {
             txn.saveInBackground(new SaveCallback() {
 
                 @Override
-                public void done(ParseException arg0) {
-                    Toast.makeText(getActivity(), "Done savign txn", Toast.LENGTH_LONG).show();
-                    dismiss();
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Toast.makeText(getActivity(), "Done savign txn", Toast.LENGTH_LONG).show();
+                        UpdatePaymentsListener upListener = (UpdatePaymentsListener) getActivity();
+                        upListener.updatePayment(txn);
+                        dismiss();
+                    } else {
+                        Log.e("goal", e.getLocalizedMessage(), e);
+                        Toast.makeText(getActivity(), R.string.parse_error_saving,
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }

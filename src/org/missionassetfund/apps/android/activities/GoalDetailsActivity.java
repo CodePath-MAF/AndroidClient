@@ -7,6 +7,7 @@ import java.util.List;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalPaymentsArrayAdapter;
 import org.missionassetfund.apps.android.fragments.GoalPaymentFragment;
+import org.missionassetfund.apps.android.fragments.GoalPaymentFragment.UpdatePaymentsListener;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
@@ -28,7 +29,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-public class GoalDetailsActivity extends FragmentActivity {
+public class GoalDetailsActivity extends FragmentActivity implements UpdatePaymentsListener {
 
     private Goal goal;
 
@@ -154,6 +155,11 @@ public class GoalDetailsActivity extends FragmentActivity {
         }
 
         return true;
+    }
+
+    @Override
+    public void updatePayment(Transaction txn) {
+        paymentsAdapter.insert(txn, 0);
     }
 
 }
