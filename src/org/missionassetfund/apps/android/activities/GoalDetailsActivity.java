@@ -4,10 +4,12 @@ package org.missionassetfund.apps.android.activities;
 import java.util.List;
 
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.adapters.GoalPaymentsArrayAdapter;
 import org.missionassetfund.apps.android.fragments.GoalPaymentFragment;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.utils.FormatterUtils;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -20,8 +22,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.missionassetfund.apps.android.adapters.GoalPaymentsArrayAdapter;
-import com.missionassetfund.apps.android.utils.FormatterUtils;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
