@@ -1,13 +1,11 @@
 
 package org.missionassetfund.apps.android.adapters;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.TransactionGroup;
-import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -88,7 +86,7 @@ public class ExpensesExpandableListAdapter extends BaseExpandableListAdapter {
         TextView tvTransactionCategory = (TextView) convertView.findViewById(R.id.tv_transaction_category);
         TextView tvTransactionAmount = (TextView) convertView.findViewById(R.id.tv_transaction_amount);
 
-        tvTransactionCategory.setText(transaction.getCategory());
+        tvTransactionCategory.setText(transaction.getCategory().getName());
         tvTransactionAmount.setText(transaction.getAmountFormattedAsNegative());
         
         return convertView;

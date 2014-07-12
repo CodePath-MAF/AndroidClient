@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.ExpensesExpandableListAdapter;
+import org.missionassetfund.apps.android.models.Category;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.TransactionGroup;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
@@ -62,47 +63,54 @@ public class LiquidAssetsFragment extends Fragment {
 
     private void setupExpenses() {
         List<Transaction> transactions = new ArrayList<>();
+        Category category = new Category();
         
         Transaction transaction = new Transaction();
-        transaction.setAmount(50f);
+        transaction.setAmount(50d);
         // FIXME created at is a internal field
         transaction.setCreatedAt(this.parse("07/11/2014"));
-        transaction.setCategory("Dinners & Drinks");
+        category.setName("Dinners & Drinks");
+        transaction.setCategory(category);
         transactions.add(transaction);
         
         transaction = new Transaction();
-        transaction.setAmount(60f);
+        transaction.setAmount(60d);
         // FIXME created at is a internal field
         transaction.setCreatedAt(this.parse("07/09/2014"));
-        transaction.setCategory("Breakfast");
+        category.setName("Breakfast");
+        transaction.setCategory(category);
         transactions.add(transaction);
 
         transaction = new Transaction();
-        transaction.setAmount(40f);
+        transaction.setAmount(40d);
         // FIXME created at is a internal field
         transaction.setCreatedAt(this.parse("07/08/2014"));
-        transaction.setCategory("Coffee");
+        category.setName("Coffee");
+        transaction.setCategory(category);
         transactions.add(transaction);
 
         transaction = new Transaction();
-        transaction.setAmount(30f);
+        transaction.setAmount(30d);
         // FIXME created at is a internal field
         transaction.setCreatedAt(this.parse("07/07/2014"));
-        transaction.setCategory("Dinners & Drinks");
+        category.setName("Dinners & Drinks");
+        transaction.setCategory(category);
         transactions.add(transaction);
         
         transaction = new Transaction();
-        transaction.setAmount(30f);
+        transaction.setAmount(30d);
         // FIXME created at is a internal field
         transaction.setCreatedAt(this.parse("07/01/2014"));
-        transaction.setCategory("Dinners & Drinks");
+        category.setName("Dinners & Drinks");
+        transaction.setCategory(category);
         transactions.add(transaction);
         
         transaction = new Transaction();
-        transaction.setAmount(30f);
+        transaction.setAmount(30d);
         // FIXME created at is a internal field
         transaction.setCreatedAt(this.parse("06/07/2014"));
-        transaction.setCategory("Dinners & Drinks");
+        category.setName("Breakfast");
+        transaction.setCategory(category);
         transactions.add(transaction);
 
         mTransactionsGroup = new ArrayList<TransactionGroup>();
