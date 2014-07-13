@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/DashboardMediumText"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/sample_goal_name" />
+
+    <TextView
+        android:id="@+id/tvDueDate"
+        style="@style/DashboardSmallText"
+        android:layout_alignLeft="@+id/tvName"
+        android:layout_below="@+id/tvName"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/sample_due_date_human" />
+
+    <TextView
+        android:id="@+id/tvPaymentDue"
+        style="@style/MediumAmount"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tvName"
+        android:layout_marginRight="29dp"
+        android:text="@string/sample_total_payment"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

@@ -15,11 +15,17 @@ public class FormatterUtils {
     }
 
     public static CharSequence formatMonthDate(Date date) {
+        if (date == null) {
+            return "";
+        }
         DateFormat monthDayFormat = new SimpleDateFormat("MMM dd", Locale.US);
         return monthDayFormat.format(date);
     }
 
     public static String getRelativeTimeHuman(Date date) {
+        if (date == null) {
+            return "";
+        }
         return DateUtils.getRelativeTimeSpanString(date.getTime(),
                 System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
     }

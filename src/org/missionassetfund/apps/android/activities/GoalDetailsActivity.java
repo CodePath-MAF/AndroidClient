@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -58,26 +59,25 @@ public class GoalDetailsActivity extends FragmentActivity implements UpdatePayme
         lvPastPayments = (ListView) findViewById(R.id.lvPastPayments);
         goalPayments = new ArrayList<Transaction>();
 
+        // goal = (Goal) getIntent().getSerializableExtra(Goal.GOAL_KEY);
+        String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
+
+        // TODO(amit) consume goal being set from the intent
         // Goal will come from Dashboard. For now let's get one from parse
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
-        query.whereEqualTo("user", (User) ParseUser.getCurrentUser());
-        query.addDescendingOrder("createdAt");
+        // query.whereEqualTo("user", (User) ParseUser.getCurrentUser());
+        // query.addDescendingOrder("createdAt");
 
-        query.findInBackground(new FindCallback<Goal>() {
+        query.getInBackground(goalId, new GetCallback<Goal>() {
+
             @Override
-            public void done(List<Goal> goals, ParseException e) {
+            public void done(Goal g, ParseException e) {
                 if (e == null) {
-                    for (Goal g : goals) {
-                        Log.d("debug", g.getName());
-                        Toast.makeText(GoalDetailsActivity.this, g.getName(),
-                                Toast.LENGTH_SHORT).show();
-                        goal = g;
-                        setupPaymentsAdapter();
-                        break;
-                    }
+                    goal = g;
+                    setupPaymentsAdapter();
                     populateViews();
                 } else {
-                    Toast.makeText(GoalDetailsActivity.this, "Error getting goals",
+                    Toast.makeText(GoalDetailsActivity.this, "Error getting goal",
                             Toast.LENGTH_LONG).show();
                 }
             }

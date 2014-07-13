@@ -7,6 +7,9 @@ public class MAFDateUtils {
     private static final long ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 
     public static int getDaysSince(Date date) {
+        if (date == null) {
+            return 0;
+        }
         return (int) ((getCurrentEpochTime() - date.getTime()) / ONE_DAY_IN_MILLIS);
     }
 

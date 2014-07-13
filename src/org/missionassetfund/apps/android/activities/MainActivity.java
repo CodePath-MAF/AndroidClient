@@ -86,6 +86,10 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
                 NewGoalFragment newGoalFragment = new NewGoalFragment();
                 newGoalFragment.show(fm, "fragment_new_goal");
                 break;
+            case R.id.action_edit_profile:
+                Intent intent = new Intent(this, EditProfileActivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
