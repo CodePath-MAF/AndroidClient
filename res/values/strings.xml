@@ -42,9 +42,20 @@
     <string name="label_category">Category</string>
     <string name="label_transaction_amount">Amount</string>
     <string name="label_transaction_date">Date</string>
-    <string name="parse_error_saving">Oops! something is wrong saving. Try again...</string>
+    <string name="parse_error_saving">Oops! something is wrong saving. Try again&#8230;</string>
     <string name="parse_success_transaction_save">Transaction saved!</string>
     <string name="toast_done_saving_goal">Done saving goal.</string>
     <string name="error_parse_date">date parsing issue</string>
+    <string name="label_dashboard_title">Dashboard</string>
+    <string name="title_edit_profile">Edit Profile</string>
+    <string name="title_activity_edit_profile">Profile</string>
+    <string name="hint_user_fullname">Name</string>
+    <string name="hint_user_email">E-mail</string>
+    <string name="hint_user_password">Password</string>
+    <string name="save_profile">Save Profile</string>
+    <string name="parse_success_user_save">User profile updated!</string>
+    <string name="parse_error_password_missing">Password is missing&#8230;</string>
+    <string name="error_user_name_required">Name is required</string>
+    <string name="error_user_password_required">Password is required</string>
 
 </resources>
