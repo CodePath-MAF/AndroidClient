@@ -10,6 +10,7 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.GoalPaymentInterval;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -29,8 +30,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class NewGoalFragment extends DialogFragment {
-
-    private static final long ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 
     EditText etGoalName;
     EditText etGoalAmount;
@@ -77,16 +76,18 @@ public class NewGoalFragment extends DialogFragment {
         @Override
         public void onClick(View v) {
             Goal goal = new Goal();
-            User user = (User) ParseUser.getCurrentUser();
-            goal.setUser(user);
+            goal.setUser((User) ParseUser.getCurrentUser());
             goal.setName(etGoalName.getText().toString());
             Double amount = Double.parseDouble(etGoalAmount.getText().toString());
             goal.setAmount(amount);
             GoalPaymentInterval paymentInterval = (GoalPaymentInterval) spinnerGoalFrequency
                     .getSelectedItem();
             goal.setPaymenyInterval(paymentInterval);
+
+            // This will be replaced by date picker. Bear it for now.
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
-            Date goalDate = new Date();
+            // Default is 2 months after current date
+            Date goalDate = MAFDateUtils.addDaysToDate(new Date(), 60);
             try {
                 goalDate = dateFormat.parse(etGoalDate.getText().toString());
             } catch (java.text.ParseException e) {
@@ -94,7 +95,7 @@ public class NewGoalFragment extends DialogFragment {
             }
             goal.setGoalDate(goalDate);
 
-            int numDaysToTargetDate = (int) ((goalDate.getTime() - new Date().getTime()) / ONE_DAY_IN_MILLIS);
+            int numDaysToTargetDate = MAFDateUtils.getDaysTo(goalDate);
             Integer numPayments = numDaysToTargetDate / paymentInterval.toInt();
             goal.setNumPayments(numPayments);
 
