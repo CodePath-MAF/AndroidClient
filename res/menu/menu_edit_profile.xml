@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/saveProfileAction"
+        android:icon="@drawable/ic_action_save_profile"
+        android:onClick="onSaveProfile"
+        android:showAsAction="always"
+        android:title="@string/save_profile">
+    </item>
+
+</menu>
