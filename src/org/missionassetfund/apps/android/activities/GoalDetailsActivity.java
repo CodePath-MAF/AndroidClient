@@ -54,6 +54,7 @@ public class GoalDetailsActivity extends FragmentActivity {
         tvTargetDateHuman = (TextView) findViewById(R.id.tvTargetDateHuman);
         lvPastPayments = (ListView) findViewById(R.id.lvPastPayments);
 
+        // TODO(amit) consume goal being set from the intent
         // Goal will come from Dashboard. For now let's get one from parse
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
         query.whereEqualTo("user", (User) ParseUser.getCurrentUser());
