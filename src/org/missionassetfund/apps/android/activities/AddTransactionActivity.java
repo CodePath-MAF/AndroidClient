@@ -11,6 +11,7 @@ import org.missionassetfund.apps.android.fragments.DatePickerFragment;
 import org.missionassetfund.apps.android.fragments.DatePickerFragment.DatePickerDialogListener;
 import org.missionassetfund.apps.android.models.Category;
 import org.missionassetfund.apps.android.models.Transaction;
+import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
 
 import android.app.ActionBar;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
     private Spinner sCategory;
     private EditText etAmount;
     private EditText etDate;
+    private RadioButton rbExpense;
 
     private ParseQueryAdapter<Category> categoryAdapter;
 
@@ -67,6 +70,7 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
         sCategory = (Spinner) findViewById(R.id.sCategory);
         etAmount = (EditText) findViewById(R.id.etAmount);
         etDate = (EditText) findViewById(R.id.etDate);
+        rbExpense = (RadioButton) findViewById(R.id.rbExpense);
 
         // Setup Parse Adapter to fill-up the spinner
         categoryAdapter = new ParseQueryAdapter<Category>(this, Category.class);
@@ -101,6 +105,9 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
         transaction.setCategory((Category) sCategory.getSelectedItem());
         transaction.setAmount(Double.parseDouble(etAmount.getText().toString()));
         transaction.setTransactionDate((Date) etDate.getTag());
+
+        transaction.setType((rbExpense.isChecked()) ? TransactionType.CREDIT
+                : TransactionType.DEBIT);
 
         transaction.saveInBackground(new SaveCallback() {
 
