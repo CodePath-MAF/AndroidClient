@@ -78,7 +78,7 @@ public class GoalPaymentFragment extends DialogFragment {
             txn.setGoal(goal);
             txn.setTransactionDate(new Date());
             txn.setDescription(getString(R.string.goal_payment_desc));
-            txn.setType(TransactionType.DEBIT);
+            txn.setType(TransactionType.CREDIT);
             txn.saveInBackground(new SaveCallback() {
 
                 @Override
