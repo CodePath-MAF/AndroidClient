@@ -78,7 +78,7 @@
             android:label="@string/title_activity_add_transaction" >
         </activity>
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".activities.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
             android:parentActivityName=".activities.MainActivity" >
             <meta-data

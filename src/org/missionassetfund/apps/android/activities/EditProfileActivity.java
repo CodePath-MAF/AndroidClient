@@ -1,6 +1,11 @@
 
-package org.missionassetfund.apps.android;
+package org.missionassetfund.apps.android.activities;
 
+import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.R.id;
+import org.missionassetfund.apps.android.R.layout;
+import org.missionassetfund.apps.android.R.menu;
+import org.missionassetfund.apps.android.R.string;
 import org.missionassetfund.apps.android.fragments.ProfileFragment;
 import org.missionassetfund.apps.android.models.User;
 

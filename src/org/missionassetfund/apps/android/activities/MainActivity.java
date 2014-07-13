@@ -1,7 +1,6 @@
 
 package org.missionassetfund.apps.android.activities;
 
-import org.missionassetfund.apps.android.EditProfileActivity;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.DashboardFragment;
 import org.missionassetfund.apps.android.fragments.DashboardFragment.SwitchMainFragmentListener;
