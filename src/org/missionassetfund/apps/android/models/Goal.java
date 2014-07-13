@@ -10,6 +10,7 @@ import com.parse.ParseObject;
 @ParseClassName("Goal")
 public class Goal extends ParseObject implements Serializable {
     private static final long serialVersionUID = 6160272793326362343L;
+    public static final String GOAL_KEY = "goal";
 
     public static final String USER_KEY = "user";
     public static final String NAME_KEY = "name";

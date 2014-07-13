@@ -8,12 +8,11 @@ import com.parse.ParseUser;
 public class User extends ParseUser {
     public static final String NAME_KEY = "name";
     public static final String PHONE_NUMBER_KEY = "phoneNumber";
+    public static final String LIQUID_ASSETS_KEY = "liquidAssets";
 
     public User() {
         super();
     }
-
-    // TODO: determine where to store liquid asset data.
 
     public String getName() {
         return getString(NAME_KEY);
@@ -29,5 +28,14 @@ public class User extends ParseUser {
 
     public void setPhoneNumber(String phoneNumber) {
         put(PHONE_NUMBER_KEY, phoneNumber);
+    }
+    
+    // For now, lets store liquid assets within the user Obj
+    public Double getLiquidAssets() {
+        return getDouble(LIQUID_ASSETS_KEY);
+    }
+    
+    public void setLiquidAssets(Double liquidAsset) {
+        put(LIQUID_ASSETS_KEY, liquidAsset);
     }
 }
