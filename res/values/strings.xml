@@ -6,7 +6,7 @@
     <string name="title_liquid_asset">Liquid Assets</string>
     <string name="title_goal_details">Goals</string>
     <string name="label_remaining">Remaining</string>
-    <string name="label_spent_today">Spent Today</string>
+    <string name="label_spent_today">SPENT TODAY</string>
     <string name="label_spent_this_week">Spent this week</string>
     <string name="sample_avg_per_day">AVG $5.62 PER DAY</string>
     <string name="sample_remaining_amount">$234.64</string>
@@ -47,5 +47,7 @@
     <string name="parse_success_transaction_save">Transaction saved!</string>
     <string name="toast_done_saving_goal">Done saving goal.</string>
     <string name="error_parse_date">date parsing issue</string>
+    <string name="label_total_liquid_assets">TOTAL LIQUID ASSETS</string>
+    <string name="label_monthly_goals">MONTHLY GOALS</string>
 
 </resources>

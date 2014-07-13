@@ -1,85 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/llLiquidAsset"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/bg_card"
-        android:orientation="vertical"
-        android:paddingBottom="10dp" >
+    <RelativeLayout
+        android:id="@+id/rlLiquidAsset"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/liquid_asset_background" >
 
         <TextView
-            android:id="@+id/tvLiquidAssetTitle"
-            style="@style/DashboardBoxTitle"
-            android:background="@color/darkgray"
-            android:includeFontPadding="false"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:text="@string/title_liquid_asset" />
+            android:id="@+id/tvLiquidAsset"
+            style="@style/DashboardLiquidAssetBalance"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/sample_remaining_amount"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <RelativeLayout
-            android:id="@+id/rlLiquidAssetData"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+        <TextView
+            android:id="@+id/tvLiquidAssetLabel"
+            style="@style/DashboardLiquidAssetLabel"
+            android:layout_below="@+id/tvLiquidAsset"
+            android:layout_centerHorizontal="true"
+            android:text="@string/label_total_liquid_assets" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llMetrics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:divider="?android:dividerHorizontal"
+        android:gravity="center"
+        android:padding="10dp"
+        android:showDividers="middle" >
+
+        <LinearLayout
+            android:id="@+id/llMonthlyGoals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tvRemainingLabel"
+                android:id="@+id/tvMonthlyGoalsLabel"
                 style="@style/DashboardSmallText"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/label_remaining"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:text="@string/label_monthly_goals" />
 
             <TextView
-                android:id="@+id/tvRemaining"
-                style="@style/LargeAmount"
-                android:layout_alignLeft="@+id/tvRemainingLabel"
-                android:layout_below="@+id/tvRemainingLabel"
-                android:text="@string/sample_remaining_amount"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:id="@+id/tvMonthlyGoals"
+                style="@style/MediumAmount"
+                android:text="@string/sample_spent_today" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSpentToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/tvSpentTodayLabel"
                 style="@style/DashboardSmallText"
-                android:layout_alignBaseline="@+id/tvRemainingLabel"
-                android:layout_alignBottom="@+id/tvRemainingLabel"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
                 android:text="@string/label_spent_today"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/tvSpentToday"
                 style="@style/MediumAmount"
-                android:layout_alignRight="@+id/tvSpentTodayLabel"
-                android:layout_alignTop="@+id/tvRemaining"
                 android:text="@string/sample_spent_today"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/tvAvgPerDay"
-                style="@style/DashboardSmallText"
-                android:layout_alignRight="@+id/tvSpentToday"
-                android:layout_below="@+id/tvSpentToday"
-                android:text="@string/sample_avg_per_day"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <fragment
         android:id="@+id/goalListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="org.missionassetfund.apps.android.fragments.GoalsListFragment" >
+        class="org.missionassetfund.apps.android.fragments.GoalsListFragment"
+        tools:layout="@layout/fragment_goals_list" >
     </fragment>
 
 </LinearLayout>

@@ -14,10 +14,10 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class DashboardFragment extends Fragment {
-    private LinearLayout llLiquidAsset;
+    private RelativeLayout rlLiquidAsset;
 
     public interface SwitchMainFragmentListener {
         void SwitchToFragment(Class<? extends Fragment> klass);
@@ -32,8 +32,8 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        llLiquidAsset = (LinearLayout) view.findViewById(R.id.llLiquidAsset);
-        llLiquidAsset.setOnClickListener(liquidAssetClickListener);
+        rlLiquidAsset = (RelativeLayout) view.findViewById(R.id.rlLiquidAsset);
+        rlLiquidAsset.setOnClickListener(liquidAssetClickListener);
 
         setHasOptionsMenu(true);
         return view;

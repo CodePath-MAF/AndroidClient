@@ -7,5 +7,6 @@
     <color name="gray">#CCCCCC</color>
     <color name="light_blue">#C3E4ED</color>
     <color name="navy_blue">#000080</color>
+    <color name="liquid_asset_background">#23c7a1</color>
 
 </resources>
