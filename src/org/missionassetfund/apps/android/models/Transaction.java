@@ -109,7 +109,7 @@ public class Transaction extends ParseObject implements Serializable {
     }
 
     public String getAmountFormatted() {
-        return this.getType() == TransactionType.DEBIT ? CurrencyUtils
+        return this.getType() == TransactionType.CREDIT ? CurrencyUtils
                 .getCurrencyValueFormattedAsNegative(BigDecimal
                         .valueOf(this.getAmount())) : CurrencyUtils
                 .getCurrencyValueFormatted(BigDecimal
