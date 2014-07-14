@@ -57,4 +57,8 @@ public class GoalsListFragment extends Fragment {
             }
         });
     }
+
+    public void updateGoalList() {
+        goalAdapter.loadObjects();
+    }
 }

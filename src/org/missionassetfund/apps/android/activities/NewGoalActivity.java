@@ -1,5 +1,5 @@
 
-package org.missionassetfund.apps.android.fragments;
+package org.missionassetfund.apps.android.activities;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,13 +12,11 @@ import org.missionassetfund.apps.android.models.GoalPaymentInterval;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,46 +27,38 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-public class NewGoalFragment extends DialogFragment {
+public class NewGoalActivity extends Activity {
 
-    EditText etGoalName;
-    EditText etGoalAmount;
-    Spinner spinnerGoalFrequency;
-    EditText etGoalDate;
-    Button btnCreateGoal;
+    private EditText etGoalName;
+    private EditText etGoalAmount;
+    private Spinner spinnerGoalFrequency;
+    private EditText etGoalDate;
+    private Button btnCreateGoal;
 
-    ArrayAdapter<GoalPaymentInterval> frequencyAdapter;
-
-    public NewGoalFragment() {
-        // Empty constructor required for DialogFragment
-    }
+    private ArrayAdapter<GoalPaymentInterval> frequencyAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(STYLE_NORMAL, R.style.NewGoalDialog);
+        setContentView(R.layout.activity_new_goal);
 
-        frequencyAdapter = new ArrayAdapter<GoalPaymentInterval>(getActivity(),
+        frequencyAdapter = new ArrayAdapter<GoalPaymentInterval>(this,
                 android.R.layout.simple_spinner_item, GoalPaymentInterval.values());
         frequencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        setupViews();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_goal, container);
-        etGoalName = (EditText) view.findViewById(R.id.etNewGoalName);
-        btnCreateGoal = (Button) view.findViewById(R.id.btnCreateGoal);
-        etGoalAmount = (EditText) view.findViewById(R.id.etGoalAmount);
-        spinnerGoalFrequency = (Spinner) view.findViewById(R.id.spinnerGoalFrequency);
-        etGoalDate = (EditText) view.findViewById(R.id.etGoalDate);
+    private void setupViews() {
+        etGoalName = (EditText) findViewById(R.id.etNewGoalName);
+        btnCreateGoal = (Button) findViewById(R.id.btnCreateGoal);
+        etGoalAmount = (EditText) findViewById(R.id.etGoalAmount);
+        spinnerGoalFrequency = (Spinner) findViewById(R.id.spinnerGoalFrequency);
+        etGoalDate = (EditText) findViewById(R.id.etGoalDate);
 
         spinnerGoalFrequency.setAdapter(frequencyAdapter);
 
         btnCreateGoal.setOnClickListener(newGoalClickListener);
-
-        return view;
     }
 
     private OnClickListener newGoalClickListener = new OnClickListener() {
@@ -105,14 +95,13 @@ public class NewGoalFragment extends DialogFragment {
 
                 @Override
                 public void done(ParseException arg0) {
-                    Toast.makeText(getActivity(), getString(R.string.toast_done_saving_goal),
-                            Toast.LENGTH_SHORT).show();
-                    dismiss();
-
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.toast_done_saving_goal), Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
+                    finish();
                 }
 
             });
         }
     };
-
 }

@@ -4,7 +4,7 @@ package org.missionassetfund.apps.android.activities;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.DashboardFragment;
 import org.missionassetfund.apps.android.fragments.DashboardFragment.SwitchMainFragmentListener;
-import org.missionassetfund.apps.android.fragments.NewGoalFragment;
+import org.missionassetfund.apps.android.fragments.GoalsListFragment;
 
 import android.content.Intent;
 import android.os.Build;
@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import com.parse.ParseUser;
 
 public class MainActivity extends FragmentActivity implements SwitchMainFragmentListener {
+    public static final int NEW_GOAL_REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +83,8 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
                 logoutParse();
                 break;
             case R.id.action_add_goal:
-                FragmentManager fm = getSupportFragmentManager();
-                NewGoalFragment newGoalFragment = new NewGoalFragment();
-                newGoalFragment.show(fm, "fragment_new_goal");
+                Intent newGoalIntent = new Intent(this, NewGoalActivity.class);
+                startActivityForResult(newGoalIntent, NEW_GOAL_REQUEST_CODE);
                 break;
             case R.id.action_edit_profile:
                 Intent intent = new Intent(this, EditProfileActivity.class);
@@ -109,6 +109,15 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
             startActivity(intent);
         } else {
             finish();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == NEW_GOAL_REQUEST_CODE) {
+            GoalsListFragment fragmentGoalList = (GoalsListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.goalListFragment);
+            fragmentGoalList.updateGoalList();
         }
     }
 }
