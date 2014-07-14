@@ -42,7 +42,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="DashboardSmallText" parent="@android:style/TextAppearance">
+    <style name="SmallText" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/darkgray</item>
         <item name="android:textSize">12sp</item>
         <item name="android:typeface">normal</item>
@@ -63,7 +63,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
     
-    <style name="DashboardLiquidAssetLabel" parent="@style/DashboardSmallText">
+    <style name="DashboardLiquidAssetLabel" parent="@style/SmallText">
         <item name="android:textColor">@color/white</item>
     </style>
 

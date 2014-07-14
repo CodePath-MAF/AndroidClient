@@ -2,6 +2,7 @@
 package org.missionassetfund.apps.android.utils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 
 public class CurrencyUtils {
@@ -13,6 +14,10 @@ public class CurrencyUtils {
     
     public static String getCurrencyValueFormattedAsNegative(BigDecimal value) {
         return String.format("- %s", getCurrencyValueFormatted(value));
+    }
+    
+    public static BigDecimal newCurrency(Double value) {
+        return new BigDecimal(value).setScale(2, RoundingMode.DOWN);
     }
 
 }

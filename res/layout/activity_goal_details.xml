@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/tvTotalPaymentLabel"
-            style="@style/DashboardSmallText"
+            style="@style/SmallText"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/tvDueDateLabel"
-            style="@style/DashboardSmallText"
+            style="@style/SmallText"
             android:layout_alignBaseline="@+id/tvTotalPaymentLabel"
             android:layout_alignBottom="@+id/tvTotalPaymentLabel"
             android:layout_alignParentRight="true"
@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/tvDueDateHuman"
-            style="@style/DashboardSmallText"
+            style="@style/SmallText"
             android:layout_alignRight="@+id/tvDueDate"
             android:layout_below="@+id/tvDueDate"
             android:text="@string/sample_due_date_human"
@@ -75,7 +75,7 @@
 
             <TextView
                 android:id="@+id/tvTotalTargetLabel"
-                style="@style/DashboardSmallText"
+                style="@style/SmallText"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
@@ -93,7 +93,7 @@
 
             <TextView
                 android:id="@+id/tvTargetDateLabel"
-                style="@style/DashboardSmallText"
+                style="@style/SmallText"
                 android:layout_alignBaseline="@+id/tvTotalTargetLabel"
                 android:layout_alignBottom="@+id/tvTotalTargetLabel"
                 android:layout_alignParentRight="true"
@@ -111,7 +111,7 @@
 
             <TextView
                 android:id="@+id/tvTargetDateHuman"
-                style="@style/DashboardSmallText"
+                style="@style/SmallText"
                 android:layout_alignRight="@+id/tvTargetDate"
                 android:layout_below="@+id/tvTargetDate"
                 android:text="@string/sample_due_date_human"

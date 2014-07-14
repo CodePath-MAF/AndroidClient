@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/tvDueDate"
-        style="@style/DashboardSmallText"
+        style="@style/SmallText"
         android:layout_alignLeft="@+id/tvName"
         android:layout_below="@+id/tvName"
         android:layout_marginBottom="20dp"
