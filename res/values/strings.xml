@@ -63,5 +63,8 @@
     <string name="parse_error_password_missing">Password is missing&#8230;</string>
     <string name="error_user_name_required">Name is required</string>
     <string name="error_user_password_required">Password is required</string>
+    <string name="label_transaction_type">Type</string>
+    <string name="label_income">Income</string>
+    <string name="label_expense">Expense</string>
 
 </resources>
