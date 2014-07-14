@@ -11,9 +11,9 @@
     <color name="light_red">#E82C0C</color>
 
     <!-- Parse -->
-    <color name="com_parse_ui_parse_login_button">#40CCCCCC</color>
-    <color name="com_parse_ui_parse_login_button_push">#30CCCCCC</color>
-    <color name="com_parse_ui_parse_login_button_focus">#35CCCCCC</color>
+    <color name="com_parse_ui_parse_login_button">#40000000</color>
+    <color name="com_parse_ui_parse_login_button_push">#30000000</color>
+    <color name="com_parse_ui_parse_login_button_focus">#35000000</color>
     <color name="com_parse_ui_parse_login_help_button_label">#E0E0E0</color>
     <color name="com_parse_ui_parse_login_help_button_label_push">#AAAAAA</color>
     <color name="com_parse_ui_parse_login_help_button_label_focus">#CCCCCC</color>
