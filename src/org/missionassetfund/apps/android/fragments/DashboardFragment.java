@@ -125,6 +125,8 @@ public class DashboardFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getActivity(), LiquidAssetsActivity.class);
+            // TODO(jose): start the activity for result and refresh the liquid
+            // asset section once it returns
             getActivity().startActivity(intent);
         }
     };
