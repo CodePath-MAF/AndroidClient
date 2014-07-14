@@ -78,7 +78,6 @@ public class LiquidAssetsFragment extends Fragment {
 
         ParseQuery<Transaction> query = ParseQuery.getQuery("Transaction");
         query.whereEqualTo("user", User.getCurrentUser());
-        query.whereEqualTo("goal", null);
         query.orderByDescending("transactionDate");
         query.include("category");
 
