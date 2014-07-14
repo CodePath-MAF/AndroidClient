@@ -21,6 +21,8 @@
 
 package com.parse.ui;
 
+import org.missionassetfund.apps.android.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.InputType;
