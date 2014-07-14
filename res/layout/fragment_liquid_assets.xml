@@ -5,89 +5,103 @@
     android:background="@color/lightgray"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <com.echo.holographlibrary.PieGraph
-        android:id="@+id/pgLiquidAssetDonutChart"
+    <ProgressBar
+        android:id="@+id/pbLoadingLiquidAssets"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp" />
-
-    <LinearLayout
-        android:id="@+id/llAssetsSummary"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pgLiquidAssetDonutChart"
-        android:baselineAligned="false"
-        android:divider="?android:dividerHorizontal"
-        android:orientation="horizontal"
-        android:showDividers="middle" >
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/green_bottom_border"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="8dp" >
-
-            <TextView
-                android:id="@+id/tvLiquidAssets"
-                style="@style/SmallText"
-                android:text="@string/label_liquid_assets" />
-
-            <TextView
-                android:id="@+id/tvLiquidAssetsAmount"
-                style="@style/MediumAmount" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/red_bottom_border"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="8dp" >
-
-            <TextView
-                android:id="@+id/tvSpentThisWeek"
-                style="@style/SmallText"
-                android:text="@string/label_spent_this_week" />
-
-            <TextView
-                android:id="@+id/tvSpentAmount"
-                style="@style/MediumAmount" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/blue_bottom_border"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="8dp" >
-
-            <TextView
-                android:id="@+id/tvSpentToday"
-                style="@style/SmallText"
-                android:text="@string/label_spent_today" />
-
-            <TextView
-                android:id="@+id/tvSpentTodayAmount"
-                style="@style/MediumAmount" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <ExpandableListView
-        android:id="@+id/elvTransactions"
+    <RelativeLayout
+        android:id="@+id/rlLiquidAssets"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llAssetsSummary"
-        android:background="@color/white" >
-    </ExpandableListView>
+        android:layout_height="match_parent"
+        android:visibility="invisible" >
+
+        <com.echo.holographlibrary.PieGraph
+            android:id="@+id/pgLiquidAssetDonutChart"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:id="@+id/llAssetsSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pgLiquidAssetDonutChart"
+            android:baselineAligned="false"
+            android:divider="?android:dividerHorizontal"
+            android:orientation="horizontal"
+            android:showDividers="middle" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/green_bottom_border"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="8dp" >
+
+                <TextView
+                    android:id="@+id/tvLiquidAssets"
+                    style="@style/SmallText"
+                    android:text="@string/label_liquid_assets" />
+
+                <TextView
+                    android:id="@+id/tvLiquidAssetsAmount"
+                    style="@style/MediumAmount" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/red_bottom_border"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="8dp" >
+
+                <TextView
+                    android:id="@+id/tvSpentThisWeek"
+                    style="@style/SmallText"
+                    android:text="@string/label_spent_this_week" />
+
+                <TextView
+                    android:id="@+id/tvSpentAmount"
+                    style="@style/MediumAmount" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/blue_bottom_border"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="8dp" >
+
+                <TextView
+                    android:id="@+id/tvSpentToday"
+                    style="@style/SmallText"
+                    android:text="@string/label_spent_today" />
+
+                <TextView
+                    android:id="@+id/tvSpentTodayAmount"
+                    style="@style/MediumAmount" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ExpandableListView
+            android:id="@+id/elvTransactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llAssetsSummary"
+            android:background="@color/white" >
+        </ExpandableListView>
+    </RelativeLayout>
 
 </RelativeLayout>

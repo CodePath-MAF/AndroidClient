@@ -30,7 +30,7 @@
     <string name="sample_goal_frequency">Monthly</string>
     <string name="label_goal_due_date">Due Date</string>
     <string name="sample_goal_due_date">06/10/14</string>
-    <string name="action_logout">Log Out</string>
+    <string name="action_logout">Logout</string>
     <string name="parse_signup_button_text">Create Account</string>
     <string name="parse_login_button_text">Log In</string>
     <string name="label_btn_cancel">Cancel</string>

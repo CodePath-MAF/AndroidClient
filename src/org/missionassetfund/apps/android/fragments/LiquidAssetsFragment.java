@@ -12,12 +12,13 @@ import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.TransactionGroup;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
-import org.missionassetfund.apps.android.utils.DateUtils;
+import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +47,8 @@ public class LiquidAssetsFragment extends Fragment {
     private TextView tvLiquidAssetsAmount;
     private TextView tvSpentAmount;
     private TextView tvSpentTodayAmount;
+    private ProgressBar pbLoadingLiquidAssets;
+    private RelativeLayout rlLiquidAssets;
     private List<TransactionGroup> mTransactionsGroup;
     private BigDecimal mSpentToday;
     private BigDecimal mSpentThisWeek;
@@ -60,9 +65,21 @@ public class LiquidAssetsFragment extends Fragment {
         tvSpentAmount = (TextView) view.findViewById(R.id.tvSpentAmount);
         tvSpentTodayAmount = (TextView) view.findViewById(R.id.tvSpentTodayAmount);
         elvTransactions = (ExpandableListView) view.findViewById(R.id.elvTransactions);
+        pbLoadingLiquidAssets = (ProgressBar) view.findViewById(R.id.pbLoadingLiquidAssets);
+        rlLiquidAssets = (RelativeLayout) view.findViewById(R.id.rlLiquidAssets);
+
+        setupData();
+        return view;
+    }
+
+    private void setupData() {
+        rlLiquidAssets.setVisibility(View.INVISIBLE);
+        pbLoadingLiquidAssets.setVisibility(View.VISIBLE);
 
         ParseQuery<Transaction> query = ParseQuery.getQuery("Transaction");
         query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.whereEqualTo("goal", null);
+        query.orderByDescending("transactionDate");
         query.include("category");
 
         query.findInBackground(new FindCallback<Transaction>() {
@@ -78,14 +95,16 @@ public class LiquidAssetsFragment extends Fragment {
                 setupChart();
 
                 mTransactionsAdapter = new TransactionsExpandableListAdapter(mTransactionsGroup,
-                        view.getContext());
+                        getActivity());
+
                 elvTransactions.setAdapter(mTransactionsAdapter);
                 elvTransactions.expandGroup(0);
                 elvTransactions.setGroupIndicator(null);
+                
+                pbLoadingLiquidAssets.setVisibility(View.INVISIBLE);
+                rlLiquidAssets.setVisibility(View.VISIBLE);
             }
         });
-
-        return view;
     }
 
     private void setupTransactions(List<Transaction> transactions) {
@@ -98,14 +117,16 @@ public class LiquidAssetsFragment extends Fragment {
         int index = -1;
 
         for (Transaction t : transactions) {
-            if (t.getType().equals(TransactionType.DEBIT)) {
-                if (DateUtils.isToday(t.getTransactionDate())) {
+            if (t.getType().equals(TransactionType.CREDIT)) {
+                if (DateUtils.isToday(t.getTransactionDate().getTime())) {
                     mSpentToday = mSpentToday.add(BigDecimal.valueOf(t.getAmount()));
                 }
                 
-                if (DateUtils.isSameWeek(t.getTransactionDate())) {
+                if (MAFDateUtils.isSameWeek(t.getTransactionDate())) {
                     mSpentThisWeek = mSpentThisWeek.add(BigDecimal.valueOf(t.getAmount()));
                 }
+                
+                mLiquidAssets = mLiquidAssets.subtract(BigDecimal.valueOf(t.getAmount()));
 
                 // Set transactions for ListView
                 tg = new TransactionGroup(t.getTransactionDate(), new ArrayList<Transaction>());
@@ -117,7 +138,7 @@ public class LiquidAssetsFragment extends Fragment {
                 } else {
                     mTransactionsGroup.get(index).getTransactions().add(t);
                 }
-            } else if (t.getType().equals(TransactionType.CREDIT)) {
+            } else if (t.getType().equals(TransactionType.DEBIT)) {
                 mLiquidAssets = mLiquidAssets.add(BigDecimal.valueOf(t.getAmount()));
             }
         }
@@ -156,6 +177,8 @@ public class LiquidAssetsFragment extends Fragment {
     }
 
     private void setupChart() {
+        pgLiquidAssetDonutChart.removeSlices();
+        
         PieSlice slice = new PieSlice();
         slice.setColor(getResources().getColor(R.color.liquid_asset_background));
         slice.setValue(mLiquidAssets.floatValue());
@@ -177,7 +200,8 @@ public class LiquidAssetsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == FragmentActivity.RESULT_OK && requestCode == ADD_TRANSACTION_REQUEST_CODE) {
-            // TODO: refresh transaction list
+            setupData();
+            
             Toast.makeText(getActivity(), getString(R.string.parse_success_transaction_save),
                     Toast.LENGTH_SHORT).show();
         }

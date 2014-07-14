@@ -1,6 +1,7 @@
 
 package org.missionassetfund.apps.android.utils;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class MAFDateUtils {
@@ -24,6 +25,32 @@ public class MAFDateUtils {
     public static Date addDaysToDate(Date date, int days) {
         long epochTime = date.getTime() + (days * ONE_DAY_IN_MILLIS);
         return new Date(epochTime);
+    }
+    
+    public static boolean isSameWeek(Date date) {
+        Calendar beginningOfTheWeek = Calendar.getInstance();
+        beginningOfTheWeek.set(Calendar.DAY_OF_WEEK, beginningOfTheWeek.getFirstDayOfWeek());
+        beginningOfTheWeek.set(Calendar.HOUR, 0);
+        beginningOfTheWeek.set(Calendar.MINUTE, 0);
+
+        Calendar endOfTheWeek = Calendar.getInstance();
+        endOfTheWeek.set(Calendar.DAY_OF_WEEK, endOfTheWeek.getFirstDayOfWeek());
+        endOfTheWeek.add(Calendar.DAY_OF_WEEK, 7);
+        endOfTheWeek.set(Calendar.HOUR, 23);
+        endOfTheWeek.set(Calendar.MINUTE, 59);
+
+        return date.after(beginningOfTheWeek.getTime()) && date.before(endOfTheWeek.getTime());
+    }
+    
+    public static boolean isSameDay(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+
+        cal1.setTime(date1);
+        cal2.setTime(date2);
+
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
     }
 
 }

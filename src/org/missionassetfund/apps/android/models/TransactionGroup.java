@@ -4,6 +4,8 @@ package org.missionassetfund.apps.android.models;
 import java.util.Date;
 import java.util.List;
 
+import org.missionassetfund.apps.android.utils.MAFDateUtils;
+
 import android.text.format.DateUtils;
 
 public class TransactionGroup {
@@ -58,7 +60,7 @@ public class TransactionGroup {
         if (transactionDate == null) {
             if (other.transactionDate != null)
                 return false;
-        } else if (!transactionDate.equals(other.transactionDate))
+        } else if (!MAFDateUtils.isSameDay(transactionDate, other.getTransactionDate()))
             return false;
         return true;
     }
