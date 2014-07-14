@@ -2,73 +2,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_blue"
+    android:background="@color/lightgray"
     tools:context="${relativePackage}.${activityClass}" >
 
     <com.echo.holographlibrary.PieGraph
-        android:id="@+id/liquid_assets_donut_chart"
+        android:id="@+id/pgLiquidAssetDonutChart"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp" />
 
-    <RelativeLayout
-        android:id="@+id/rlAssetsSummary"
+    <LinearLayout
+        android:id="@+id/llAssetsSummary"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/liquid_assets_donut_chart"
-        android:background="@color/white"
-        android:padding="10dp" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pgLiquidAssetDonutChart"
+        android:baselineAligned="false"
+        android:divider="?android:dividerHorizontal"
+        android:orientation="horizontal"
+        android:showDividers="middle" >
 
-        <TextView
-            android:id="@+id/tv_remaining"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/label_remaining"
-            android:textColor="@color/light_blue" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/green_bottom_border"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="8dp" >
 
-        <TextView
-            android:id="@+id/tv_spent_this_week"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/label_spent_this_week"
-            android:textColor="@color/light_blue" />
+            <TextView
+                android:id="@+id/tvLiquidAssets"
+                style="@style/SmallText"
+                android:text="@string/label_liquid_assets" />
 
-        <TextView
-            android:id="@+id/tv_remaining_amount"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/tv_remaining"
-            android:textColor="@color/navy_blue"
-            style="@style/LargeAmount" />
+            <TextView
+                android:id="@+id/tvLiquidAssetsAmount"
+                style="@style/MediumAmount" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_spent_amount"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/tv_spent_this_week"
-            android:textColor="@color/navy_blue"
-            style="@style/MediumAmount" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/red_bottom_border"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="8dp" >
 
-        <TextView
-            android:id="@+id/tv_average_spent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/tv_spent_amount"
-            android:text="@string/sample_avg_per_day"
-            android:textColor="@color/light_blue" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tvSpentThisWeek"
+                style="@style/SmallText"
+                android:text="@string/label_spent_this_week" />
+
+            <TextView
+                android:id="@+id/tvSpentAmount"
+                style="@style/MediumAmount" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/blue_bottom_border"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="8dp" >
+
+            <TextView
+                android:id="@+id/tvSpentToday"
+                style="@style/SmallText"
+                android:text="@string/label_spent_today" />
+
+            <TextView
+                android:id="@+id/tvSpentTodayAmount"
+                style="@style/MediumAmount" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ExpandableListView
         android:id="@+id/elvTransactions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rlAssetsSummary"
+        android:layout_below="@+id/llAssetsSummary"
         android:background="@color/white" >
     </ExpandableListView>
 

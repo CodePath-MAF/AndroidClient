@@ -48,7 +48,7 @@
 
             <TextView
                 android:id="@+id/tvMonthlyGoalsLabel"
-                style="@style/DashboardSmallText"
+                style="@style/SmallText"
                 android:text="@string/label_monthly_goals" />
 
             <TextView
@@ -67,7 +67,7 @@
 
             <TextView
                 android:id="@+id/tvSpentTodayLabel"
-                style="@style/DashboardSmallText"
+                style="@style/SmallText"
                 android:text="@string/label_spent_today"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
