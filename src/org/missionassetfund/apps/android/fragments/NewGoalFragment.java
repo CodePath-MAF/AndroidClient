@@ -26,7 +26,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class NewGoalFragment extends DialogFragment {
@@ -76,7 +75,7 @@ public class NewGoalFragment extends DialogFragment {
         @Override
         public void onClick(View v) {
             Goal goal = new Goal();
-            goal.setUser((User) ParseUser.getCurrentUser());
+            goal.setUser((User) User.getCurrentUser());
             goal.setName(etGoalName.getText().toString());
             Double amount = Double.parseDouble(etGoalAmount.getText().toString());
             goal.setAmount(amount);

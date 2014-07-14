@@ -11,6 +11,7 @@ import org.missionassetfund.apps.android.adapters.TransactionsExpandableListAdap
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.TransactionGroup;
+import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
@@ -37,7 +38,6 @@ import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
 import com.parse.FindCallback;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 public class LiquidAssetsFragment extends Fragment {
 
@@ -77,7 +77,7 @@ public class LiquidAssetsFragment extends Fragment {
         pbLoadingLiquidAssets.setVisibility(View.VISIBLE);
 
         ParseQuery<Transaction> query = ParseQuery.getQuery("Transaction");
-        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.whereEqualTo("user", User.getCurrentUser());
         query.whereEqualTo("goal", null);
         query.orderByDescending("transactionDate");
         query.include("category");
