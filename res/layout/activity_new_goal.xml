@@ -1,18 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/tvBorder"
-        style="@style/DashboardBoxTitle"
-        android:background="@color/darkgray"
-        android:includeFontPadding="false"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:text="@string/label_new_savings_goal" />
 
     <RelativeLayout
         android:id="@+id/rlNewGoalName"
@@ -74,16 +63,6 @@
             android:layout_height="wrap_content"
             android:text="@string/label_goal_frequency"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <!-- <EditText -->
-        <!-- android:id="@+id/editText2" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_alignBaseline="@+id/tvNewGoalFrequencyLabel" -->
-        <!-- android:layout_alignParentRight="true" -->
-        <!-- android:hint="@string/sample_goal_frequency" -->
-        <!-- android:inputType="text" > -->
-        <!-- </EditText> -->
 
         <Spinner
             android:id="@+id/spinnerGoalFrequency"

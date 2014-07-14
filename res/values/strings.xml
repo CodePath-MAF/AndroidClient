@@ -67,6 +67,7 @@
     <string name="label_transaction_type">Type</string>
     <string name="label_income">Income</string>
     <string name="label_expense">Expense</string>
+    <string name="title_activity_new_goal">New Goal</string>
 
     <!-- Parse -->
     <string name="com_parse_ui_logo_content_description">Logo</string>
