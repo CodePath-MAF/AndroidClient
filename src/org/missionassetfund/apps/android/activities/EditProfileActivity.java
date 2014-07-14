@@ -37,7 +37,7 @@ public class EditProfileActivity extends FragmentActivity {
 
     public void onSaveProfile(MenuItem menuItem) {
         User user = mProfileFragment.getModifiedUser();
-        
+
         if (user == null) {
             return;
         }

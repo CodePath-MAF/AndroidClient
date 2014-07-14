@@ -2,7 +2,8 @@
 package org.missionassetfund.apps.android.models;
 
 public enum GoalPaymentInterval {
-    UNDEFINED(0, "Undefined"),
+    // We do not need undefined. We will use Daily as default
+    // UNDEFINED(0, "Undefined"),
     DAILY(1, "Daily"),
     WEEKLY(7, "Weekly"),
     BIWEEKLY(14, "Bi-weekly"),
@@ -42,7 +43,7 @@ public enum GoalPaymentInterval {
             case 60:
                 return BIMONTHLY;
             default:
-                return UNDEFINED;
+                return DAILY;
         }
     }
 

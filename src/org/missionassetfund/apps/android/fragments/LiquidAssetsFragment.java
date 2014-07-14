@@ -167,11 +167,6 @@ public class LiquidAssetsFragment extends Fragment {
         slice.setGoalValue(mSpentToday.floatValue());
         pgLiquidAssetDonutChart.addSlice(slice);
 
-        slice = new PieSlice();
-        slice.setColor(getResources().getColor(R.color.navy_blue));
-        slice.setGoalValue(mSpentThisWeek.floatValue());
-        pgLiquidAssetDonutChart.addSlice(slice);
-
         pgLiquidAssetDonutChart.setInnerCircleRatio(190);
 
         pgLiquidAssetDonutChart.setDuration(2000);

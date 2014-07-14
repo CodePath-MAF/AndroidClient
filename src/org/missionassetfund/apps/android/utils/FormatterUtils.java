@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import android.text.format.DateUtils;
+
 public class FormatterUtils {
 
     public static String formatAmount(Double amount) {
@@ -14,10 +16,18 @@ public class FormatterUtils {
 
     public static CharSequence formatMonthDate(Date date) {
         if (date == null) {
-            return "NULL";
+            return "";
         }
         DateFormat monthDayFormat = new SimpleDateFormat("MMM dd", Locale.US);
         return monthDayFormat.format(date);
+    }
+
+    public static String getRelativeTimeHuman(Date date) {
+        if (date == null) {
+            return "";
+        }
+        return DateUtils.getRelativeTimeSpanString(date.getTime(),
+                System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
     }
 
 }

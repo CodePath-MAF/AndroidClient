@@ -7,7 +7,6 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,16 +24,14 @@ public class GoalPaymentsArrayAdapter extends ArrayAdapter<Transaction> {
 
     private final int layoutResource;
     private final int numTotalPayments;
-    private final int numPaymentsDone;
 
-    // private final Context context;
+    private final Context context;
 
     public GoalPaymentsArrayAdapter(final Context context, int layoutResource,
             List<Transaction> goalPayments, int numTotalPayments) {
         super(context, layoutResource, goalPayments);
-        this.numPaymentsDone = goalPayments.size();
         this.numTotalPayments = numTotalPayments;
-        // this.context = context;
+        this.context = context;
         this.layoutResource = layoutResource;
     }
 
@@ -60,8 +57,8 @@ public class GoalPaymentsArrayAdapter extends ArrayAdapter<Transaction> {
         }
 
         viewHolder.tvPastPaymentAmount.setText(FormatterUtils.formatAmount(txn.getAmount()));
-        viewHolder.tvPastPaymentNumber.setText("Payment " + (numPaymentsDone - position) + " of "
-                + numTotalPayments);
+        viewHolder.tvPastPaymentNumber.setText(context.getString(R.string.goal_payment_human,
+                (getCount() - position), numTotalPayments));
         viewHolder.tvPastPaymentDate.setText(FormatterUtils.formatMonthDate(txn.getCreatedAt()));
 
         return convertView;

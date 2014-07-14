@@ -9,6 +9,7 @@ import org.missionassetfund.apps.android.models.Goal;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,9 +48,11 @@ public class GoalsListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapter, View parent, int position, long rowId) {
                 Goal goal = (Goal) adapter.getItemAtPosition(position);
-                
+                Log.d("debug", goal.getCreatedAt().toString());
                 Intent intent = new Intent(getActivity(), GoalDetailsActivity.class);
-                intent.putExtra(Goal.GOAL_KEY, goal);
+                // Goal is not serialized properly. Passing id for now.
+                // intent.putExtra(Goal.GOAL_KEY, goal);
+                intent.putExtra(Goal.GOAL_KEY, goal.getObjectId());
                 getActivity().startActivity(intent);
             }
         });
