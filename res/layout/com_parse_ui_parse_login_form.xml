@@ -44,10 +44,12 @@
             android:text="@string/com_parse_ui_parse_signup_button_label" />
     </LinearLayout>
 
+    <!-- Comment out Forgot Password
     <Button
         android:id="@+id/parse_login_help"
         style="@style/ParseLoginUI.HelpButton"
         android:layout_marginTop="@dimen/com_parse_ui_small_vertical_spacing"
         android:layout_marginBottom="@dimen/com_parse_ui_small_vertical_spacing"
         android:text="@string/com_parse_ui_forgot_password_button_label" />
+         -->
 </LinearLayout>

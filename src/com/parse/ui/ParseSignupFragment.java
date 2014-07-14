@@ -21,6 +21,9 @@
 
 package com.parse.ui;
 
+import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.models.User;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -33,7 +36,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 /**
@@ -171,7 +173,7 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
     } else if (name != null && name.length() == 0) {
       showToast(R.string.com_parse_ui_no_name_toast);
     } else {
-      ParseUser user = new ParseUser();
+      User user = new User();
 
       // Set standard fields
       user.setUsername(username);

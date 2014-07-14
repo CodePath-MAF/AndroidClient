@@ -6,13 +6,9 @@ import java.util.Date;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Transaction;
-import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
+import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
-
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -24,6 +20,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 public class GoalPaymentFragment extends DialogFragment {
 
@@ -74,7 +73,7 @@ public class GoalPaymentFragment extends DialogFragment {
             Double amount = Double.parseDouble(etAmount.getText().toString());
             final Transaction txn = new Transaction();
             txn.setAmount(amount);
-            txn.setUser((User) ParseUser.getCurrentUser());
+            txn.setUser((User) User.getCurrentUser());
             txn.setGoal(goal);
             txn.setTransactionDate(new Date());
             txn.setDescription(getString(R.string.goal_payment_desc));

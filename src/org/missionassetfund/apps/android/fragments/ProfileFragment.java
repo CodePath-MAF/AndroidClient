@@ -3,8 +3,6 @@ package org.missionassetfund.apps.android.fragments;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.User;
 
-import com.parse.ParseUser;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,7 +27,7 @@ public class ProfileFragment extends Fragment {
         etUserFullName = (EditText) view.findViewById(R.id.etUserFullName); 
         etUserPassword = (EditText) view.findViewById(R.id.etUserPassword);
         
-        mLoggedUser = (User) ParseUser.getCurrentUser();
+        mLoggedUser = (User) User.getCurrentUser();
         
         etUsername.setText(mLoggedUser.getUsername());
         etUserFullName.setText(mLoggedUser.getName());

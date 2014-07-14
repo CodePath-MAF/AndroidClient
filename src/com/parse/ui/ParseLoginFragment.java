@@ -21,6 +21,8 @@
 
 package com.parse.ui;
 
+import org.missionassetfund.apps.android.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -63,7 +65,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
   private View parseLogin;
   private EditText usernameField;
   private EditText passwordField;
-  private TextView parseLoginHelpButton;
+//  private TextView parseLoginHelpButton;
   private Button parseLoginButton;
   private Button parseSignupButton;
   private Button facebookLoginButton;
@@ -95,7 +97,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
     parseLogin = v.findViewById(R.id.parse_login);
     usernameField = (EditText) v.findViewById(R.id.login_username_input);
     passwordField = (EditText) v.findViewById(R.id.login_password_input);
-    parseLoginHelpButton = (Button) v.findViewById(R.id.parse_login_help);
+//    parseLoginHelpButton = (Button) v.findViewById(R.id.parse_login_help);
     parseLoginButton = (Button) v.findViewById(R.id.parse_login_button);
     parseSignupButton = (Button) v.findViewById(R.id.parse_signup_button);
     facebookLoginButton = (Button) v.findViewById(R.id.facebook_login);
@@ -219,16 +221,16 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
       }
     });
 
-    if (config.getParseLoginHelpText() != null) {
-      parseLoginHelpButton.setText(config.getParseLoginHelpText());
-    }
-
-    parseLoginHelpButton.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        loginFragmentListener.onLoginHelpClicked();
-      }
-    });
+//    if (config.getParseLoginHelpText() != null) {
+//      parseLoginHelpButton.setText(config.getParseLoginHelpText());
+//    }
+//
+//    parseLoginHelpButton.setOnClickListener(new OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        loginFragmentListener.onLoginHelpClicked();
+//      }
+//    });
   }
 
   private void setUpFacebookLogin() {
@@ -370,13 +372,13 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
     if (parseSignupButton == null) {
       debugLog(R.string.com_parse_ui_login_warning_layout_missing_signup_button);
     }
-    if (parseLoginHelpButton == null) {
-      debugLog(R.string.com_parse_ui_login_warning_layout_missing_login_help_button);
-    }
+//    if (parseLoginHelpButton == null) {
+//      debugLog(R.string.com_parse_ui_login_warning_layout_missing_login_help_button);
+//    }
 
     boolean result = (usernameField != null) && (passwordField != null)
-        && (parseLoginButton != null) && (parseSignupButton != null)
-        && (parseLoginHelpButton != null);
+        && (parseLoginButton != null) && (parseSignupButton != null);
+//        && (parseLoginHelpButton != null);
 
     if (!result) {
       debugLog(R.string.com_parse_ui_login_warning_disabled_username_password_login);

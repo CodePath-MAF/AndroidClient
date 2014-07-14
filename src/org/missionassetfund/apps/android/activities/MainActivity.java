@@ -4,6 +4,7 @@ package org.missionassetfund.apps.android.activities;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.DashboardFragment;
 import org.missionassetfund.apps.android.fragments.DashboardFragment.SwitchMainFragmentListener;
+import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.fragments.GoalsListFragment;
 
 import android.content.Intent;
@@ -16,8 +17,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import com.parse.ParseUser;
 
 public class MainActivity extends FragmentActivity implements SwitchMainFragmentListener {
     public static final int NEW_GOAL_REQUEST_CODE = 2;
@@ -98,7 +97,7 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
     }
 
     private void logoutParse() {
-        ParseUser.logOut();
+        User.logOut();
 
         // FLAG_ACTIVITY_CLEAR_TASK only works on API 11, so if the user
         // logs out on older devices, we'll just exit.
