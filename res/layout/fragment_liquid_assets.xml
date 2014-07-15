@@ -12,6 +12,15 @@
         android:layout_centerInParent="true"
         android:visibility="invisible" />
 
+    <TextView
+        android:id="@+id/tvEmptyLiquidAssets"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="No transactions yet?!?!? Tap on the plus sign and start adding your transactions!!!"
+        android:visibility="invisible"
+        android:enabled="false" />
+
     <RelativeLayout
         android:id="@+id/rlLiquidAssets"
         android:layout_width="match_parent"
@@ -95,13 +104,28 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ExpandableListView
-            android:id="@+id/elvTransactions"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/llAssetsSummary"
-            android:background="@color/white" >
-        </ExpandableListView>
+            android:layout_below="@+id/llAssetsSummary" >
+
+            <ExpandableListView
+                android:id="@+id/elvTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/white" >
+            </ExpandableListView>
+
+            <TextView
+                android:id="@+id/tvEmptyTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="No Results" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

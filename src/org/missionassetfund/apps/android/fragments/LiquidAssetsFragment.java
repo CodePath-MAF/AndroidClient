@@ -47,6 +47,8 @@ public class LiquidAssetsFragment extends Fragment {
     private TextView tvLiquidAssetsAmount;
     private TextView tvSpentAmount;
     private TextView tvSpentTodayAmount;
+    private TextView tvEmptyLiquidAssets;
+    private TextView tvEmptyTransactions;
     private ProgressBar pbLoadingLiquidAssets;
     private RelativeLayout rlLiquidAssets;
     private List<TransactionGroup> mTransactionsGroup;
@@ -64,15 +66,18 @@ public class LiquidAssetsFragment extends Fragment {
         tvLiquidAssetsAmount = (TextView) view.findViewById(R.id.tvLiquidAssetsAmount);
         tvSpentAmount = (TextView) view.findViewById(R.id.tvSpentAmount);
         tvSpentTodayAmount = (TextView) view.findViewById(R.id.tvSpentTodayAmount);
+        tvEmptyLiquidAssets = (TextView) view.findViewById(R.id.tvEmptyLiquidAssets);
         elvTransactions = (ExpandableListView) view.findViewById(R.id.elvTransactions);
         pbLoadingLiquidAssets = (ProgressBar) view.findViewById(R.id.pbLoadingLiquidAssets);
         rlLiquidAssets = (RelativeLayout) view.findViewById(R.id.rlLiquidAssets);
+        tvEmptyTransactions = (TextView) view.findViewById(R.id.tvEmptyTransactions);
 
         setupData();
         return view;
     }
 
     private void setupData() {
+        tvEmptyLiquidAssets.setVisibility(View.INVISIBLE);
         rlLiquidAssets.setVisibility(View.INVISIBLE);
         pbLoadingLiquidAssets.setVisibility(View.VISIBLE);
 
@@ -97,20 +102,26 @@ public class LiquidAssetsFragment extends Fragment {
                         getActivity());
 
                 elvTransactions.setAdapter(mTransactionsAdapter);
+                elvTransactions.setEmptyView(tvEmptyTransactions);
                 elvTransactions.expandGroup(0);
                 elvTransactions.setGroupIndicator(null);
                 
                 pbLoadingLiquidAssets.setVisibility(View.INVISIBLE);
-                rlLiquidAssets.setVisibility(View.VISIBLE);
+                
+                if (isSummaryEmpty()) {
+                    tvEmptyLiquidAssets.setVisibility(View.VISIBLE);
+                } else {
+                    rlLiquidAssets.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
 
     private void setupTransactions(List<Transaction> transactions) {
         mTransactionsGroup = new ArrayList<TransactionGroup>();
-        mSpentToday = CurrencyUtils.newCurrency(0d);
-        mSpentThisWeek = CurrencyUtils.newCurrency(0d);
-        mLiquidAssets = CurrencyUtils.newCurrency(0d);
+        mSpentToday = CurrencyUtils.ZERO;
+        mSpentThisWeek = CurrencyUtils.ZERO;
+        mLiquidAssets = CurrencyUtils.ZERO;
         
         TransactionGroup tg = null;
         int index = -1;
@@ -175,25 +186,43 @@ public class LiquidAssetsFragment extends Fragment {
         tvSpentTodayAmount.setText(CurrencyUtils.getCurrencyValueFormattedAsNegative(mSpentToday));
     }
 
+    private boolean isSummaryEmpty() {
+        return mLiquidAssets.equals(CurrencyUtils.ZERO) && mSpentThisWeek.equals(CurrencyUtils.ZERO)
+                && mSpentToday.equals(CurrencyUtils.ZERO);
+    }
+
     private void setupChart() {
         pgLiquidAssetDonutChart.removeSlices();
+        PieSlice slice = null;
+
+        if (mLiquidAssets.compareTo(CurrencyUtils.ZERO) == 1) {
+            slice = new PieSlice();
+            slice.setColor(getResources().getColor(R.color.liquid_asset_background));
+            slice.setValue(mLiquidAssets.floatValue());
+            slice.setGoalValue(mLiquidAssets.floatValue());
+            pgLiquidAssetDonutChart.addSlice(slice);
+        }
+
+        if (mSpentThisWeek.compareTo(CurrencyUtils.ZERO) == 1) {
+            slice = new PieSlice();
+            slice.setColor(getResources().getColor(R.color.navy_blue));
+            slice.setGoalValue(mSpentThisWeek.floatValue());
+            pgLiquidAssetDonutChart.addSlice(slice);
+        }
         
-        PieSlice slice = new PieSlice();
-        slice.setColor(getResources().getColor(R.color.liquid_asset_background));
-        slice.setValue(mLiquidAssets.floatValue());
-        slice.setGoalValue(mLiquidAssets.floatValue());
-        pgLiquidAssetDonutChart.addSlice(slice);
-
-        slice = new PieSlice();
-        slice.setColor(getResources().getColor(R.color.light_red));
-        slice.setGoalValue(mSpentToday.floatValue());
-        pgLiquidAssetDonutChart.addSlice(slice);
-
-        pgLiquidAssetDonutChart.setInnerCircleRatio(190);
-
-        pgLiquidAssetDonutChart.setDuration(2000);
-        pgLiquidAssetDonutChart.setInterpolator(new AccelerateDecelerateInterpolator());
-        pgLiquidAssetDonutChart.animateToGoalValues();
+        if (mSpentToday.compareTo(CurrencyUtils.ZERO) == 1) {
+            slice = new PieSlice();
+            slice.setColor(getResources().getColor(R.color.light_red));
+            slice.setGoalValue(mSpentToday.floatValue());
+            pgLiquidAssetDonutChart.addSlice(slice);
+        }
+        
+        if (!pgLiquidAssetDonutChart.getSlices().isEmpty()) {
+            pgLiquidAssetDonutChart.setInnerCircleRatio(190);
+            pgLiquidAssetDonutChart.setDuration(2000);
+            pgLiquidAssetDonutChart.setInterpolator(new AccelerateDecelerateInterpolator());
+            pgLiquidAssetDonutChart.animateToGoalValues();
+        }
     }
 
     @Override
