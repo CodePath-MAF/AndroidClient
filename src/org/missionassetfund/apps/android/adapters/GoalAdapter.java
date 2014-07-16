@@ -4,6 +4,7 @@ package org.missionassetfund.apps.android.adapters;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
@@ -60,9 +61,7 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
             tvDueDate.setText(getContext().getString(R.string.goal_due_date_today));
         }
         
-        // TODO(jose): use CurrencyUtils.getCurrencyValueFormatted from felipe's
-        // PR
-        tvPaymentDue.setText(FormatterUtils.formatAmount(goal.getPaymentAmount()));
+        tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
 
         return v;
     }

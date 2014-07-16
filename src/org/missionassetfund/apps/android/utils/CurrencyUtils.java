@@ -14,6 +14,10 @@ public class CurrencyUtils {
         return baseFormat.format(value);
     }
     
+    public static String getCurrencyValueFormatted(Double value) {
+        return getCurrencyValueFormatted(newCurrency(value));
+    }
+    
     public static String getCurrencyValueFormattedAsNegative(BigDecimal value) {
         return String.format("- %s", getCurrencyValueFormatted(value));
     }
