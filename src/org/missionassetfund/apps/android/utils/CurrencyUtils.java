@@ -6,7 +6,9 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 
 public class CurrencyUtils {
-    
+
+    public static final BigDecimal ZERO = new BigDecimal("0.00");
+
     public static String getCurrencyValueFormatted(BigDecimal value) {
         NumberFormat baseFormat = NumberFormat.getCurrencyInstance();
         return baseFormat.format(value);

@@ -32,6 +32,10 @@ public class TransactionsExpandableListAdapter extends BaseExpandableListAdapter
 
     @Override
     public int getChildrenCount(int groupPosition) {
+        if (mTransactionsGroup.isEmpty()) {
+            return 0;
+        }
+
         return mTransactionsGroup.get(groupPosition).getTransactions().size();
     }
 
@@ -64,12 +68,13 @@ public class TransactionsExpandableListAdapter extends BaseExpandableListAdapter
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
             ViewGroup parent) {
         final CharSequence relativeDateString = this.getGroup(groupPosition).getRelativeDate();
-        
+
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.transactions_list_group, null);
         }
-        
-        TextView tvExpenseDateGroup = (TextView) convertView.findViewById(R.id.tvTransactionDateGroup);
+
+        TextView tvExpenseDateGroup = (TextView) convertView
+                .findViewById(R.id.tvTransactionDateGroup);
         tvExpenseDateGroup.setText(relativeDateString);
         return convertView;
     }
@@ -78,17 +83,20 @@ public class TransactionsExpandableListAdapter extends BaseExpandableListAdapter
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
             View convertView, ViewGroup parent) {
         Transaction transaction = this.getChild(groupPosition, childPosition);
-        
+
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.transactions_list_detail, null);
         }
 
-        TextView tvTransactionCategory = (TextView) convertView.findViewById(R.id.tvTransactionCategory);
-        TextView tvTransactionAmount = (TextView) convertView.findViewById(R.id.tvTransactionAmount);
+        TextView tvTransactionCategory = (TextView) convertView
+                .findViewById(R.id.tvTransactionCategory);
+        TextView tvTransactionAmount = (TextView) convertView
+                .findViewById(R.id.tvTransactionAmount);
 
-        tvTransactionCategory.setText(transaction.getCategory().getName());
+        tvTransactionCategory.setText(transaction.getCategory() == null ? transaction
+                .getDescription() : transaction.getCategory().getName());
         tvTransactionAmount.setText(transaction.getAmountFormatted());
-        
+
         return convertView;
     }
 
