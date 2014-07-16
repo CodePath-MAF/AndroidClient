@@ -8,28 +8,16 @@
     <string name="label_liquid_assets">LIQUID ASSETS</string>
     <string name="label_spent_today">SPENT TODAY</string>
     <string name="label_spent_this_week">SPENT THIS WEEK</string>
-    <string name="sample_avg_per_day">AVG $5.62 PER DAY</string>
-    <string name="sample_remaining_amount">$234.64</string>
-    <string name="sample_spent_today">$42.00</string>
-    <string name="sample_goal_title">Lending Circle Bill</string>
-    <string name="sample_goal_name">Lending Circle</string>
     <string name="label_payment">Total Payment of</string>
-    <string name="sample_total_payment">$35.00</string>
     <string name="label_due_date">Due On</string>
-    <string name="sample_due_date">JUL 25</string>
-    <string name="sample_due_date_human">DUE IN 2 DAYS</string>
     <string name="label_receive">You will receive</string>
-    <string name="sample_payment_number">payment 5 of 10</string>
     <string name="nothing"></string>
     <string name="label_new_savings_goal">Add New Savings Goal</string>
     <string name="label_goal_payment">Make Goal Payment</string>
     <string name="label_new_goal_name">Goal Name</string>
-    <string name="sample_new_goal_name">Vegas Trip</string>
     <string name="label_amount">Amount</string>
     <string name="label_goal_frequency">Frequency</string>
-    <string name="sample_goal_frequency">Monthly</string>
     <string name="label_goal_due_date">Due Date</string>
-    <string name="sample_goal_due_date">06/10/14</string>
     <string name="action_logout">Logout</string>
     <string name="parse_signup_button_text">Create Account</string>
     <string name="parse_login_button_text">Log In</string>
@@ -43,11 +31,6 @@
     <string name="label_category">Category</string>
     <string name="label_transaction_amount">Amount</string>
     <string name="label_transaction_date">Date</string>
-    <string name="parse_error_saving">Oops! something is wrong saving. Try again&#8230;</string>
-    <string name="parse_error_querying">Oops! something is wrong reading data.</string>
-    <string name="parse_success_transaction_save">Transaction saved!</string>
-    <string name="toast_done_saving_goal">Done saving goal.</string>
-    <string name="error_parse_date">date parsing issue</string>
     <string name="goal_payment_human">Payment %1$d of %2$d</string>
     <string name="default_date_in_case_null">NA</string>
     <string name="goal_payment_desc">Goal Payment</string>
@@ -60,14 +43,35 @@
     <string name="hint_user_email">E-mail</string>
     <string name="hint_user_password">Password</string>
     <string name="save_profile">Save Profile</string>
-    <string name="parse_success_user_save">User profile updated!</string>
-    <string name="parse_error_password_missing">Password is missing&#8230;</string>
-    <string name="error_user_name_required">Name is required</string>
-    <string name="error_user_password_required">Password is required</string>
     <string name="label_transaction_type">Type</string>
     <string name="label_income">Income</string>
     <string name="label_expense">Expense</string>
     <string name="title_activity_new_goal">New Goal</string>
+    
+    <!-- App notifications -->
+    <string name="parse_success_user_save">User profile updated!</string>
+    <string name="parse_error_password_missing">Password is missing&#8230;</string>
+    <string name="error_user_name_required">Name is required</string>
+    <string name="error_user_password_required">Password is required</string>
+    <string name="error_parse_date">date parsing issue</string>
+    <string name="parse_error_saving">Oops! something is wrong saving. Try again&#8230;</string>
+    <string name="parse_error_querying">Oops! something is wrong reading data.</string>
+    <string name="parse_success_transaction_save">Transaction saved!</string>
+    <string name="toast_done_saving_goal">Done saving goal.</string>
+    
+    <!-- sample strings -->
+    <string name="sample_avg_per_day">AVG $5.62 PER DAY</string>
+    <string name="sample_remaining_amount">$234.64</string>
+    <string name="sample_spent_today">$42.00</string>
+    <string name="sample_goal_title">Lending Circle Bill</string>
+    <string name="sample_goal_name">Lending Circle</string>
+    <string name="sample_total_payment">$35.00</string>
+    <string name="sample_payment_number">payment 5 of 10</string>
+    <string name="sample_goal_due_date">06/10/14</string>
+    <string name="sample_goal_frequency">Monthly</string>
+    <string name="sample_due_date">JUL 25</string>
+    <string name="sample_due_date_human">DUE IN 2 DAYS</string>
+    <string name="sample_new_goal_name">Vegas Trip</string>
 
     <!-- Parse -->
     <string name="com_parse_ui_logo_content_description">Logo</string>
