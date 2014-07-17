@@ -18,7 +18,7 @@ public class Transaction extends ParseObject implements Serializable {
     public static final String GOAL_KEY = "goal";
     public static final String TRANSACTION_DATE = "transactionDate";
     public static final String AMOUNT_KEY = "amount";
-    public static final String DESCRIPTION_KEY = "description";
+    public static final String NAME_KEY = "name";
     public static final String TYPE_KEY = "type";
     public static final String CATEGORY_KEY = "category";
 
@@ -84,12 +84,12 @@ public class Transaction extends ParseObject implements Serializable {
         put(AMOUNT_KEY, amount);
     }
 
-    public String getDescription() {
-        return getString(DESCRIPTION_KEY);
+    public String getName() {
+        return getString(NAME_KEY);
     }
 
-    public void setDescription(String description) {
-        put(DESCRIPTION_KEY, description);
+    public void setName(String name) {
+        put(NAME_KEY, name);
     }
 
     public TransactionType getType() {
