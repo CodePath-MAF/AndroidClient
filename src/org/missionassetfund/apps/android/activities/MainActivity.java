@@ -7,6 +7,8 @@ import org.missionassetfund.apps.android.fragments.DashboardFragment.SwitchMainF
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.fragments.GoalsListFragment;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -118,5 +120,10 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
                     .findFragmentById(R.id.goalListFragment);
             fragmentGoalList.updateGoalList();
         }
+    }
+    
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 }
