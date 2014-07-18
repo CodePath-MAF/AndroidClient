@@ -18,6 +18,7 @@ import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -25,6 +26,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -47,7 +49,8 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        // TODO(jose): clicking an item on the ListView should pop up the fragment to edit.
+        // TODO(jose): clicking an item on the ListView should pop up the
+        // fragment to edit.
         lvSteps = (ListView) findViewById(R.id.lvSteps);
 
         inputs = new ArrayList<Input>();
@@ -121,6 +124,7 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         input.setValue(value);
         inputs.add(input);
         aInput.notifyDataSetChanged();
+        hideSoftKeyboard();
         showFragment(input.getNextFragment());
     }
 
@@ -178,5 +182,10 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
                 }
             }
         });
+    }
+
+    public void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
     }
 }
