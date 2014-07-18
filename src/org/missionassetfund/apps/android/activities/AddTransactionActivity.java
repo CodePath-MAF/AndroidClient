@@ -149,7 +149,7 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         // Get Name data from fragment
         NameInputFragment nameFragment = (NameInputFragment) mgr
                 .findFragmentByTag(NameInputFragment.class.getName());
-        transaction.setDescription(nameFragment.getNameSelected());
+        transaction.setName(nameFragment.getNameSelected());
 
         // Get Category selected from fragment
         TypeInputFragment typeFragment = (TypeInputFragment) mgr

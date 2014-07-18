@@ -7,6 +7,7 @@ import com.parse.ParseObject;
 @ParseClassName("Category")
 public class Category extends ParseObject {
     public static final String NAME_KEY = "name";
+    public static final String COLOR_KEY = "color";
 
     public Category() {
     }
@@ -17,5 +18,13 @@ public class Category extends ParseObject {
 
     public void setName(String name) {
         put(NAME_KEY, name);
+    }
+    
+    public String getColor() {
+        return getString(COLOR_KEY);
+    }
+    
+    public void setColor(String color) {
+        put(COLOR_KEY, color);
     }
 }

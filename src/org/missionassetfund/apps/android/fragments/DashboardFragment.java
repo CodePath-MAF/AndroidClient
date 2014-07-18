@@ -1,7 +1,7 @@
 
 package org.missionassetfund.apps.android.fragments;
 
-import java.text.NumberFormat;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.missionassetfund.apps.android.R;
@@ -9,6 +9,7 @@ import org.missionassetfund.apps.android.activities.LiquidAssetsActivity;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -75,6 +76,10 @@ public class DashboardFragment extends Fragment {
         tvLiquidAsset = (TextView) v.findViewById(R.id.tvLiquidAsset);
         tvMonthlyGoals = (TextView) v.findViewById(R.id.tvMonthlyGoals);
         tvSpentToday = (TextView) v.findViewById(R.id.tvSpentToday);
+        
+        tvLiquidAsset.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
+        tvMonthlyGoals.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
+        tvSpentToday.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
     }
 
     private void setupUserData() {
@@ -91,28 +96,25 @@ public class DashboardFragment extends Fragment {
                 if (e != null) {
                     Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
                             Toast.LENGTH_LONG).show();
-                    tvLiquidAsset.setText(getCurrencyValueFormatted(0d));
-                    tvMonthlyGoals.setText(getCurrencyValueFormatted(0d));
-                    tvSpentToday.setText(getCurrencyValueFormatted(0d));
                     Log.d("DEBUG", e.getMessage());
                 } else {
-                    Double cla = 0d;
-                    Double spentToday = 0d;
+                    BigDecimal cla = CurrencyUtils.newCurrency(0d);
+                    BigDecimal spentToday = CurrencyUtils.newCurrency(0d);
                     for (Transaction t : results) {
                         if (t.getType().equals(TransactionType.DEBIT)) {
-                            cla += t.getAmount();
+                            cla = cla.add(CurrencyUtils.newCurrency(t.getAmount()));
                         } else {
-                            cla -= t.getAmount();
+                            cla = cla.subtract(CurrencyUtils.newCurrency(t.getAmount()));
                             // Check Spents Today.
                             if (DateUtils.isToday(t.getTransactionDate().getTime())) {
-                                spentToday -= t.getAmount();
+                                spentToday = spentToday.add(CurrencyUtils.newCurrency(t.getAmount()));
                             }
                         }
                     }
 
                     // Set values into the view
-                    tvLiquidAsset.setText(getCurrencyValueFormatted(cla));
-                    tvSpentToday.setText(getCurrencyValueFormatted(spentToday));
+                    tvLiquidAsset.setText(CurrencyUtils.getCurrencyValueFormatted(cla));
+                    tvSpentToday.setText(CurrencyUtils.getCurrencyValueFormatted(spentToday));
                 }
             }
         });
@@ -130,10 +132,4 @@ public class DashboardFragment extends Fragment {
             getActivity().startActivity(intent);
         }
     };
-
-    private String getCurrencyValueFormatted(Double value) {
-        NumberFormat baseFormat = NumberFormat.getCurrencyInstance();
-        return baseFormat.format(value);
-    }
-
 }

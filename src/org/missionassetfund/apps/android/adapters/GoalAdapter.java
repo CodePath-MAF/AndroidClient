@@ -4,7 +4,9 @@ package org.missionassetfund.apps.android.adapters;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
+import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
 import android.content.Context;
 import android.view.View;
@@ -43,12 +45,23 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
 
         // Populate Goal Item
         tvName.setText(goal.getName());
-        // TODO(jose): Use goal due date buitl by amit. ATM just showing the
-        // Goal Date.
-        tvDueDate.setText(FormatterUtils.formatMonthDate(goal.getGoalDate()));
-        // TODO(jose): use CurrencyUtils.getCurrencyValueFormatted from felipe's
-        // PR
-        tvPaymentDue.setText(FormatterUtils.formatAmount(goal.getPaymentAmount()));
+        // set human-friendly due dates
+        int daysToDueDate = MAFDateUtils.getDaysTo(goal.getDueDate());
+        if (daysToDueDate > 1) {
+            if (daysToDueDate < 7) {
+                tvDueDate.setText(getContext()
+                        .getString(R.string.goal_due_date_days, daysToDueDate));
+            } else {
+                tvDueDate.setText(getContext().getString(R.string.goal_due_date,
+                        FormatterUtils.formatMonthDate(goal.getDueDate())));
+            }
+        } else if (daysToDueDate == 1) {
+            tvDueDate.setText(getContext().getString(R.string.goal_due_date_tomorrow));
+        } else {
+            tvDueDate.setText(getContext().getString(R.string.goal_due_date_today));
+        }
+        
+        tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
 
         return v;
     }
