@@ -101,7 +101,7 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
         // TODO(jose): Data validation
         Transaction transaction = new Transaction();
         transaction.setUser((User) User.getCurrentUser());
-        transaction.setDescription(etTransactionName.getText().toString());
+        transaction.setName(etTransactionName.getText().toString());
         transaction.setCategory((Category) sCategory.getSelectedItem());
         transaction.setAmount(Double.parseDouble(etAmount.getText().toString()));
         transaction.setTransactionDate((Date) etDate.getTag());

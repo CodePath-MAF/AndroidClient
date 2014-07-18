@@ -94,7 +94,7 @@ public class TransactionsExpandableListAdapter extends BaseExpandableListAdapter
                 .findViewById(R.id.tvTransactionAmount);
 
         tvTransactionCategory.setText(transaction.getCategory() == null ? transaction
-                .getDescription() : transaction.getCategory().getName());
+                .getName() : transaction.getCategory().getName());
         tvTransactionAmount.setText(transaction.getAmountFormatted());
 
         return convertView;

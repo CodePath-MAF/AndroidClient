@@ -76,7 +76,7 @@ public class GoalPaymentFragment extends DialogFragment {
             txn.setUser((User) User.getCurrentUser());
             txn.setGoal(goal);
             txn.setTransactionDate(new Date());
-            txn.setDescription(getString(R.string.goal_payment_desc));
+            txn.setName(getString(R.string.goal_payment_desc));
             txn.setType(TransactionType.CREDIT);
             txn.saveInBackground(new SaveCallback() {
 
