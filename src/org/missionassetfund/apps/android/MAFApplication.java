@@ -7,6 +7,7 @@ import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import android.app.Application;
 
 import com.parse.Parse;
@@ -19,6 +20,9 @@ public class MAFApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        
+        // Register default font
+        CalligraphyConfig.initDefault("fonts/OpenSans-Regular.ttf", R.attr.fontPath);
 
         // Register the parse models
         ParseObject.registerSubclass(User.class);
