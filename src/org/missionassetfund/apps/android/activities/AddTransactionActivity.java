@@ -2,15 +2,14 @@
 package org.missionassetfund.apps.android.activities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.InputItemAdapter;
 import org.missionassetfund.apps.android.fragments.AmountInputFragment;
+import org.missionassetfund.apps.android.fragments.CategoryInputFragment;
 import org.missionassetfund.apps.android.fragments.DateInputFragment;
 import org.missionassetfund.apps.android.fragments.DoneFragment;
 import org.missionassetfund.apps.android.fragments.NameInputFragment;
-import org.missionassetfund.apps.android.fragments.TypeInputFragment;
 import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
 import org.missionassetfund.apps.android.models.Input;
 import org.missionassetfund.apps.android.models.Transaction;
@@ -26,7 +25,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -39,7 +41,8 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
     private ArrayList<Input> inputs;
     private InputItemAdapter aInput;
 
-    private HashMap<Class<? extends Fragment>, Input> inputElements;
+    // private HashMap<Class<? extends Fragment>, Input> inputElements;
+    private Input[] inputElements;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +60,30 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         aInput = new InputItemAdapter(this, inputs);
 
         // setup input steps
-        inputElements = new HashMap<Class<? extends Fragment>, Input>();
-        inputElements.put(AmountInputFragment.class, new Input("Amount", 0, null,
-                NameInputFragment.class));
-        inputElements.put(NameInputFragment.class, new Input("Name", 1, AmountInputFragment.class,
-                TypeInputFragment.class));
-        inputElements.put(TypeInputFragment.class, new Input("Category", 2,
-                NameInputFragment.class, DateInputFragment.class));
-        inputElements.put(DateInputFragment.class, new Input("Date", 3, TypeInputFragment.class,
-                DoneFragment.class));
-        inputElements.put(DoneFragment.class, new Input("Done", 4, DateInputFragment.class, null));
+        inputElements = new Input[] {
+                new Input("Amount", 0, AmountInputFragment.class),
+                new Input("Name", 1, NameInputFragment.class),
+                new Input("Category", 2, CategoryInputFragment.class),
+                new Input("Date", 3, DateInputFragment.class),
+                new Input("Done", 4, DoneFragment.class)
+        };
 
         lvSteps.setAdapter(aInput);
+
+        // setup listeners
+        lvSteps.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Input input = inputs.get(position);
+                int size = inputs.size();
+                for (int i = (size - 1) ; i >= position; i--) {
+                    inputs.remove(i);
+                }
+                aInput.notifyDataSetChanged();
+                showFragment(input.getFragmentClass());
+            }
+        });
 
         showFragment(AmountInputFragment.class);
     }
@@ -86,17 +101,11 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
 
     @SuppressWarnings("rawtypes")
     private void showFragment(Class activeFragmentClass) {
-        Class[] fragmentClasses = new Class[] {
-                AmountInputFragment.class,
-                NameInputFragment.class,
-                TypeInputFragment.class,
-                DateInputFragment.class,
-                DoneFragment.class
-        };
         FragmentManager mgr = getSupportFragmentManager();
         FragmentTransaction transaction = mgr.beginTransaction();
         try {
-            for (Class klass : fragmentClasses) {
+            for (Input input : inputElements) {
+                Class klass = input.getFragmentClass();
                 Fragment fragment = mgr.findFragmentByTag(klass.getName());
                 if (klass == activeFragmentClass) {
                     if (fragment != null) {
@@ -120,21 +129,21 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
     @Override
     @SuppressWarnings("rawtypes")
     public void OnNextSelected(Class activeFragmentClass, String value) {
-        Input input = inputElements.get(activeFragmentClass);
+        Input input = inputElements[getInputPosition(activeFragmentClass)];
         input.setValue(value);
         inputs.add(input);
         aInput.notifyDataSetChanged();
         hideSoftKeyboard();
-        showFragment(input.getNextFragment());
+        showFragment(getNextFragmentClass(input));
     }
 
     @Override
     @SuppressWarnings("rawtypes")
     public void OnBackSelected(Class activeFragmentClass) {
-        Input input = inputElements.get(activeFragmentClass);
+        Input input = inputElements[getInputPosition(activeFragmentClass)];
         inputs.remove(input.getPos() - 1);
         aInput.notifyDataSetChanged();
-        showFragment(input.getPreviousFragment());
+        showFragment(getPreviousFragmentClass(input));
     }
 
     @Override
@@ -156,8 +165,8 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         transaction.setName(nameFragment.getNameSelected());
 
         // Get Category selected from fragment
-        TypeInputFragment typeFragment = (TypeInputFragment) mgr
-                .findFragmentByTag(TypeInputFragment.class.getName());
+        CategoryInputFragment typeFragment = (CategoryInputFragment) mgr
+                .findFragmentByTag(CategoryInputFragment.class.getName());
         transaction.setCategory(typeFragment.getCategorySelected());
 
         // Get Date from fragment
@@ -187,5 +196,22 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
     public void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    private int getInputPosition(Class fragmentClass) {
+        for (Input i : inputElements) {
+            if (i.getFragmentClass() == fragmentClass) {
+                return i.getPos();
+            }
+        }
+        return 0;
+    }
+
+    private Class getNextFragmentClass(Input input) {
+        return inputElements[input.getPos() + 1].getFragmentClass();
+    }
+
+    private Class getPreviousFragmentClass(Input input) {
+        return inputElements[input.getPos() - 1].getFragmentClass();
     }
 }

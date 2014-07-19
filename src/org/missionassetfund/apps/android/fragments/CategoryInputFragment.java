@@ -17,7 +17,7 @@ import android.widget.Spinner;
 
 import com.parse.ParseQueryAdapter;
 
-public class TypeInputFragment extends Fragment {
+public class CategoryInputFragment extends Fragment {
 
     private OnInputFormListener onInputFormListener;
 
@@ -29,7 +29,7 @@ public class TypeInputFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_type_input, container, false);
+        View view = inflater.inflate(R.layout.fragment_category_input, container, false);
 
         // Setup view
         spType = (Spinner) view.findViewById(R.id.spType);
@@ -47,7 +47,7 @@ public class TypeInputFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Category c = (Category) spType.getSelectedItem();
-                onInputFormListener.OnNextSelected(TypeInputFragment.class, c.getName());
+                onInputFormListener.OnNextSelected(CategoryInputFragment.class, c.getName());
             }
         });
 
@@ -55,7 +55,7 @@ public class TypeInputFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                onInputFormListener.OnBackSelected(TypeInputFragment.class);
+                onInputFormListener.OnBackSelected(CategoryInputFragment.class);
             }
         });
 

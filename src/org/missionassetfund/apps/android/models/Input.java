@@ -5,15 +5,13 @@ public class Input {
     private String name;
     private String value;
     private int pos;
-    private Class previousFragment;
-    private Class nextFragment;
+    private Class fragmentClass;
 
-    public Input(String name, int pos, Class previousFragment, Class nextFragment) {
+    public Input(String name, int pos, Class fragmentClass) {
         super();
         this.name = name;
         this.pos = pos;
-        this.previousFragment = previousFragment;
-        this.nextFragment = nextFragment;
+        this.fragmentClass = fragmentClass;
     }
 
     public String getName() {
@@ -40,22 +38,11 @@ public class Input {
         this.pos = pos;
     }
 
-    public Class getPreviousFragment() {
-        return previousFragment;
+    public Class getFragmentClass() {
+        return fragmentClass;
     }
 
-    public void setPreviousFragment(Class previousFragment) {
-        this.previousFragment = previousFragment;
+    public void setFragmentClass(Class fragmentClass) {
+        this.fragmentClass = fragmentClass;
     }
-
-    public Class getNextFragment() {
-        return nextFragment;
-    }
-
-    public void setNextFragment(Class nextFragment) {
-        this.nextFragment = nextFragment;
-    }
-    
-    
-
 }
