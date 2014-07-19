@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class NameInputFragment extends Fragment {
 
@@ -36,8 +37,14 @@ public class NameInputFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                onInputFormListener.OnNextSelected(NameInputFragment.class, etName.getText()
-                        .toString());
+                // TODO(jose): Have next button disable until etName has value
+                if (!etName.getText().toString().isEmpty()) {
+                    onInputFormListener.OnNextSelected(NameInputFragment.class, etName.getText()
+                            .toString());
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.error_name_require),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

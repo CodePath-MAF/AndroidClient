@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class CategoryInputFragment extends Fragment {
 
@@ -46,8 +47,14 @@ public class CategoryInputFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Category c = (Category) spType.getSelectedItem();
-                onInputFormListener.OnNextSelected(CategoryInputFragment.class, c.getName());
+                // TODO(jose): Have next button disable until spType has value
+                if (spType.getSelectedItem() != null) {
+                    Category c = (Category) spType.getSelectedItem();
+                    onInputFormListener.OnNextSelected(CategoryInputFragment.class, c.getName());
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.error_category_require),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -37,6 +37,7 @@ public class DateInputFragment extends Fragment {
         btnBack = (ImageButton) view.findViewById(R.id.btnBack);
         btnNext = (ImageButton) view.findViewById(R.id.btnNext);
 
+        // TODO(jose): style datepicker
         dpDate = (DatePicker) view.findViewById(R.id.dpDate);
         dpDate.setCalendarViewShown(false);
 

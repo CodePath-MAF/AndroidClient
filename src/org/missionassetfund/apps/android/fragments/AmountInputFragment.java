@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 public class AmountInputFragment extends Fragment {
 
@@ -38,9 +39,16 @@ public class AmountInputFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Double amount = Double.parseDouble(etAmount.getText().toString());
-                listener.OnNextSelected(AmountInputFragment.class,
-                        CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.newCurrency(amount)));
+                // TODO(jose): Have next button disable until etAmount has value
+                if (!etAmount.getText().toString().isEmpty()) {
+                    Double amount = Double.parseDouble(etAmount.getText().toString());
+                    listener.OnNextSelected(AmountInputFragment.class,
+                            CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils
+                                    .newCurrency(amount)));
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.error_amount_require),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -62,6 +62,9 @@
     <string name="parse_error_querying">Oops! something is wrong reading data.</string>
     <string name="parse_success_transaction_save">Transaction saved!</string>
     <string name="toast_done_saving_goal">Done saving goal.</string>
+    <string name="error_amount_require">Oops! No amount added</string>
+    <string name="error_name_require">Oops! No name added</string>
+    <string name="error_category_require">Oops! No category selected</string>
     
     <!-- sample strings -->
     <string name="sample_avg_per_day">AVG $5.62 PER DAY</string>
