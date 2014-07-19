@@ -3,20 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/item_bg"
-    android:padding="10dp" >
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp" >
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/AddTransactionUI.InputItem.NameTextView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="Name" />
 
     <TextView
         android:id="@+id/tvValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/AddTransactionUI.InputItem.ValueTextView"
         android:layout_below="@+id/tvName"
         android:layout_centerHorizontal="true"
         android:text="Value" />
