@@ -66,9 +66,10 @@
     <style name="DashboardLiquidAssetLabel" parent="@style/SmallText">
         <item name="android:textColor">@color/white</item>
     </style>
-    
+
     <!-- InputItem -->
     <style name="AddTransactionUI" />
+
     <style name="AddTransactionUI.InputItem.NameTextView" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/add_transaction_input_item_display_name</item>
         <item name="android:textSize">16sp</item>
@@ -76,15 +77,33 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="AddTransactionUI.InputItem.ValueTextView" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/add_transaction_input_item_display_value</item>
         <item name="android:textSize">19sp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="AddTransactionUI.InputListView">
         <item name="android:dividerHeight">1dp</item>
         <item name="android:divider">@color/app_green</item>
+    </style>
+
+    <style name="AddTransactionUI.AmountInput" />
+
+    <style name="AddTransactionUI.AmountInput.AmountEditText">
+        <item name="android:textSize">65sp</item>
+        <item name="android:textColor">@color/add_transaction_amount_display_value</item>
+        <item name="android:textColorHint">@color/add_transaction_amount_hint_value</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:background">@null</item>
+    </style>
+    <style name="AddTransactionUI.AmountInput.AmountSymbol">
+        <item name="android:textSize">65sp</item>
+        <item name="android:textColor">@color/add_transaction_amount_display_value</item>
     </style>
 
     <!-- Parse -->

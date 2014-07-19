@@ -10,9 +10,11 @@
     <color name="app_green">#23c7a1</color>
     <color name="light_red">#E82C0C</color>
     
-    <!-- InputItem -->
+    <!-- Add Transaction -->
     <color name="add_transaction_input_item_display_name">#80FFFFFF</color>
     <color name="add_transaction_input_item_display_value">@color/white</color>
+    <color name="add_transaction_amount_display_value">@color/white</color>
+    <color name="add_transaction_amount_hint_value">#80FFFFFF</color>
 
     <!-- Parse -->
     <color name="com_parse_ui_parse_login_button">#40000000</color>

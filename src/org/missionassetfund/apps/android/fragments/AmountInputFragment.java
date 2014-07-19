@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 
 public class AmountInputFragment extends Fragment {
@@ -22,7 +22,7 @@ public class AmountInputFragment extends Fragment {
 
     private EditText etAmount;
     private RadioButton rbExpense;
-    private Button btnNext;
+    private ImageButton btnNext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class AmountInputFragment extends Fragment {
         // Setup view
         etAmount = (EditText) view.findViewById(R.id.etAmount);
         rbExpense = (RadioButton) view.findViewById(R.id.rbExpense);
-        btnNext = (Button) view.findViewById(R.id.btnNext);
+        btnNext = (ImageButton) view.findViewById(R.id.btnNext);
 
         // Setup listener
         btnNext.setOnClickListener(new OnClickListener() {
@@ -61,7 +61,7 @@ public class AmountInputFragment extends Fragment {
     public String getAmountSelected() {
         return etAmount.getText().toString();
     }
-    
+
     public boolean isExpenseTransaction() {
         return rbExpense.isChecked() ? true : false;
     }
