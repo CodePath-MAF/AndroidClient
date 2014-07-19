@@ -11,16 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 public class NameInputFragment extends Fragment {
 
     private OnInputFormListener onInputFormListener;
 
     private EditText etName;
-    private Button btnBack;
-    private Button btnNext;
+    private ImageButton btnBack;
+    private ImageButton btnNext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,8 +28,8 @@ public class NameInputFragment extends Fragment {
 
         // Setup view
         etName = (EditText) view.findViewById(R.id.etName);
-        btnBack = (Button) view.findViewById(R.id.btnBack);
-        btnNext = (Button) view.findViewById(R.id.btnNext);
+        btnBack = (ImageButton) view.findViewById(R.id.btnBack);
+        btnNext = (ImageButton) view.findViewById(R.id.btnNext);
 
         // Setup listener
         btnNext.setOnClickListener(new OnClickListener() {
@@ -62,7 +62,7 @@ public class NameInputFragment extends Fragment {
                     + " must implement OnInputFormListener");
         }
     }
-    
+
     public String getNameSelected() {
         return etName.getText().toString();
     }

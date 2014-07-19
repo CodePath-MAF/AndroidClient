@@ -5,33 +5,35 @@
 
     <EditText
         android:id="@+id/etName"
+        style="@style/AddTransactionUI.NameInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:ems="10"
-        android:inputType="text" >
+        android:gravity="center"
+        android:hint="Lunch" >
 
         <requestFocus />
     </EditText>
 
-    <Button
+    <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="30dp"
-        android:text="Back" />
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/circle_leftarrow_button" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnBack"
-        android:layout_alignBottom="@+id/btnBack"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:text="Next" />
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/circle_check_button" />
 
 </RelativeLayout>

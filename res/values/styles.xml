@@ -105,6 +105,16 @@
         <item name="android:textSize">65sp</item>
         <item name="android:textColor">@color/add_transaction_amount_display_value</item>
     </style>
+    
+    <style name="AddTransactionUI.NameInput">
+        <item name="android:textSize">65sp</item>
+        <item name="android:textColor">@color/add_transaction_name_display_value</item>
+        <item name="android:textColorHint">@color/add_transaction_name_hint_value</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:background">@null</item>
+    </style>
 
     <!-- Parse -->
     <style name="ParseLoginUI" />
