@@ -3,23 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <Button
+    <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="30dp"
-        android:text="Back" />
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/circle_leftarrow_button" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnFinish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnBack"
-        android:layout_alignBottom="@+id/btnBack"
-        android:layout_marginRight="30dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="Finish" />
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/finished_button" />
 
 </RelativeLayout>

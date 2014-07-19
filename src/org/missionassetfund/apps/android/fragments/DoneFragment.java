@@ -11,22 +11,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class DoneFragment extends Fragment {
 
     private OnInputFormListener onInputFormListener;
 
-    private Button btnBack;
-    private Button btnFinish;
+    private ImageButton btnBack;
+    private ImageButton btnFinish;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_done, container, false);
 
         // Setup view
-        btnBack = (Button) view.findViewById(R.id.btnBack);
-        btnFinish = (Button) view.findViewById(R.id.btnFinish);
+        btnBack = (ImageButton) view.findViewById(R.id.btnBack);
+        btnFinish = (ImageButton) view.findViewById(R.id.btnFinish);
 
         // Setup listener
         btnFinish.setOnClickListener(new OnClickListener() {
