@@ -17,25 +17,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;
+import android.widget.ImageButton;
 
 public class DateInputFragment extends Fragment {
 
     private OnInputFormListener onInputFormListener;
 
     private DatePicker dpDate;
-    private Button btnBack;
-    private Button btnNext;
+    private ImageButton btnBack;
+    private ImageButton btnNext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_date_input, container, false);
 
         // Setup view
-        btnBack = (Button) view.findViewById(R.id.btnBack);
-        btnNext = (Button) view.findViewById(R.id.btnNext);
+        btnBack = (ImageButton) view.findViewById(R.id.btnBack);
+        btnNext = (ImageButton) view.findViewById(R.id.btnNext);
 
         dpDate = (DatePicker) view.findViewById(R.id.dpDate);
         dpDate.setCalendarViewShown(false);
