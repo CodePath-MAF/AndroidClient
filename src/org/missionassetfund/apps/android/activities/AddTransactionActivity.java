@@ -4,6 +4,7 @@ package org.missionassetfund.apps.android.activities;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseQueryAdapter.OnQueryLoadListener;
 import com.parse.SaveCallback;
 
 public class AddTransactionActivity extends FragmentActivity implements DatePickerDialogListener {
@@ -41,6 +43,7 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
     private RadioButton rbExpense;
 
     private ParseQueryAdapter<Category> categoryAdapter;
+    private String mCategoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,8 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
 
         setupViews();
         setupListeners();
+        
+        setupData();
     }
 
     @Override
@@ -64,7 +69,7 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
     private void setupViews() {
         etTransactionName = (EditText) findViewById(R.id.etTransactionName);
         sCategory = (Spinner) findViewById(R.id.sCategory);
@@ -75,6 +80,10 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
         // Setup Parse Adapter to fill-up the spinner
         categoryAdapter = new ParseQueryAdapter<Category>(this, Category.class);
         categoryAdapter.setTextKey(Category.NAME_KEY);
+        categoryAdapter.setAutoload(false);
+        categoryAdapter.addOnQueryLoadListener(mCategoryListener);
+        categoryAdapter.loadObjects();
+        
         sCategory.setAdapter(categoryAdapter);
     }
 
@@ -88,6 +97,25 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
                 newFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
+    }
+
+    private void setupData() {
+        mCategoryId = getIntent().getStringExtra("category_id");
+        
+        String transactionName = getIntent().getStringExtra("transaction_name");
+        etTransactionName.setText(transactionName);
+    }
+    
+    private int findCategoryPosition(String categoryId, List<Category> categories) {
+        for (int i = 0; i < categories.size(); i++) {
+            Category category = categories.get(i);
+            
+            if (category.getObjectId().equals(categoryId)) {
+                return i;
+            }
+        }
+        
+        return 0;
     }
 
     @Override
@@ -124,4 +152,22 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
             }
         });
     }
+    
+    private OnQueryLoadListener<Category> mCategoryListener = new OnQueryLoadListener<Category>() {
+
+        @Override
+        public void onLoaded(List<Category> categories, Exception exception) {
+            if (mCategoryId != null) {
+                int position = findCategoryPosition(mCategoryId, categories);
+                sCategory.setSelection(position);
+            }
+
+        }
+
+        @Override
+        public void onLoading() {
+        }
+        
+    };
+
 }
