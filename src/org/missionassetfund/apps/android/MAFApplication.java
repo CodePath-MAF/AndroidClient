@@ -33,8 +33,8 @@ public class MAFApplication extends Application {
         // Initializing Parse
         Parse.initialize(this, getString(R.string.parseApplicationId),
                 getString(R.string.parseClientId));
+        Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE);
         PushService.setDefaultPushCallback(this, MainActivity.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
-        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
     }
 }

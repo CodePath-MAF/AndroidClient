@@ -40,7 +40,8 @@ Below we have the list of third-party libraries used on the app:
 
 - [Parse SDK](https://parse.com/docs/android_guide): responsible for doing the data synchronization between the app and remote server
 - [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android): UI wrapper for log in/sign up services
-- [Facebook SDK](https://developers.facebook.com/docs/android/): dependency for ParseLoginUI project
+- [HoloGraphLibrary](https://bitbucket.org/danielnadeau/holographlibrary/wiki/Home): allow beautiful graphs and charts to be easily incorporated into Android
+- [Calligraphy](https://github.com/chrisjenx/Calligraphy): custom fonts for Android
 
 
 ## License

@@ -1,6 +1,8 @@
 
 package org.missionassetfund.apps.android.fragments;
 
+import java.util.List;
+
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.CategoryAdapter;
 import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
@@ -17,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.parse.ParseQueryAdapter.OnQueryLoadListener;
+
 public class CategoryInputFragment extends Fragment {
 
     private OnInputFormListener onInputFormListener;
@@ -26,6 +30,7 @@ public class CategoryInputFragment extends Fragment {
     private ImageButton btnNext;
 
     private CategoryAdapter categoryAdapter;
+    private String mCategoryId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,9 +43,10 @@ public class CategoryInputFragment extends Fragment {
 
         // populate spinner data
         categoryAdapter = new CategoryAdapter(getActivity());
-        //categoryAdapter.setTextKey(Category.NAME_KEY);
-        spType.setAdapter(categoryAdapter);
+        categoryAdapter.setAutoload(false);
+        categoryAdapter.addOnQueryLoadListener(mCategoryListener);
         categoryAdapter.loadObjects();
+        spType.setAdapter(categoryAdapter);
 
         // Setup listener
         btnNext.setOnClickListener(new OnClickListener() {
@@ -82,5 +88,34 @@ public class CategoryInputFragment extends Fragment {
 
     public Category getCategorySelected() {
         return (Category) spType.getSelectedItem();
+    }
+
+    private OnQueryLoadListener<Category> mCategoryListener = new OnQueryLoadListener<Category>() {
+
+        @Override
+        public void onLoaded(List<Category> categories, Exception exception) {
+            if (mCategoryId != null) {
+                int position = findCategoryPosition(mCategoryId, categories);
+                spType.setSelection(position);
+            }
+
+        }
+
+        @Override
+        public void onLoading() {
+        }
+
+    };
+
+    private int findCategoryPosition(String categoryId, List<Category> categories) {
+        for (int i = 0; i < categories.size(); i++) {
+            Category category = categories.get(i);
+
+            if (category.getObjectId().equals(categoryId)) {
+                return i;
+            }
+        }
+
+        return 0;
     }
 }

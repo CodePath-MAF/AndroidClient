@@ -41,8 +41,9 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
     private ArrayList<Input> inputs;
     private InputItemAdapter aInput;
 
-    // private HashMap<Class<? extends Fragment>, Input> inputElements;
     private Input[] inputElements;
+    private String mCategoryId;
+    private String mTransactionName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,6 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        // TODO(jose): clicking an item on the ListView should pop up the
-        // fragment to edit.
         lvSteps = (ListView) findViewById(R.id.lvSteps);
 
         inputs = new ArrayList<Input>();
@@ -77,13 +76,15 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Input input = inputs.get(position);
                 int size = inputs.size();
-                for (int i = (size - 1) ; i >= position; i--) {
+                for (int i = (size - 1); i >= position; i--) {
                     inputs.remove(i);
                 }
                 aInput.notifyDataSetChanged();
                 showFragment(input.getFragmentClass());
             }
         });
+
+        setupDataFromIntent();
 
         showFragment(AmountInputFragment.class);
     }
@@ -135,6 +136,11 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         aInput.notifyDataSetChanged();
         hideSoftKeyboard();
         showFragment(getNextFragmentClass(input));
+    }
+
+    private void setupDataFromIntent() {
+        mCategoryId = getIntent().getStringExtra("category_id");
+        mTransactionName = getIntent().getStringExtra("transaction_name");
     }
 
     @Override
