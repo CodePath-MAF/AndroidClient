@@ -115,6 +115,20 @@
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:background">@null</item>
     </style>
+    
+    <style name="AddTransactionUI.CategoryInput">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/add_transaction_category_display_value</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    
+    <style name="AddTransactionUI.CategoryInput.Dropdown">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/add_transaction_category_dropdown_value</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    
+    
 
     <!-- Parse -->
     <style name="ParseLoginUI" />

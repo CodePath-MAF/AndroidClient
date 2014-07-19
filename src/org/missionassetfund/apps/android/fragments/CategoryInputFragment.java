@@ -2,6 +2,7 @@
 package org.missionassetfund.apps.android.fragments;
 
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.adapters.CategoryAdapter;
 import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
 import org.missionassetfund.apps.android.models.Category;
 
@@ -12,20 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
-
-import com.parse.ParseQueryAdapter;
 
 public class CategoryInputFragment extends Fragment {
 
     private OnInputFormListener onInputFormListener;
 
     private Spinner spType;
-    private Button btnBack;
-    private Button btnNext;
+    private ImageButton btnBack;
+    private ImageButton btnNext;
 
-    private ParseQueryAdapter<Category> categoryAdapter;
+    private CategoryAdapter categoryAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,13 +32,14 @@ public class CategoryInputFragment extends Fragment {
 
         // Setup view
         spType = (Spinner) view.findViewById(R.id.spType);
-        btnBack = (Button) view.findViewById(R.id.btnBack);
-        btnNext = (Button) view.findViewById(R.id.btnNext);
+        btnBack = (ImageButton) view.findViewById(R.id.btnBack);
+        btnNext = (ImageButton) view.findViewById(R.id.btnNext);
 
         // populate spinner data
-        categoryAdapter = new ParseQueryAdapter<Category>(getActivity(), Category.class);
-        categoryAdapter.setTextKey(Category.NAME_KEY);
+        categoryAdapter = new CategoryAdapter(getActivity());
+        //categoryAdapter.setTextKey(Category.NAME_KEY);
         spType.setAdapter(categoryAdapter);
+        categoryAdapter.loadObjects();
 
         // Setup listener
         btnNext.setOnClickListener(new OnClickListener() {

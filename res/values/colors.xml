@@ -17,6 +17,8 @@
     <color name="add_transaction_amount_hint_value">#80FFFFFF</color>
     <color name="add_transaction_name_display_value">@color/white</color>
     <color name="add_transaction_name_hint_value">#80FFFFFF</color>
+    <color name="add_transaction_category_display_value">@color/white</color>
+    <color name="add_transaction_category_dropdown_value">@color/darkgray</color>
 
     <!-- Parse -->
     <color name="com_parse_ui_parse_login_button">#40000000</color>
