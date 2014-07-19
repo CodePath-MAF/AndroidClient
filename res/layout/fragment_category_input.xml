@@ -20,7 +20,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="40dp"
         android:layout_marginLeft="40dp"
-        android:background="@drawable/circle_leftarrow_button" />
+        android:background="@drawable/circle_back_button" />
 
     <ImageButton
         android:id="@+id/btnNext"
@@ -30,6 +30,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/circle_check_button" />
+        android:background="@drawable/circle_next_button" />
 
 </RelativeLayout>

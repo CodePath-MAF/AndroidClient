@@ -63,6 +63,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="40dp"
         android:layout_marginRight="40dp"
-        android:background="@drawable/circle_check_button" />
+        android:background="@drawable/circle_next_button" />
 
 </RelativeLayout>
