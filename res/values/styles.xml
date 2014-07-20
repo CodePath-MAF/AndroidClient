@@ -67,7 +67,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <!-- InputItem -->
+    <!-- Add Transaction UI -->
     <style name="AddTransactionUI" />
 
     <style name="AddTransactionUI.InputItem.NameTextView" parent="@android:style/TextAppearance">
@@ -125,6 +125,21 @@
     <style name="AddTransactionUI.CategoryInput.Dropdown">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/add_transaction_category_dropdown_value</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    
+    <!-- Custom Input Fragments -->
+    <style name="FrequencyUI" />
+    
+    <style name="FrequencyUI.TextView">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/frequency_fragment_item_display_text</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    
+    <style name="FrequencyUI.TextView.Dropdown">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/frequency_fragment_item_dropdown_text</item>
         <item name="android:singleLine">true</item>
     </style>
 
