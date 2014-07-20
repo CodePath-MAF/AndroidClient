@@ -1,106 +1,251 @@
 
 package org.missionassetfund.apps.android.activities;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.adapters.InputItemAdapter;
+import org.missionassetfund.apps.android.fragments.AmountInputFragment;
+import org.missionassetfund.apps.android.fragments.DateInputFragment;
+import org.missionassetfund.apps.android.fragments.DoneFragment;
+import org.missionassetfund.apps.android.fragments.FrequencyInputFragment;
+import org.missionassetfund.apps.android.fragments.NameInputFragment;
+import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.GoalPaymentInterval;
+import org.missionassetfund.apps.android.models.Input;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
-import android.app.Activity;
+import android.app.ActionBar;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
-public class NewGoalActivity extends Activity {
+public class NewGoalActivity extends FragmentActivity implements OnInputFormListener,
+        NameInputFragment.OnCreateViewListener, AmountInputFragment.OnCreateViewListener {
 
-    private EditText etGoalName;
-    private EditText etGoalAmount;
-    private Spinner spinnerGoalFrequency;
-    private EditText etGoalDate;
-    private Button btnCreateGoal;
+    private ListView lvSteps;
+    private ArrayList<Input> inputs;
+    private InputItemAdapter aInput;
 
-    private ArrayAdapter<GoalPaymentInterval> frequencyAdapter;
+    private Input[] inputElements;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_goal);
 
-        frequencyAdapter = new ArrayAdapter<GoalPaymentInterval>(this,
-                android.R.layout.simple_spinner_item, GoalPaymentInterval.values());
-        frequencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        setupViews();
-    }
+        lvSteps = (ListView) findViewById(R.id.lvSteps);
 
-    private void setupViews() {
-        etGoalName = (EditText) findViewById(R.id.etNewGoalName);
-        btnCreateGoal = (Button) findViewById(R.id.btnCreateGoal);
-        etGoalAmount = (EditText) findViewById(R.id.etGoalAmount);
-        spinnerGoalFrequency = (Spinner) findViewById(R.id.spinnerGoalFrequency);
-        etGoalDate = (EditText) findViewById(R.id.etGoalDate);
+        inputs = new ArrayList<Input>();
+        aInput = new InputItemAdapter(this, inputs);
 
-        spinnerGoalFrequency.setAdapter(frequencyAdapter);
+        // setup input steps
+        inputElements = new Input[] {
+                new Input("Amount", "0", 0, AmountInputFragment.class),
+                new Input("Name", "Travel Fund", 1, NameInputFragment.class),
+                new Input("Frequency", "Monthly", 2, FrequencyInputFragment.class),
+                new Input("Date", "Today", 3, DateInputFragment.class),
+                new Input("Add New Goal", "", 4, DoneFragment.class)
+        };
 
-        btnCreateGoal.setOnClickListener(newGoalClickListener);
-    }
+        lvSteps.setAdapter(aInput);
 
-    private OnClickListener newGoalClickListener = new OnClickListener() {
+        // setup listeners
+        lvSteps.setOnItemClickListener(new OnItemClickListener() {
 
-        @Override
-        public void onClick(View v) {
-            Goal goal = new Goal();
-            goal.setUser((User) User.getCurrentUser());
-            goal.setName(etGoalName.getText().toString());
-            Double amount = Double.parseDouble(etGoalAmount.getText().toString());
-            goal.setAmount(amount);
-            GoalPaymentInterval paymentInterval = (GoalPaymentInterval) spinnerGoalFrequency
-                    .getSelectedItem();
-            goal.setPaymenyInterval(paymentInterval);
-
-            // This will be replaced by date picker. Bear it for now.
-            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
-            // Default is 2 months after current date
-            Date goalDate = MAFDateUtils.addDaysToDate(new Date(), 60);
-            try {
-                goalDate = dateFormat.parse(etGoalDate.getText().toString());
-            } catch (java.text.ParseException e) {
-                Log.e("error", getString(R.string.error_parse_date), e);
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Input input = inputs.get(position);
+                int size = inputs.size();
+                for (int i = (size - 1); i >= position; i--) {
+                    inputs.remove(i);
+                }
+                aInput.notifyDataSetChanged();
+                showFragment(input.getFragmentClass());
             }
-            goal.setGoalDate(goalDate);
+        });
 
-            int numDaysToTargetDate = MAFDateUtils.getDaysTo(goalDate);
-            Integer numPayments = numDaysToTargetDate / paymentInterval.toInt();
-            goal.setNumPayments(numPayments);
+        showFragment(AmountInputFragment.class);
+    }
 
-            goal.setPaymentAmount(amount / numPayments);
+    @Override
+    @SuppressWarnings("rawtypes")
+    public void OnNextSelected(Class activeFragmentClass, String value) {
+        @SuppressWarnings("unchecked")
+        Input input = inputElements[getInputPosition(activeFragmentClass)];
+        input.setValue(value);
+        inputs.add(input);
+        aInput.notifyDataSetChanged();
+        hideSoftKeyboard();
+        showFragment(getNextFragmentClass(input));
+    }
 
-            goal.saveInBackground(new SaveCallback() {
+    @Override
+    @SuppressWarnings("rawtypes")
+    public void OnBackSelected(Class activeFragmentClass) {
+        @SuppressWarnings("unchecked")
+        Input input = inputElements[getInputPosition(activeFragmentClass)];
+        inputs.remove(input.getPos() - 1);
+        aInput.notifyDataSetChanged();
+        showFragment(getPreviousFragmentClass(input));
+    }
 
-                @Override
-                public void done(ParseException arg0) {
-                    Toast.makeText(getApplicationContext(),
-                            getString(R.string.toast_done_saving_goal), Toast.LENGTH_SHORT).show();
+    @Override
+    public void OnFinishSelected() {
+        FragmentManager mgr = getSupportFragmentManager();
+
+        // Get Amount data from fragment
+        AmountInputFragment amountFragment = (AmountInputFragment) mgr
+                .findFragmentByTag(AmountInputFragment.class.getName());
+        Double goalAmount = Double.parseDouble(amountFragment.getAmountSelected());
+
+        // Get Name data from fragment
+        NameInputFragment nameFragment = (NameInputFragment) mgr
+                .findFragmentByTag(NameInputFragment.class.getName());
+        String goalName = nameFragment.getNameSelected();
+
+        // Get Frequency selected from fragment
+        FrequencyInputFragment frequencyFragment = (FrequencyInputFragment) mgr
+                .findFragmentByTag(FrequencyInputFragment.class.getName());
+        GoalPaymentInterval paymentInterval = (GoalPaymentInterval) frequencyFragment
+                .getFrequencySelected();
+
+        // Get Date from fragment
+        DateInputFragment dateFragment = (DateInputFragment) mgr
+                .findFragmentByTag(DateInputFragment.class.getName());
+        Date goalDate = dateFragment.getDateSelected();
+
+        // Get Number of Payments
+        int numDaysToTargetDate = MAFDateUtils.getDaysTo(goalDate);
+        Integer numPayments = numDaysToTargetDate / paymentInterval.toInt();
+
+        // TODO(jose): Data validation
+        Goal goal = new Goal();
+        goal.setUser((User) User.getCurrentUser());
+        goal.setAmount(goalAmount);
+        goal.setName(goalName);
+        goal.setPaymenyInterval(paymentInterval);
+        goal.setNumPayments(numPayments);
+        goal.setPaymentAmount(goalAmount / numPayments);
+        goal.setGoalDate(goalDate);
+
+        goal.saveInBackground(new SaveCallback() {
+
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Toast.makeText(getApplication(), getString(R.string.parse_error_saving),
+                            Toast.LENGTH_LONG).show();
+                    Log.d("DEBUG", e.getMessage());
+                } else {
                     setResult(RESULT_OK);
                     finish();
                 }
+            }
+        });
+    }
 
-            });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
         }
-    };
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void showFragment(Class activeFragmentClass) {
+        FragmentManager mgr = getSupportFragmentManager();
+        FragmentTransaction transaction = mgr.beginTransaction();
+        try {
+            for (Input input : inputElements) {
+                Class klass = input.getFragmentClass();
+                Fragment fragment = mgr.findFragmentByTag(klass.getName());
+                if (klass == activeFragmentClass) {
+
+                    setActionBarTitle(input);
+
+                    if (fragment != null) {
+                        transaction.show(fragment);
+                    } else {
+                        transaction.add(R.id.flStepsContainer, (Fragment) klass.newInstance(),
+                                klass.getName());
+                    }
+                } else {
+                    if (fragment != null) {
+                        transaction.hide(fragment);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        transaction.commit();
+    }
+
+    /**
+     * Set Action Bar title base on the step
+     * 
+     * @param input
+     */
+    private void setActionBarTitle(Input input) {
+        setTitle(input.getName());
+    }
+
+    public void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    private int getInputPosition(Class<? extends Fragment> fragmentClass) {
+        for (Input i : inputElements) {
+            if (i.getFragmentClass() == fragmentClass) {
+                return i.getPos();
+            }
+        }
+        return 0;
+    }
+
+    private Class<?> getNextFragmentClass(Input input) {
+        return inputElements[input.getPos() + 1].getFragmentClass();
+    }
+
+    private Class<?> getPreviousFragmentClass(Input input) {
+        return inputElements[input.getPos() - 1].getFragmentClass();
+    }
+
+    @Override
+    public void setEditTextName(EditText editTextName) {
+        editTextName.setHint(R.string.sample_new_goal_name);
+    }
+
+    @Override
+    public void setAmountCategoryVisibility(RadioGroup rgType) {
+        rgType.setVisibility(View.INVISIBLE);
+    }
 }

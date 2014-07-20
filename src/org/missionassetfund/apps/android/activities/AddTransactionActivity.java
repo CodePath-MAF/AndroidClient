@@ -29,13 +29,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
-public class AddTransactionActivity extends FragmentActivity implements OnInputFormListener {
+public class AddTransactionActivity extends FragmentActivity
+        implements OnInputFormListener, NameInputFragment.OnCreateViewListener,
+        CategoryInputFragment.OnCreateViewListener, AmountInputFragment.OnCreateViewListener {
 
     private ListView lvSteps;
     private ArrayList<Input> inputs;
@@ -60,11 +64,11 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
 
         // setup input steps
         inputElements = new Input[] {
-                new Input("Amount", 0, AmountInputFragment.class),
-                new Input("Name", 1, NameInputFragment.class),
-                new Input("Category", 2, CategoryInputFragment.class),
-                new Input("Date", 3, DateInputFragment.class),
-                new Input("Done", 4, DoneFragment.class)
+                new Input("Amount", "0", 0, AmountInputFragment.class),
+                new Input("Name", "Lunch", 1, NameInputFragment.class),
+                new Input("Category", "Food", 2, CategoryInputFragment.class),
+                new Input("Date", "Today", 3, DateInputFragment.class),
+                new Input("Done", "", 4, DoneFragment.class)
         };
 
         lvSteps.setAdapter(aInput);
@@ -109,6 +113,9 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
                 Class klass = input.getFragmentClass();
                 Fragment fragment = mgr.findFragmentByTag(klass.getName());
                 if (klass == activeFragmentClass) {
+                    // Change ActionBar title
+                    setActionBarTitle(input);
+
                     if (fragment != null) {
                         transaction.show(fragment);
                     } else {
@@ -130,6 +137,7 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
     @Override
     @SuppressWarnings("rawtypes")
     public void OnNextSelected(Class activeFragmentClass, String value) {
+        @SuppressWarnings("unchecked")
         Input input = inputElements[getInputPosition(activeFragmentClass)];
         input.setValue(value);
         inputs.add(input);
@@ -146,6 +154,7 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
     @Override
     @SuppressWarnings("rawtypes")
     public void OnBackSelected(Class activeFragmentClass) {
+        @SuppressWarnings("unchecked")
         Input input = inputElements[getInputPosition(activeFragmentClass)];
         inputs.remove(input.getPos() - 1);
         aInput.notifyDataSetChanged();
@@ -199,12 +208,21 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         });
     }
 
+    /**
+     * Set Action Bar title base on the step
+     * 
+     * @param input
+     */
+    private void setActionBarTitle(Input input) {
+        setTitle(input.getName());
+    }
+
     public void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
     }
 
-    private int getInputPosition(Class fragmentClass) {
+    private int getInputPosition(Class<? extends Fragment> fragmentClass) {
         for (Input i : inputElements) {
             if (i.getFragmentClass() == fragmentClass) {
                 return i.getPos();
@@ -213,11 +231,29 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         return 0;
     }
 
-    private Class getNextFragmentClass(Input input) {
+    private Class<?> getNextFragmentClass(Input input) {
         return inputElements[input.getPos() + 1].getFragmentClass();
     }
 
-    private Class getPreviousFragmentClass(Input input) {
+    private Class<?> getPreviousFragmentClass(Input input) {
         return inputElements[input.getPos() - 1].getFragmentClass();
+    }
+
+    @Override
+    public void setEditTextName(EditText editTextName) {
+        if (mTransactionName != null) {
+            editTextName.setText(mTransactionName);
+        }
+        editTextName.setHint(R.string.smaple_new_transaction_name);
+    }
+
+    @Override
+    public String getCategoryId() {
+        return mCategoryId == null ? null : mCategoryId;
+    }
+
+    @Override
+    public void setAmountCategoryVisibility(RadioGroup rgType) {
+        rgType.setVisibility(View.VISIBLE);
     }
 }

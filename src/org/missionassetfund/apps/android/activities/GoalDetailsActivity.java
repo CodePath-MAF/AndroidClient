@@ -8,11 +8,10 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalDetailsVPAdapter;
 import org.missionassetfund.apps.android.adapters.GoalPaymentsArrayAdapter;
 import org.missionassetfund.apps.android.fragments.GoalPaymentFragment;
-import org.missionassetfund.apps.android.fragments.LendingCircleProfilesFragment;
 import org.missionassetfund.apps.android.fragments.GoalPaymentFragment.UpdatePaymentsListener;
+import org.missionassetfund.apps.android.fragments.LendingCircleProfilesFragment;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Transaction;
-import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
 
 import android.os.Bundle;
@@ -32,7 +31,6 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class GoalDetailsActivity extends FragmentActivity implements UpdatePaymentsListener {
@@ -158,10 +156,6 @@ public class GoalDetailsActivity extends FragmentActivity implements UpdatePayme
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
-            case R.id.action_logout:
-                // nothign yet
-                break;
             case R.id.action_add_payments:
                 FragmentManager fm = getSupportFragmentManager();
                 GoalPaymentFragment newGoalPaymentFragment = GoalPaymentFragment.newInstance(goal);

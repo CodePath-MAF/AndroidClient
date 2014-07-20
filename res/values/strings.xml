@@ -81,7 +81,8 @@
     <string name="sample_due_date_human">&#160; DUE IN 2 DAYS (JULY 15) </string>
     <string name="sample_new_goal_name">Vegas Trip</string>
     <string name="sample_name">Amit B. </string>
-    
+    <string name="smaple_new_transaction_name">Lunch</string>
+
     <!-- Parse -->
     <string name="com_parse_ui_logo_content_description">Logo</string>
     <string name="com_parse_ui_progress_dialog_text">Loading&#8230;</string>

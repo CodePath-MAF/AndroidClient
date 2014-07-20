@@ -4,13 +4,11 @@ package org.missionassetfund.apps.android.activities;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.DashboardFragment;
 import org.missionassetfund.apps.android.fragments.DashboardFragment.SwitchMainFragmentListener;
-import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.fragments.GoalsListFragment;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -79,10 +77,6 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
-            case R.id.action_logout:
-                logoutParse();
-                break;
             case R.id.action_add_goal:
                 Intent newGoalIntent = new Intent(this, NewGoalActivity.class);
                 startActivityForResult(newGoalIntent, NEW_GOAL_REQUEST_CODE);
@@ -98,21 +92,6 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
         return true;
     }
 
-    private void logoutParse() {
-        User.logOut();
-
-        // FLAG_ACTIVITY_CLEAR_TASK only works on API 11, so if the user
-        // logs out on older devices, we'll just exit.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            Intent intent = new Intent(this, MAFDispatchActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        } else {
-            finish();
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == NEW_GOAL_REQUEST_CODE) {
@@ -121,7 +100,7 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
             fragmentGoalList.updateGoalList();
         }
     }
-    
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
