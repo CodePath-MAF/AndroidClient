@@ -15,6 +15,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:homeAsUpIndicator">@drawable/leftarrow_white_button</item>
     </style>
 
     <style name="DashboardBoxTitle" parent="@android:style/TextAppearance">
