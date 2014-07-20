@@ -109,6 +109,9 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
                 Class klass = input.getFragmentClass();
                 Fragment fragment = mgr.findFragmentByTag(klass.getName());
                 if (klass == activeFragmentClass) {
+                    // Change ActionBar title
+                    setActionBarTitle(input);
+                    
                     if (fragment != null) {
                         transaction.show(fragment);
                     } else {
@@ -197,6 +200,15 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
                 }
             }
         });
+    }
+    
+    /**
+     * Set Action Bar title base on the step
+     * 
+     * @param input
+     */
+    private void setActionBarTitle(Input input) {
+        setTitle(input.getName());
     }
 
     public void hideSoftKeyboard() {

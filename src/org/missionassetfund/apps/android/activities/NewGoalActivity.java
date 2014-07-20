@@ -64,7 +64,7 @@ public class NewGoalActivity extends FragmentActivity implements OnInputFormList
                 new Input("Name", "Travel Fund", 1, NameInputFragment.class),
                 new Input("Frequency", "Monthly", 2, FrequencyInputFragment.class),
                 new Input("Date", "Today", 3, DateInputFragment.class),
-                new Input("Done", "", 4, DoneFragment.class)
+                new Input("Add New Goal", "", 4, DoneFragment.class)
         };
 
         lvSteps.setAdapter(aInput);
@@ -184,6 +184,9 @@ public class NewGoalActivity extends FragmentActivity implements OnInputFormList
                 Class klass = input.getFragmentClass();
                 Fragment fragment = mgr.findFragmentByTag(klass.getName());
                 if (klass == activeFragmentClass) {
+
+                    setActionBarTitle(input);
+
                     if (fragment != null) {
                         transaction.show(fragment);
                     } else {
@@ -200,6 +203,15 @@ public class NewGoalActivity extends FragmentActivity implements OnInputFormList
             e.printStackTrace();
         }
         transaction.commit();
+    }
+
+    /**
+     * Set Action Bar title base on the step
+     * 
+     * @param input
+     */
+    private void setActionBarTitle(Input input) {
+        setTitle(input.getName());
     }
 
     public void hideSoftKeyboard() {
