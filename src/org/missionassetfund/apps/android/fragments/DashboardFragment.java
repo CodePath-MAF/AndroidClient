@@ -87,7 +87,7 @@ public class DashboardFragment extends Fragment {
 
         // Calculate Liquid Asset balance
         ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
-        query.whereEqualTo("user", User.getCurrentUser());
+        query.whereEqualTo(Transaction.USER_KEY, User.getCurrentUser());
         query.setLimit(500);
         query.findInBackground(new FindCallback<Transaction>() {
 
