@@ -7,14 +7,14 @@ public class Input implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String INPUT_KEY = "input";
-    
+
     private String name;
     private String value;
     private String hint;
     private int pos;
-    private Class fragmentClass;
+    private Class<?> fragmentClass;
 
-    public Input(String name, String hint, int pos, Class fragmentClass) {
+    public Input(String name, String hint, int pos, Class<?> fragmentClass) {
         super();
         this.name = name;
         this.hint = hint;
@@ -54,11 +54,11 @@ public class Input implements Serializable {
         this.pos = pos;
     }
 
-    public Class getFragmentClass() {
+    public Class<?> getFragmentClass() {
         return fragmentClass;
     }
 
-    public void setFragmentClass(Class fragmentClass) {
+    public void setFragmentClass(Class<?> fragmentClass) {
         this.fragmentClass = fragmentClass;
     }
 }
