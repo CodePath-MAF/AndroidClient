@@ -16,7 +16,6 @@ import org.missionassetfund.apps.android.utils.FormatterUtils;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -33,7 +32,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class GoalDetailsActivity extends FragmentActivity implements UpdatePaymentsListener {
+public class GoalDetailsActivity extends BaseFragmentActivity implements UpdatePaymentsListener {
 
     private Goal goal;
 

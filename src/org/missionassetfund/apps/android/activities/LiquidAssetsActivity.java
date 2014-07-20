@@ -4,9 +4,8 @@ package org.missionassetfund.apps.android.activities;
 import org.missionassetfund.apps.android.R;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
-public class LiquidAssetsActivity extends FragmentActivity {
+public class LiquidAssetsActivity extends BaseFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
