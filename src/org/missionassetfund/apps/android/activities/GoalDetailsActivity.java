@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.adapters.GoalDetailsVPAdapter;
 import org.missionassetfund.apps.android.adapters.GoalPaymentsArrayAdapter;
 import org.missionassetfund.apps.android.fragments.GoalPaymentFragment;
+import org.missionassetfund.apps.android.fragments.LendingCircleProfilesFragment;
 import org.missionassetfund.apps.android.fragments.GoalPaymentFragment.UpdatePaymentsListener;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Transaction;
@@ -14,8 +16,10 @@ import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +33,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.viewpagerindicator.CirclePageIndicator;
 
 public class GoalDetailsActivity extends FragmentActivity implements UpdatePaymentsListener {
 
@@ -45,6 +50,9 @@ public class GoalDetailsActivity extends FragmentActivity implements UpdatePayme
     List<Transaction> goalPayments;
     GoalPaymentsArrayAdapter paymentsAdapter;
 
+    GoalDetailsVPAdapter ldVPAdapter;
+    ViewPager vpLendingCircle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +66,15 @@ public class GoalDetailsActivity extends FragmentActivity implements UpdatePayme
         tvTargetDateHuman = (TextView) findViewById(R.id.tvTargetDateHuman);
         lvPastPayments = (ListView) findViewById(R.id.lvPastPayments);
         goalPayments = new ArrayList<Transaction>();
+
+        ldVPAdapter = new GoalDetailsVPAdapter(getSupportFragmentManager(),
+                getLendingCircleFriendsAdapter());
+
+        vpLendingCircle = (ViewPager) findViewById(R.id.vpLendingCircle);
+        vpLendingCircle.setAdapter(ldVPAdapter);
+
+        CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+        mIndicator.setViewPager(vpLendingCircle);
 
         // goal = (Goal) getIntent().getSerializableExtra(Goal.GOAL_KEY);
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
@@ -119,7 +136,7 @@ public class GoalDetailsActivity extends FragmentActivity implements UpdatePayme
         Double paymentsDue = idealPaymentsTotal - paymentsDone;
         tvPaymentDue.setText(FormatterUtils.formatAmount(paymentsDue));
 
-        tvDueDate.setText(FormatterUtils.formatMonthDate(goal.getDueDate()));
+        // tvDueDate.setText(FormatterUtils.formatMonthDate(goal.getDueDate()));
         tvDueDateHuman.setText(FormatterUtils.getRelativeTimeHuman(goal.getDueDate()));
     }
 
@@ -149,17 +166,27 @@ public class GoalDetailsActivity extends FragmentActivity implements UpdatePayme
                 FragmentManager fm = getSupportFragmentManager();
                 GoalPaymentFragment newGoalPaymentFragment = GoalPaymentFragment.newInstance(goal);
                 newGoalPaymentFragment.show(fm, "fragment_new_goal");
-                break;
+                return true;
             default:
                 break;
         }
 
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void updatePayment(Transaction txn) {
         paymentsAdapter.insert(txn, 0);
+    }
+
+    private List<Fragment> getLendingCircleFriendsAdapter() {
+        List<Fragment> fList = new ArrayList<Fragment>();
+
+        fList.add(LendingCircleProfilesFragment.newInstance("Fragment 1"));
+        fList.add(LendingCircleProfilesFragment.newInstance("Fragment 2"));
+        fList.add(LendingCircleProfilesFragment.newInstance("Fragment 3"));
+
+        return fList;
     }
 
 }

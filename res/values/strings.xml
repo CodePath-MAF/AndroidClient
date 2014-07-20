@@ -8,7 +8,7 @@
     <string name="label_liquid_assets">LIQUID ASSETS</string>
     <string name="label_spent_today">SPENT TODAY</string>
     <string name="label_spent_this_week">SPENT THIS WEEK</string>
-    <string name="label_payment">Total Payment of</string>
+    <string name="next_payment_label">NEXT PAYMENT OF</string>
     <string name="label_due_date">Due On</string>
     <string name="label_receive">You will receive</string>
     <string name="nothing"></string>
@@ -51,6 +51,7 @@
     <string name="goal_due_date_tomorrow">DUE IN TOMORROW</string>
     <string name="goal_due_date_days">DUE IN %1$d DAYS</string>
     <string name="goal_due_date">DUE %1$s</string>
+	    
     
     <!-- App notifications -->
     <string name="parse_success_user_save">User profile updated!</string>
@@ -77,9 +78,10 @@
     <string name="sample_goal_due_date">06/10/14</string>
     <string name="sample_goal_frequency">Monthly</string>
     <string name="sample_due_date">JUL 25</string>
-    <string name="sample_due_date_human">DUE IN 2 DAYS</string>
+    <string name="sample_due_date_human">&#160; DUE IN 2 DAYS (JULY 15) </string>
     <string name="sample_new_goal_name">Vegas Trip</string>
-
+    <string name="sample_name">Amit B. </string>
+    
     <!-- Parse -->
     <string name="com_parse_ui_logo_content_description">Logo</string>
     <string name="com_parse_ui_progress_dialog_text">Loading&#8230;</string>

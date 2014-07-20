@@ -14,7 +14,9 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>
     </style>
 
     <style name="DashboardBoxTitle" parent="@android:style/TextAppearance">
@@ -101,11 +103,12 @@
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:background">@null</item>
     </style>
+
     <style name="AddTransactionUI.AmountInput.AmountSymbol">
         <item name="android:textSize">65sp</item>
         <item name="android:textColor">@color/add_transaction_amount_display_value</item>
     </style>
-    
+
     <style name="AddTransactionUI.NameInput">
         <item name="android:textSize">65sp</item>
         <item name="android:textColor">@color/add_transaction_name_display_value</item>
@@ -115,13 +118,13 @@
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:background">@null</item>
     </style>
-    
+
     <style name="AddTransactionUI.CategoryInput">
         <item name="android:textSize">40sp</item>
         <item name="android:textColor">@color/add_transaction_category_display_value</item>
         <item name="android:singleLine">true</item>
     </style>
-    
+
     <style name="AddTransactionUI.CategoryInput.Dropdown">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/add_transaction_category_dropdown_value</item>
@@ -161,6 +164,17 @@
 
     <style name="ParseLoginUI.EditText" parent="@android:style/Widget.EditText">
         <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- View page indicator -->
+    <style name="CustomCirclePageIndicator">
+        <item name="android:background">@color/white</item>
+       	<item name="pageColor">@color/lightgray</item>
+        <item name="fillColor">@color/app_green</item>
+        <item name="strokeColor">@color/white</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="radius">5dp</item>
+        <item name="centered">true</item>
     </style>
 
 </resources>
