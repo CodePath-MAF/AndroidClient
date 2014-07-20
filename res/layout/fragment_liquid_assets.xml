@@ -16,10 +16,10 @@
         android:id="@+id/tvEmptyLiquidAssets"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:enabled="false"
         android:gravity="center"
         android:text="No transactions yet?!?!? Tap on the plus sign and start adding your transactions!!!"
-        android:visibility="invisible"
-        android:enabled="false" />
+        android:visibility="invisible" />
 
     <RelativeLayout
         android:id="@+id/rlLiquidAssets"
@@ -44,13 +44,13 @@
             android:baselineAligned="false"
             android:divider="?android:dividerHorizontal"
             android:orientation="horizontal"
-            android:showDividers="middle" >
+            android:showDividers="middle"
+            android:background="@drawable/gray_border" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/green_bottom_border"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="8dp" >
@@ -69,7 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/red_bottom_border"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="8dp" >
@@ -88,7 +87,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/blue_bottom_border"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="8dp" >
@@ -115,7 +113,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:background="@color/white" >
+                android:background="@color/white"
+                android:childDivider="@color/white" >
             </ExpandableListView>
 
             <TextView
