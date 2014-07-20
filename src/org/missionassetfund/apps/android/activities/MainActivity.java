@@ -6,19 +6,16 @@ import org.missionassetfund.apps.android.fragments.DashboardFragment;
 import org.missionassetfund.apps.android.fragments.DashboardFragment.SwitchMainFragmentListener;
 import org.missionassetfund.apps.android.fragments.GoalsListFragment;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class MainActivity extends FragmentActivity implements SwitchMainFragmentListener {
+public class MainActivity extends BaseFragmentActivity implements SwitchMainFragmentListener {
     public static final int NEW_GOAL_REQUEST_CODE = 2;
 
     @Override
@@ -99,10 +96,5 @@ public class MainActivity extends FragmentActivity implements SwitchMainFragment
                     .findFragmentById(R.id.goalListFragment);
             fragmentGoalList.updateGoalList();
         }
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 }
