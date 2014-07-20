@@ -2,7 +2,6 @@
 package org.missionassetfund.apps.android.fragments;
 
 import org.missionassetfund.apps.android.R;
-import org.missionassetfund.apps.android.activities.NewGoalActivity;
 import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
 
 import android.app.Activity;
@@ -24,7 +23,7 @@ public class NameInputFragment extends Fragment {
     private EditText etName;
     private ImageButton btnBack;
     private ImageButton btnNext;
-    
+
     public interface OnCreateViewListener {
         public void setEditTextName(EditText editTextName);
     }
@@ -37,11 +36,6 @@ public class NameInputFragment extends Fragment {
         etName = (EditText) view.findViewById(R.id.etName);
         btnBack = (ImageButton) view.findViewById(R.id.btnBack);
         btnNext = (ImageButton) view.findViewById(R.id.btnNext);
-
-        // Ugly hack to try reuse this view in both goal / transaction
-        if (getActivity().getClass() == NewGoalActivity.class) {
-            etName.setHint(R.string.sample_new_goal_name);
-        }
 
         // Setup listener
         btnNext.setOnClickListener(new OnClickListener() {
@@ -66,7 +60,7 @@ public class NameInputFragment extends Fragment {
                 onInputFormListener.OnBackSelected(NameInputFragment.class);
             }
         });
-        
+
         onCreateViewListener.setEditTextName(etName);
 
         return view;
@@ -81,7 +75,7 @@ public class NameInputFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnInputFormListener");
         }
-        
+
         if (activity instanceof OnCreateViewListener) {
             onCreateViewListener = (OnCreateViewListener) activity;
         }

@@ -31,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -38,7 +39,7 @@ import com.parse.SaveCallback;
 
 public class AddTransactionActivity extends FragmentActivity
         implements OnInputFormListener, NameInputFragment.OnCreateViewListener,
-        CategoryInputFragment.OnCreateViewListener {
+        CategoryInputFragment.OnCreateViewListener, AmountInputFragment.OnCreateViewListener {
 
     private ListView lvSteps;
     private ArrayList<Input> inputs;
@@ -114,7 +115,7 @@ public class AddTransactionActivity extends FragmentActivity
                 if (klass == activeFragmentClass) {
                     // Change ActionBar title
                     setActionBarTitle(input);
-                    
+
                     if (fragment != null) {
                         transaction.show(fragment);
                     } else {
@@ -206,7 +207,7 @@ public class AddTransactionActivity extends FragmentActivity
             }
         });
     }
-    
+
     /**
      * Set Action Bar title base on the step
      * 
@@ -243,10 +244,16 @@ public class AddTransactionActivity extends FragmentActivity
         if (mTransactionName != null) {
             editTextName.setText(mTransactionName);
         }
+        editTextName.setHint(R.string.smaple_new_transaction_name);
     }
 
     @Override
     public String getCategoryId() {
         return mCategoryId == null ? null : mCategoryId;
+    }
+
+    @Override
+    public void setAmountCategoryVisibility(RadioGroup rgType) {
+        rgType.setVisibility(View.VISIBLE);
     }
 }

@@ -31,13 +31,16 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
-public class NewGoalActivity extends FragmentActivity implements OnInputFormListener {
+public class NewGoalActivity extends FragmentActivity implements OnInputFormListener,
+        NameInputFragment.OnCreateViewListener, AmountInputFragment.OnCreateViewListener {
 
     private ListView lvSteps;
     private ArrayList<Input> inputs;
@@ -234,5 +237,15 @@ public class NewGoalActivity extends FragmentActivity implements OnInputFormList
 
     private Class<?> getPreviousFragmentClass(Input input) {
         return inputElements[input.getPos() - 1].getFragmentClass();
+    }
+
+    @Override
+    public void setEditTextName(EditText editTextName) {
+        editTextName.setHint(R.string.sample_new_goal_name);
+    }
+
+    @Override
+    public void setAmountCategoryVisibility(RadioGroup rgType) {
+        rgType.setVisibility(View.INVISIBLE);
     }
 }

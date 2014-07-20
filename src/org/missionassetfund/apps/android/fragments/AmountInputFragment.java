@@ -2,7 +2,6 @@
 package org.missionassetfund.apps.android.fragments;
 
 import org.missionassetfund.apps.android.R;
-import org.missionassetfund.apps.android.activities.NewGoalActivity;
 import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
@@ -22,11 +21,16 @@ import android.widget.Toast;
 public class AmountInputFragment extends Fragment {
 
     private OnInputFormListener listener;
+    private OnCreateViewListener onCreateViewListener;
 
     private EditText etAmount;
     private RadioButton rbExpense;
     private ImageButton btnNext;
     private RadioGroup rgType;
+
+    public interface OnCreateViewListener {
+        public void setAmountCategoryVisibility(RadioGroup rgType);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,11 +41,6 @@ public class AmountInputFragment extends Fragment {
         rbExpense = (RadioButton) view.findViewById(R.id.rbExpense);
         btnNext = (ImageButton) view.findViewById(R.id.btnNext);
         rgType = (RadioGroup) view.findViewById(R.id.rgType);
-
-        // Ugly hack to try reuse this view in both goal / transaction
-        if (getActivity().getClass() == NewGoalActivity.class) {
-            rgType.setVisibility(View.INVISIBLE);
-        }
 
         // Setup listener
         btnNext.setOnClickListener(new OnClickListener() {
@@ -61,6 +60,8 @@ public class AmountInputFragment extends Fragment {
             }
         });
 
+        onCreateViewListener.setAmountCategoryVisibility(rgType);
+
         return view;
     }
 
@@ -71,7 +72,11 @@ public class AmountInputFragment extends Fragment {
             listener = (OnInputFormListener) activity;
         } else {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnNextSelectedListener");
+                    + " must implement OnInputFormListener");
+        }
+
+        if (activity instanceof OnCreateViewListener) {
+            onCreateViewListener = (OnCreateViewListener) activity;
         }
     }
 

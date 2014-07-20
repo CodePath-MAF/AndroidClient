@@ -79,6 +79,7 @@
     <string name="sample_due_date">JUL 25</string>
     <string name="sample_due_date_human">DUE IN 2 DAYS</string>
     <string name="sample_new_goal_name">Vacation</string>
+    <string name="smaple_new_transaction_name">Lunch</string>
 
     <!-- Parse -->
     <string name="com_parse_ui_logo_content_description">Logo</string>
