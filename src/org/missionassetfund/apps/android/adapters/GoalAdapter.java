@@ -23,8 +23,8 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
             @Override
             public ParseQuery<Goal> create() {
                 ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
-                query.whereEqualTo("user", (User) User.getCurrentUser());
-                query.addDescendingOrder("createdAt");
+                query.whereEqualTo(Goal.USER_KEY, (User) User.getCurrentUser());
+                query.addAscendingOrder(Goal.GOAL_START_DATE_KEY);
                 return query;
             }
         });
@@ -60,7 +60,7 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
         } else {
             tvDueDate.setText(getContext().getString(R.string.goal_due_date_today));
         }
-        
+
         tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
 
         return v;
