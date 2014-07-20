@@ -29,13 +29,16 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
-public class AddTransactionActivity extends FragmentActivity implements OnInputFormListener {
+public class AddTransactionActivity extends FragmentActivity
+        implements OnInputFormListener, NameInputFragment.OnCreateViewListener,
+        CategoryInputFragment.OnCreateViewListener {
 
     private ListView lvSteps;
     private ArrayList<Input> inputs;
@@ -133,6 +136,7 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
     @Override
     @SuppressWarnings("rawtypes")
     public void OnNextSelected(Class activeFragmentClass, String value) {
+        @SuppressWarnings("unchecked")
         Input input = inputElements[getInputPosition(activeFragmentClass)];
         input.setValue(value);
         inputs.add(input);
@@ -149,6 +153,7 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
     @Override
     @SuppressWarnings("rawtypes")
     public void OnBackSelected(Class activeFragmentClass) {
+        @SuppressWarnings("unchecked")
         Input input = inputElements[getInputPosition(activeFragmentClass)];
         inputs.remove(input.getPos() - 1);
         aInput.notifyDataSetChanged();
@@ -216,7 +221,7 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
     }
 
-    private int getInputPosition(Class fragmentClass) {
+    private int getInputPosition(Class<? extends Fragment> fragmentClass) {
         for (Input i : inputElements) {
             if (i.getFragmentClass() == fragmentClass) {
                 return i.getPos();
@@ -225,11 +230,23 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
         return 0;
     }
 
-    private Class getNextFragmentClass(Input input) {
+    private Class<?> getNextFragmentClass(Input input) {
         return inputElements[input.getPos() + 1].getFragmentClass();
     }
 
-    private Class getPreviousFragmentClass(Input input) {
+    private Class<?> getPreviousFragmentClass(Input input) {
         return inputElements[input.getPos() - 1].getFragmentClass();
+    }
+
+    @Override
+    public void setEditTextName(EditText editTextName) {
+        if (mTransactionName != null) {
+            editTextName.setText(mTransactionName);
+        }
+    }
+
+    @Override
+    public String getCategoryId() {
+        return mCategoryId == null ? null : mCategoryId;
     }
 }

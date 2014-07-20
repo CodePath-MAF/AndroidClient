@@ -24,6 +24,7 @@ import com.parse.ParseQueryAdapter.OnQueryLoadListener;
 public class CategoryInputFragment extends Fragment {
 
     private OnInputFormListener onInputFormListener;
+    private OnCreateViewListener onCreateViewListener;
 
     private Spinner spType;
     private ImageButton btnBack;
@@ -31,10 +32,16 @@ public class CategoryInputFragment extends Fragment {
 
     private CategoryAdapter categoryAdapter;
     private String mCategoryId;
+    
+    public interface OnCreateViewListener {
+        public String getCategoryId();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category_input, container, false);
+
+        mCategoryId = onCreateViewListener.getCategoryId();
 
         // Setup view
         spType = (Spinner) view.findViewById(R.id.spType);
@@ -71,7 +78,7 @@ public class CategoryInputFragment extends Fragment {
                 onInputFormListener.OnBackSelected(CategoryInputFragment.class);
             }
         });
-
+        
         return view;
     }
 
@@ -83,6 +90,10 @@ public class CategoryInputFragment extends Fragment {
         } else {
             throw new ClassCastException(activity.toString()
                     + " must implement OnInputFormListener");
+        }
+        
+        if (activity instanceof OnCreateViewListener) {
+            onCreateViewListener = (OnCreateViewListener) activity;
         }
     }
 
