@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.missionassetfund.apps.android.R;
+
+import android.content.Context;
 import android.text.format.DateUtils;
 
 public class FormatterUtils {
@@ -19,7 +22,7 @@ public class FormatterUtils {
             return "";
         }
         DateFormat monthDayFormat = new SimpleDateFormat("MMM dd", Locale.US);
-        return monthDayFormat.format(date);
+        return monthDayFormat.format(date).toUpperCase(Locale.US);
     }
 
     public static String getRelativeTimeHuman(Date date) {
@@ -27,7 +30,12 @@ public class FormatterUtils {
             return "";
         }
         return DateUtils.getRelativeTimeSpanString(date.getTime(),
-                System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+                System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString()
+                .toUpperCase(Locale.US);
     }
 
+    public static CharSequence getGoalDueDateCustomFormat(Context context, Date goalDate) {
+        return context.getString(R.string.goal_due_date_custom_format,
+                getRelativeTimeHuman(goalDate), formatMonthDate(goalDate));
+    }
 }

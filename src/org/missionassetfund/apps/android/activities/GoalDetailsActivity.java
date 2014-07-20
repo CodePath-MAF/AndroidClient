@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalDetailsVPAdapter;
-import org.missionassetfund.apps.android.adapters.GoalPaymentsArrayAdapter;
 import org.missionassetfund.apps.android.fragments.GoalPaymentFragment;
 import org.missionassetfund.apps.android.fragments.GoalPaymentFragment.UpdatePaymentsListener;
 import org.missionassetfund.apps.android.fragments.LendingCircleProfilesFragment;
@@ -22,7 +21,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,16 +37,21 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
 
     private Goal goal;
 
-    TextView tvPaymentDue;
-    TextView tvDueDate;
-    TextView tvDueDateHuman;
-    TextView tvTotalTargetPayment;
-    TextView tvTargetDate;
-    TextView tvTargetDateHuman;
+    RelativeLayout rlLendingCircle;
 
-    ListView lvPastPayments;
+    TextView tvPaymentDue;
+    // TextView tvDueDate;
+    TextView tvDueDateHuman;
+    TextView tvNumPayments;
+    ProgressBar pbGoalPayment;
+
+    // TextView tvTotalTargetPayment;
+    // TextView tvTargetDate;
+    // TextView tvTargetDateHuman;
+
     List<Transaction> goalPayments;
-    GoalPaymentsArrayAdapter paymentsAdapter;
+    // ListView lvPastPayments;
+    // GoalPaymentsArrayAdapter paymentsAdapter;
 
     GoalDetailsVPAdapter ldVPAdapter;
     ViewPager vpLendingCircle;
@@ -55,13 +61,19 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_details);
 
+        rlLendingCircle = (RelativeLayout) findViewById(R.id.rlLendingCircle);
+
         tvPaymentDue = (TextView) findViewById(R.id.tvPaymentDue);
-        tvDueDate = (TextView) findViewById(R.id.tvDueDate);
+        // tvDueDate = (TextView) findViewById(R.id.tvDueDate);
         tvDueDateHuman = (TextView) findViewById(R.id.tvDueDateHuman);
-        tvTotalTargetPayment = (TextView) findViewById(R.id.tvTotalTargetPayment);
-        tvTargetDate = (TextView) findViewById(R.id.tvTargetDate);
-        tvTargetDateHuman = (TextView) findViewById(R.id.tvTargetDateHuman);
-        lvPastPayments = (ListView) findViewById(R.id.lvPastPayments);
+        tvNumPayments = (TextView) findViewById(R.id.tvNumPayments);
+        pbGoalPayment = (ProgressBar) findViewById(R.id.pbGoalPayment);
+
+        // tvTotalTargetPayment = (TextView)
+        // findViewById(R.id.tvTotalTargetPayment);
+        // tvTargetDate = (TextView) findViewById(R.id.tvTargetDate);
+        // tvTargetDateHuman = (TextView) findViewById(R.id.tvTargetDateHuman);
+        // lvPastPayments = (ListView) findViewById(R.id.lvPastPayments);
         goalPayments = new ArrayList<Transaction>();
 
         ldVPAdapter = new GoalDetailsVPAdapter(getSupportFragmentManager(),
@@ -109,32 +121,51 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
             public void done(List<Transaction> txns, ParseException e) {
                 if (e == null) {
                     goalPayments = txns;
-                    paymentsAdapter = new GoalPaymentsArrayAdapter(GoalDetailsActivity.this,
-                            R.layout.item_past_payment, goalPayments, goal.getNumPayments());
-                    lvPastPayments.setAdapter(paymentsAdapter);
+                    // paymentsAdapter = new
+                    // GoalPaymentsArrayAdapter(GoalDetailsActivity.this,
+                    // R.layout.item_past_payment, goalPayments,
+                    // goal.getNumPayments());
+                    // lvPastPayments.setAdapter(paymentsAdapter);
                 } else {
                     Log.e("error", "", e);
                 }
             }
         });
-
     }
 
     private void populateViews() {
         // Once goal is available let's setup views
-        tvTotalTargetPayment.setText(Double.toString(goal.getAmount()));
-        tvTargetDate.setText(FormatterUtils.formatMonthDate(goal.getGoalDate()));
-        tvTargetDateHuman.setText(FormatterUtils.getRelativeTimeHuman(goal.getGoalDate()));
+        // If goal is of type lending circle then change visibility to visible
+        // rlLendingCircle.setVisibility(View.GONE);
+
+        // tvTotalTargetPayment.setText(Double.toString(goal.getAmount()));
+        // tvTargetDate.setText(FormatterUtils.formatMonthDate(goal.getGoalDate()));
+        // tvTargetDateHuman.setText(FormatterUtils.getRelativeTimeHuman(goal.getGoalDate()));
 
         int idealNumPayments = goal.getIdealNumPaymentsTillToday();
         // Payment related fields will need all payment to be analyzed.
-        Double idealPaymentsTotal = idealNumPayments * goal.getPaymentAmount();
+        Double idealPaymentsTotal = (idealNumPayments + 1) * goal.getPaymentAmount();
         Double paymentsDone = getPaymentsDone();
+        int paymentsMade = (int) (paymentsDone / goal.getPaymentAmount());
         Double paymentsDue = idealPaymentsTotal - paymentsDone;
+
         tvPaymentDue.setText(FormatterUtils.formatAmount(paymentsDue));
 
         // tvDueDate.setText(FormatterUtils.formatMonthDate(goal.getDueDate()));
-        tvDueDateHuman.setText(FormatterUtils.getRelativeTimeHuman(goal.getDueDate()));
+        tvDueDateHuman.setText(FormatterUtils.getGoalDueDateCustomFormat(
+                GoalDetailsActivity.this, goal.getDueDate()));
+
+        tvNumPayments.setText(getString(R.string.label_goal_payments_made, paymentsMade,
+                goal.getNumPayments()));
+
+        pbGoalPayment.setProgress(
+                (int) ((paymentsDone * pbGoalPayment.getMax()) / goal.getAmount()));
+    }
+
+    public void onMakePayment(View v) {
+        FragmentManager fm = getSupportFragmentManager();
+        GoalPaymentFragment newGoalPaymentFragment = GoalPaymentFragment.newInstance(goal);
+        newGoalPaymentFragment.show(fm, "fragment_new_goal");
     }
 
     private Double getPaymentsDone() {
@@ -156,9 +187,10 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_payments:
-                FragmentManager fm = getSupportFragmentManager();
-                GoalPaymentFragment newGoalPaymentFragment = GoalPaymentFragment.newInstance(goal);
-                newGoalPaymentFragment.show(fm, "fragment_new_goal");
+                // FragmentManager fm = getSupportFragmentManager();
+                // GoalPaymentFragment newGoalPaymentFragment =
+                // GoalPaymentFragment.newInstance(goal);
+                // newGoalPaymentFragment.show(fm, "fragment_new_goal");
                 return true;
             default:
                 break;
@@ -169,7 +201,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
 
     @Override
     public void updatePayment(Transaction txn) {
-        paymentsAdapter.insert(txn, 0);
+        // paymentsAdapter.insert(txn, 0);
     }
 
     private List<Fragment> getLendingCircleFriendsAdapter() {
