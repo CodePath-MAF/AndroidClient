@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/saveProfileAction"
-        android:icon="@drawable/ic_action_save_profile"
+        android:icon="@drawable/check_button"
         android:onClick="onSaveProfile"
         android:showAsAction="always"
         android:title="@string/save_profile">
