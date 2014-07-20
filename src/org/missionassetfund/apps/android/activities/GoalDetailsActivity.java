@@ -13,7 +13,6 @@ import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
@@ -28,7 +27,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-public class GoalDetailsActivity extends FragmentActivity implements UpdatePaymentsListener {
+public class GoalDetailsActivity extends BaseFragmentActivity implements UpdatePaymentsListener {
 
     private Goal goal;
 
