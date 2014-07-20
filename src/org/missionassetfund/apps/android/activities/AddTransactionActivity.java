@@ -1,49 +1,49 @@
 
 package org.missionassetfund.apps.android.activities;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.ArrayList;
 
 import org.missionassetfund.apps.android.R;
-import org.missionassetfund.apps.android.fragments.DatePickerFragment;
-import org.missionassetfund.apps.android.fragments.DatePickerFragment.DatePickerDialogListener;
-import org.missionassetfund.apps.android.models.Category;
+import org.missionassetfund.apps.android.adapters.InputItemAdapter;
+import org.missionassetfund.apps.android.fragments.AmountInputFragment;
+import org.missionassetfund.apps.android.fragments.CategoryInputFragment;
+import org.missionassetfund.apps.android.fragments.DateInputFragment;
+import org.missionassetfund.apps.android.fragments.DoneFragment;
+import org.missionassetfund.apps.android.fragments.NameInputFragment;
+import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
+import org.missionassetfund.apps.android.models.Input;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.Spinner;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
-import com.parse.ParseQueryAdapter;
-import com.parse.ParseQueryAdapter.OnQueryLoadListener;
 import com.parse.SaveCallback;
 
-public class AddTransactionActivity extends FragmentActivity implements DatePickerDialogListener {
-    // TODO(jose): find out where should we put Transaction Type
+public class AddTransactionActivity extends FragmentActivity implements OnInputFormListener {
 
-    private EditText etTransactionName;
-    private Spinner sCategory;
-    private EditText etAmount;
-    private EditText etDate;
-    private RadioButton rbExpense;
+    private ListView lvSteps;
+    private ArrayList<Input> inputs;
+    private InputItemAdapter aInput;
 
-    private ParseQueryAdapter<Category> categoryAdapter;
+    private Input[] inputElements;
     private String mCategoryId;
+    private String mTransactionName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +53,40 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        setupViews();
-        setupListeners();
-        
-        setupData();
+        lvSteps = (ListView) findViewById(R.id.lvSteps);
+
+        inputs = new ArrayList<Input>();
+        aInput = new InputItemAdapter(this, inputs);
+
+        // setup input steps
+        inputElements = new Input[] {
+                new Input("Amount", 0, AmountInputFragment.class),
+                new Input("Name", 1, NameInputFragment.class),
+                new Input("Category", 2, CategoryInputFragment.class),
+                new Input("Date", 3, DateInputFragment.class),
+                new Input("Done", 4, DoneFragment.class)
+        };
+
+        lvSteps.setAdapter(aInput);
+
+        // setup listeners
+        lvSteps.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Input input = inputs.get(position);
+                int size = inputs.size();
+                for (int i = (size - 1); i >= position; i--) {
+                    inputs.remove(i);
+                }
+                aInput.notifyDataSetChanged();
+                showFragment(input.getFragmentClass());
+            }
+        });
+
+        setupDataFromIntent();
+
+        showFragment(AmountInputFragment.class);
     }
 
     @Override
@@ -69,72 +99,88 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
         }
         return super.onOptionsItemSelected(item);
     }
-    
-    private void setupViews() {
-        etTransactionName = (EditText) findViewById(R.id.etTransactionName);
-        sCategory = (Spinner) findViewById(R.id.sCategory);
-        etAmount = (EditText) findViewById(R.id.etAmount);
-        etDate = (EditText) findViewById(R.id.etDate);
-        rbExpense = (RadioButton) findViewById(R.id.rbExpense);
 
-        // Setup Parse Adapter to fill-up the spinner
-        categoryAdapter = new ParseQueryAdapter<Category>(this, Category.class);
-        categoryAdapter.setTextKey(Category.NAME_KEY);
-        categoryAdapter.setAutoload(false);
-        categoryAdapter.addOnQueryLoadListener(mCategoryListener);
-        categoryAdapter.loadObjects();
-        
-        sCategory.setAdapter(categoryAdapter);
-    }
-
-    private void setupListeners() {
-        // Setup DatePickerDialog
-        etDate.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+    @SuppressWarnings("rawtypes")
+    private void showFragment(Class activeFragmentClass) {
+        FragmentManager mgr = getSupportFragmentManager();
+        FragmentTransaction transaction = mgr.beginTransaction();
+        try {
+            for (Input input : inputElements) {
+                Class klass = input.getFragmentClass();
+                Fragment fragment = mgr.findFragmentByTag(klass.getName());
+                if (klass == activeFragmentClass) {
+                    if (fragment != null) {
+                        transaction.show(fragment);
+                    } else {
+                        transaction.add(R.id.flStepsContainer, (Fragment) klass.newInstance(),
+                                klass.getName());
+                    }
+                } else {
+                    if (fragment != null) {
+                        transaction.hide(fragment);
+                    }
+                }
             }
-        });
-    }
-
-    private void setupData() {
-        mCategoryId = getIntent().getStringExtra("category_id");
-        
-        String transactionName = getIntent().getStringExtra("transaction_name");
-        etTransactionName.setText(transactionName);
-    }
-    
-    private int findCategoryPosition(String categoryId, List<Category> categories) {
-        for (int i = 0; i < categories.size(); i++) {
-            Category category = categories.get(i);
-            
-            if (category.getObjectId().equals(categoryId)) {
-                return i;
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-        return 0;
+        transaction.commit();
     }
 
     @Override
-    public void onDateSelected(Date date) {
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        etDate.setTag(date);
-        etDate.setText(formatter.format(date));
+    @SuppressWarnings("rawtypes")
+    public void OnNextSelected(Class activeFragmentClass, String value) {
+        Input input = inputElements[getInputPosition(activeFragmentClass)];
+        input.setValue(value);
+        inputs.add(input);
+        aInput.notifyDataSetChanged();
+        hideSoftKeyboard();
+        showFragment(getNextFragmentClass(input));
     }
 
-    public void onAddTransaction(View v) {
+    private void setupDataFromIntent() {
+        mCategoryId = getIntent().getStringExtra("category_id");
+        mTransactionName = getIntent().getStringExtra("transaction_name");
+    }
+
+    @Override
+    @SuppressWarnings("rawtypes")
+    public void OnBackSelected(Class activeFragmentClass) {
+        Input input = inputElements[getInputPosition(activeFragmentClass)];
+        inputs.remove(input.getPos() - 1);
+        aInput.notifyDataSetChanged();
+        showFragment(getPreviousFragmentClass(input));
+    }
+
+    @Override
+    public void OnFinishSelected() {
+        FragmentManager mgr = getSupportFragmentManager();
+
         // TODO(jose): Data validation
         Transaction transaction = new Transaction();
         transaction.setUser((User) User.getCurrentUser());
-        transaction.setName(etTransactionName.getText().toString());
-        transaction.setCategory((Category) sCategory.getSelectedItem());
-        transaction.setAmount(Double.parseDouble(etAmount.getText().toString()));
-        transaction.setTransactionDate((Date) etDate.getTag());
 
-        transaction.setType((rbExpense.isChecked()) ? TransactionType.CREDIT
+        // Get Amount data from fragment
+        AmountInputFragment amountFragment = (AmountInputFragment) mgr
+                .findFragmentByTag(AmountInputFragment.class.getName());
+        transaction.setAmount(Double.parseDouble(amountFragment.getAmountSelected()));
+
+        // Get Name data from fragment
+        NameInputFragment nameFragment = (NameInputFragment) mgr
+                .findFragmentByTag(NameInputFragment.class.getName());
+        transaction.setName(nameFragment.getNameSelected());
+
+        // Get Category selected from fragment
+        CategoryInputFragment typeFragment = (CategoryInputFragment) mgr
+                .findFragmentByTag(CategoryInputFragment.class.getName());
+        transaction.setCategory(typeFragment.getCategorySelected());
+
+        // Get Date from fragment
+        DateInputFragment dateFragment = (DateInputFragment) mgr
+                .findFragmentByTag(DateInputFragment.class.getName());
+        transaction.setTransactionDate(dateFragment.getDateSelected());
+
+        transaction.setType(amountFragment.isExpenseTransaction() ? TransactionType.CREDIT
                 : TransactionType.DEBIT);
 
         transaction.saveInBackground(new SaveCallback() {
@@ -152,22 +198,26 @@ public class AddTransactionActivity extends FragmentActivity implements DatePick
             }
         });
     }
-    
-    private OnQueryLoadListener<Category> mCategoryListener = new OnQueryLoadListener<Category>() {
 
-        @Override
-        public void onLoaded(List<Category> categories, Exception exception) {
-            if (mCategoryId != null) {
-                int position = findCategoryPosition(mCategoryId, categories);
-                sCategory.setSelection(position);
+    public void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    private int getInputPosition(Class fragmentClass) {
+        for (Input i : inputElements) {
+            if (i.getFragmentClass() == fragmentClass) {
+                return i.getPos();
             }
-
         }
+        return 0;
+    }
 
-        @Override
-        public void onLoading() {
-        }
-        
-    };
+    private Class getNextFragmentClass(Input input) {
+        return inputElements[input.getPos() + 1].getFragmentClass();
+    }
 
+    private Class getPreviousFragmentClass(Input input) {
+        return inputElements[input.getPos() - 1].getFragmentClass();
+    }
 }

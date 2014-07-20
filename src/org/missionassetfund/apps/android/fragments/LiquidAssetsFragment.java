@@ -197,7 +197,7 @@ public class LiquidAssetsFragment extends Fragment {
 
         if (mLiquidAssets.compareTo(CurrencyUtils.ZERO) == 1) {
             slice = new PieSlice();
-            slice.setColor(getResources().getColor(R.color.liquid_asset_background));
+            slice.setColor(getResources().getColor(R.color.app_green));
             slice.setValue(mLiquidAssets.floatValue());
             slice.setGoalValue(mLiquidAssets.floatValue());
             pgLiquidAssetDonutChart.addSlice(slice);

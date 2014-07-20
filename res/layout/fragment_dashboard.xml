@@ -10,7 +10,7 @@
         android:id="@+id/rlLiquidAsset"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/liquid_asset_background" >
+        android:background="@color/app_green" >
 
         <TextView
             android:id="@+id/tvLiquidAsset"

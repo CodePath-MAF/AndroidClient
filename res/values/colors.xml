@@ -7,8 +7,18 @@
     <color name="gray">#CCCCCC</color>
     <color name="light_blue">#c1dbee</color>
     <color name="navy_blue">#165b8c</color>
-    <color name="liquid_asset_background">#23c7a1</color>
+    <color name="app_green">#23c7a1</color>
     <color name="light_red">#E82C0C</color>
+    
+    <!-- Add Transaction -->
+    <color name="add_transaction_input_item_display_name">#80FFFFFF</color>
+    <color name="add_transaction_input_item_display_value">@color/white</color>
+    <color name="add_transaction_amount_display_value">@color/white</color>
+    <color name="add_transaction_amount_hint_value">#80FFFFFF</color>
+    <color name="add_transaction_name_display_value">@color/white</color>
+    <color name="add_transaction_name_hint_value">#80FFFFFF</color>
+    <color name="add_transaction_category_display_value">@color/white</color>
+    <color name="add_transaction_category_dropdown_value">@color/darkgray</color>
 
     <!-- Parse -->
     <color name="com_parse_ui_parse_login_button">#40000000</color>
