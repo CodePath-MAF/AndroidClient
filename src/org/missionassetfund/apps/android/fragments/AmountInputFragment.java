@@ -2,6 +2,7 @@
 package org.missionassetfund.apps.android.fragments;
 
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.activities.NewGoalActivity;
 import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 public class AmountInputFragment extends Fragment {
@@ -24,6 +26,7 @@ public class AmountInputFragment extends Fragment {
     private EditText etAmount;
     private RadioButton rbExpense;
     private ImageButton btnNext;
+    private RadioGroup rgType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +36,12 @@ public class AmountInputFragment extends Fragment {
         etAmount = (EditText) view.findViewById(R.id.etAmount);
         rbExpense = (RadioButton) view.findViewById(R.id.rbExpense);
         btnNext = (ImageButton) view.findViewById(R.id.btnNext);
+        rgType = (RadioGroup) view.findViewById(R.id.rgType);
+
+        // Ugly hack to try reuse this view in both goal / transaction
+        if (getActivity().getClass() == NewGoalActivity.class) {
+            rgType.setVisibility(View.INVISIBLE);
+        }
 
         // Setup listener
         btnNext.setOnClickListener(new OnClickListener() {

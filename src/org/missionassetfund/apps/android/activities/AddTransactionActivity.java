@@ -60,11 +60,11 @@ public class AddTransactionActivity extends FragmentActivity implements OnInputF
 
         // setup input steps
         inputElements = new Input[] {
-                new Input("Amount", 0, AmountInputFragment.class),
-                new Input("Name", 1, NameInputFragment.class),
-                new Input("Category", 2, CategoryInputFragment.class),
-                new Input("Date", 3, DateInputFragment.class),
-                new Input("Done", 4, DoneFragment.class)
+                new Input("Amount", "0", 0, AmountInputFragment.class),
+                new Input("Name", "Lunch", 1, NameInputFragment.class),
+                new Input("Category", "Food", 2, CategoryInputFragment.class),
+                new Input("Date", "Today", 3, DateInputFragment.class),
+                new Input("Done", "", 4, DoneFragment.class)
         };
 
         lvSteps.setAdapter(aInput);

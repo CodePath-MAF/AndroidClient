@@ -1,15 +1,23 @@
 
 package org.missionassetfund.apps.android.models;
 
-public class Input {
+import java.io.Serializable;
+
+public class Input implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    public static final String INPUT_KEY = "input";
+    
     private String name;
     private String value;
+    private String hint;
     private int pos;
     private Class fragmentClass;
 
-    public Input(String name, int pos, Class fragmentClass) {
+    public Input(String name, String hint, int pos, Class fragmentClass) {
         super();
         this.name = name;
+        this.hint = hint;
         this.pos = pos;
         this.fragmentClass = fragmentClass;
     }
@@ -28,6 +36,14 @@ public class Input {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getHint() {
+        return hint;
+    }
+
+    public void setHint(String hint) {
+        this.hint = hint;
     }
 
     public int getPos() {

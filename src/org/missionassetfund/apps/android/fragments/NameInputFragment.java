@@ -2,6 +2,7 @@
 package org.missionassetfund.apps.android.fragments;
 
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.activities.NewGoalActivity;
 import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
 
 import android.app.Activity;
@@ -31,6 +32,11 @@ public class NameInputFragment extends Fragment {
         etName = (EditText) view.findViewById(R.id.etName);
         btnBack = (ImageButton) view.findViewById(R.id.btnBack);
         btnNext = (ImageButton) view.findViewById(R.id.btnNext);
+
+        // Ugly hack to try reuse this view in both goal / transaction
+        if (getActivity().getClass() == NewGoalActivity.class) {
+            etName.setHint(R.string.sample_new_goal_name);
+        }
 
         // Setup listener
         btnNext.setOnClickListener(new OnClickListener() {
