@@ -18,10 +18,15 @@ import android.widget.Toast;
 public class NameInputFragment extends Fragment {
 
     private OnInputFormListener onInputFormListener;
+    private OnCreateViewListener onCreateViewListener;
 
     private EditText etName;
     private ImageButton btnBack;
     private ImageButton btnNext;
+    
+    public interface OnCreateViewListener {
+        public void setEditTextName(EditText editTextName);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +60,8 @@ public class NameInputFragment extends Fragment {
                 onInputFormListener.OnBackSelected(NameInputFragment.class);
             }
         });
+        
+        onCreateViewListener.setEditTextName(etName);
 
         return view;
     }
@@ -67,6 +74,10 @@ public class NameInputFragment extends Fragment {
         } else {
             throw new ClassCastException(activity.toString()
                     + " must implement OnInputFormListener");
+        }
+        
+        if (activity instanceof OnCreateViewListener) {
+            onCreateViewListener = (OnCreateViewListener) activity;
         }
     }
 
