@@ -52,6 +52,11 @@
     <string name="goal_due_date_days">DUE IN %1$d DAYS</string>
     <string name="goal_due_date">DUE %1$s</string>
     
+    <!-- Dashboard strings -->
+    <string name="dashboard_total_cash_label">TOTAL CASH</string>
+    <string name="dashboard_monthly_goals_label">MONTHLY GOALS</string>
+    <string name="dashboard_spent_today_label">SPENT TODAY</string>
+    
     <!-- App notifications -->
     <string name="parse_success_user_save">User profile updated!</string>
     <string name="parse_error_password_missing">Password is missing&#8230;</string>
