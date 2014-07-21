@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.activities.AddTransactionActivity;
+import org.missionassetfund.apps.android.adapters.ChartsViewPagerAdapter;
 import org.missionassetfund.apps.android.adapters.TransactionsExpandableListAdapter;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
@@ -19,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,15 +29,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.echo.holographlibrary.PieGraph;
-import com.echo.holographlibrary.PieSlice;
 import com.parse.FindCallback;
 import com.parse.ParseQuery;
 
@@ -43,7 +42,6 @@ public class LiquidAssetsFragment extends Fragment {
 
     public static final int ADD_TRANSACTION_REQUEST_CODE = 1;
 
-    private PieGraph pgLiquidAssetDonutChart;
     private TextView tvLiquidAssetsAmount;
     private TextView tvSpentAmount;
     private TextView tvSpentTodayAmount;
@@ -57,12 +55,13 @@ public class LiquidAssetsFragment extends Fragment {
     private BigDecimal mLiquidAssets;
     private ExpandableListView elvTransactions;
     private TransactionsExpandableListAdapter mTransactionsAdapter;
+    private ViewPager vpCharts;
+    private ChartsViewPagerAdapter mChartsViewPageAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_liquid_assets, container, false);
 
-        pgLiquidAssetDonutChart = (PieGraph) view.findViewById(R.id.pgLiquidAssetDonutChart);
         tvLiquidAssetsAmount = (TextView) view.findViewById(R.id.tvLiquidAssetsAmount);
         tvSpentAmount = (TextView) view.findViewById(R.id.tvSpentAmount);
         tvSpentTodayAmount = (TextView) view.findViewById(R.id.tvSpentTodayAmount);
@@ -71,7 +70,8 @@ public class LiquidAssetsFragment extends Fragment {
         pbLoadingLiquidAssets = (ProgressBar) view.findViewById(R.id.pbLoadingLiquidAssets);
         rlLiquidAssets = (RelativeLayout) view.findViewById(R.id.rlLiquidAssets);
         tvEmptyTransactions = (TextView) view.findViewById(R.id.tvEmptyTransactions);
-
+        vpCharts = (ViewPager) view.findViewById(R.id.vpCharts);
+        
         setupData();
         return view;
     }
@@ -192,37 +192,10 @@ public class LiquidAssetsFragment extends Fragment {
     }
 
     private void setupChart() {
-        pgLiquidAssetDonutChart.removeSlices();
-        PieSlice slice = null;
-
-        if (mLiquidAssets.compareTo(CurrencyUtils.ZERO) == 1) {
-            slice = new PieSlice();
-            slice.setColor(getResources().getColor(R.color.app_green));
-            slice.setValue(mLiquidAssets.floatValue());
-            slice.setGoalValue(mLiquidAssets.floatValue());
-            pgLiquidAssetDonutChart.addSlice(slice);
-        }
-
-        if (mSpentThisWeek.compareTo(CurrencyUtils.ZERO) == 1) {
-            slice = new PieSlice();
-            slice.setColor(getResources().getColor(R.color.navy_blue));
-            slice.setGoalValue(mSpentThisWeek.floatValue());
-            pgLiquidAssetDonutChart.addSlice(slice);
-        }
-        
-        if (mSpentToday.compareTo(CurrencyUtils.ZERO) == 1) {
-            slice = new PieSlice();
-            slice.setColor(getResources().getColor(R.color.light_red));
-            slice.setGoalValue(mSpentToday.floatValue());
-            pgLiquidAssetDonutChart.addSlice(slice);
-        }
-        
-        if (!pgLiquidAssetDonutChart.getSlices().isEmpty()) {
-            pgLiquidAssetDonutChart.setInnerCircleRatio(190);
-            pgLiquidAssetDonutChart.setDuration(2000);
-            pgLiquidAssetDonutChart.setInterpolator(new AccelerateDecelerateInterpolator());
-            pgLiquidAssetDonutChart.animateToGoalValues();
-        }
+        mChartsViewPageAdapter = new ChartsViewPagerAdapter(getActivity().getSupportFragmentManager());
+        mChartsViewPageAdapter.setTransactionGroups(mTransactionsGroup);
+        mChartsViewPageAdapter.setTransactionGroup(mTransactionsGroup.get(0));
+        vpCharts.setAdapter(mChartsViewPageAdapter);
     }
 
     @Override
@@ -235,4 +208,10 @@ public class LiquidAssetsFragment extends Fragment {
         }
     }
 
+    public void goToNextChart(TransactionGroup transactionGroup) {
+        mChartsViewPageAdapter.setTransactionGroup(transactionGroup);
+        mChartsViewPageAdapter.notifyDataSetChanged();
+        vpCharts.setCurrentItem(1, true);
+    }
+    
 }

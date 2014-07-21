@@ -1,9 +1,11 @@
 
 package org.missionassetfund.apps.android.models;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
 import android.text.format.DateUtils;
@@ -12,6 +14,7 @@ public class TransactionGroup {
 
     private Date transactionDate;
     private List<Transaction> transactions;
+    private BigDecimal amount;
 
     public TransactionGroup(Date transactionDate, List<Transaction> transactions) {
         super();
@@ -38,6 +41,18 @@ public class TransactionGroup {
     public CharSequence getRelativeDate() {
         return DateUtils.getRelativeTimeSpanString(this.transactionDate.getTime(),
                 new Date().getTime(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
+    }
+    
+    public BigDecimal getAmount() {
+        if (amount == null) {
+            amount = CurrencyUtils.ZERO;
+
+            for (Transaction transaction : this.getTransactions()) {
+                amount = amount.add(CurrencyUtils.newCurrency(transaction.getAmount()));
+            }
+        }
+        
+        return amount;
     }
 
     @Override
