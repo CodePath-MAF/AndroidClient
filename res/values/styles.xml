@@ -90,6 +90,12 @@
         <item name="android:textSize">20sp</item>
     </style>
     
+    <style name="DashboardUI.SpentToday">
+        <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
+        <item name="android:textColor">@color/dashboard_spent_today_text</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    
     <style name="DashboardUI.GoalItem" />
     
     <style name="DashboardUI.GoalItem.Name">

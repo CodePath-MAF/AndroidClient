@@ -13,6 +13,7 @@
     <!-- Dashboard -->
     <color name="dashboard_aggregate_label">#8D8D8D</color>
     <color name="dashboard_aggregate_value">#4A4A4A</color>
+    <color name="dashboard_spent_today_text">#D0021B</color>
     <color name="dashboard_goal_item_background">#F3F3F3</color>
     <color name="dashboard_goal_item_name_text">#342F33</color>
     <color name="dashboard_goal_item_due_date_text">#878787</color>

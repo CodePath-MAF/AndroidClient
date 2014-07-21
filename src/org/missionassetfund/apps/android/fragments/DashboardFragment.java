@@ -101,7 +101,7 @@ public class DashboardFragment extends Fragment {
 
     private void setupUserData() {
         // TODO(jose): Do calculation using Parse Cloud Code
-        
+
         refreshTotalCash();
         refreshSpentToday();
 
@@ -175,10 +175,16 @@ public class DashboardFragment extends Fragment {
                         // Check Spents Today.
                         if (DateUtils.isToday(t.getTransactionDate().getTime())
                                 && t.getType().equals(TransactionType.CREDIT)) {
-                            spentToday = spentToday.add(CurrencyUtils.newCurrency(t.getAmount()));
+                            spentToday = spentToday.subtract(CurrencyUtils.newCurrency(t.getAmount()));
                         }
                     }
 
+                    // Customize spent today text view
+                    if (spentToday.compareTo(CurrencyUtils.newCurrency(0d)) == -1) {
+                        tvSpentToday.setTextAppearance(getActivity(),
+                                R.style.DashboardUI_SpentToday);
+                    }
+                    
                     // Set values into the view
                     tvSpentToday.setText(CurrencyUtils.getCurrencyValueFormatted(spentToday));
 
