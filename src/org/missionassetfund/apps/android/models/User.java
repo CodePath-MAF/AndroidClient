@@ -9,6 +9,7 @@ public class User extends ParseUser {
     public static final String NAME_KEY = "name";
     public static final String PHONE_NUMBER_KEY = "phoneNumber";
     public static final String TOTAL_CASH_KEY = "totalCash";
+    public static final String SETUP_KEY = "setup";
 
     public User() {
         super();
@@ -36,5 +37,13 @@ public class User extends ParseUser {
     
     public void setTotalCash(Double liquidAsset) {
         put(TOTAL_CASH_KEY, liquidAsset);
+    }
+    
+    public boolean isSetup() {
+        return getBoolean(SETUP_KEY);
+    }
+    
+    public void setSetup(boolean setup) {
+        put(SETUP_KEY, setup);
     }
 }
