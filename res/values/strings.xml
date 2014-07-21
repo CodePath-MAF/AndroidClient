@@ -3,9 +3,9 @@
 
     <string name="app_name">Mission Asset Fund</string>
     <string name="title_add_goal">Add Goal</string>
-    <string name="title_liquid_asset">Liquid Assets</string>
+    <string name="title_liquid_asset">Transactions</string>
     <string name="title_goal_details">Goals</string>
-    <string name="label_liquid_assets">LIQUID ASSETS</string>
+    <string name="label_liquid_assets">TOTAL CASH</string>
     <string name="label_spent_today">SPENT TODAY</string>
     <string name="label_spent_this_week">SPENT THIS WEEK</string>
     <string name="label_payment">Total Payment of</string>

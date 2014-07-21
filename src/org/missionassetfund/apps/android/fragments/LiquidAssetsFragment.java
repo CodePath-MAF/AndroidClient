@@ -103,8 +103,11 @@ public class LiquidAssetsFragment extends Fragment {
 
                 elvTransactions.setAdapter(mTransactionsAdapter);
                 elvTransactions.setEmptyView(tvEmptyTransactions);
-                elvTransactions.expandGroup(0);
                 elvTransactions.setGroupIndicator(null);
+                
+                for (int i = 0; i < mTransactionsAdapter.getGroupCount(); i++) {
+                    elvTransactions.expandGroup(i);
+                }
                 
                 pbLoadingLiquidAssets.setVisibility(View.INVISIBLE);
                 
@@ -127,7 +130,18 @@ public class LiquidAssetsFragment extends Fragment {
         int index = -1;
 
         for (Transaction t : transactions) {
-            if (t.getType().equals(TransactionType.CREDIT)) {
+            // Set transactions for ListView
+            tg = new TransactionGroup(t.getTransactionDate(), new ArrayList<Transaction>());
+            index = mTransactionsGroup.indexOf(tg);
+            
+            if (index == -1) {
+                tg.getTransactions().add(t);
+                mTransactionsGroup.add(tg);
+            } else {
+                mTransactionsGroup.get(index).getTransactions().add(t);
+            }
+
+            if (t.isCredit()) {
                 if (DateUtils.isToday(t.getTransactionDate().getTime())) {
                     mSpentToday = mSpentToday.add(BigDecimal.valueOf(t.getAmount()));
                 }
@@ -137,17 +151,6 @@ public class LiquidAssetsFragment extends Fragment {
                 }
                 
                 mLiquidAssets = mLiquidAssets.subtract(BigDecimal.valueOf(t.getAmount()));
-
-                // Set transactions for ListView
-                tg = new TransactionGroup(t.getTransactionDate(), new ArrayList<Transaction>());
-                index = mTransactionsGroup.indexOf(tg);
-                
-                if (index == -1) {
-                    tg.getTransactions().add(t);
-                    mTransactionsGroup.add(tg);
-                } else {
-                    mTransactionsGroup.get(index).getTransactions().add(t);
-                }
             } else if (t.getType().equals(TransactionType.DEBIT)) {
                 mLiquidAssets = mLiquidAssets.add(BigDecimal.valueOf(t.getAmount()));
             }

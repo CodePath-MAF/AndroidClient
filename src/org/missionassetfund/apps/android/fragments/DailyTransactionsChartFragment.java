@@ -3,7 +3,9 @@ package org.missionassetfund.apps.android.fragments;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.TransactionGroup;
@@ -15,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.echo.holographlibrary.Bar;
 import com.echo.holographlibrary.BarGraph;
@@ -23,6 +26,7 @@ import com.echo.holographlibrary.BarGraph.OnBarClickedListener;
 
 public class DailyTransactionsChartFragment extends Fragment {
 
+    private static final int AVERAGE_DAILY_SPEND = 50;
     private List<TransactionGroup> mTransactionGroups;
     private BarGraph bgDailyTransactionsChart;
     private OnTransactionGroupClickedListener listener;
@@ -71,17 +75,23 @@ public class DailyTransactionsChartFragment extends Fragment {
         Collections.reverse(reversedList);
 
         for (TransactionGroup tg : reversedList) {
-            ExtendedBar d = new ExtendedBar();
-            // TODO
-            d.setColor(Color.parseColor("#E82C0C"));
-            d.setName(tg.getRelativeDate().toString());
-            d.setValue(tg.getAmount().floatValue());
-            d.setObjectHolder(tg);
+            ExtendedBar bar = new ExtendedBar();
+            bar.setColor(this.getResources().getColor(R.color.liquid_assets_bar_chart));
+            bar.setLabelColor(Color.GRAY);
+            bar.setName(tg.getTransactionDateFormatted());
+            bar.setValue(AVERAGE_DAILY_SPEND);
+            bar.setGoalValue(tg.getSpentAmount().floatValue());
+            bar.setObjectHolder(tg);
+            bar.setValuePrefix(Currency.getInstance(Locale.US).getSymbol());
 
-            points.add(d);
+            points.add(bar);
         }
 
         bgDailyTransactionsChart.setBars(points);
+        bgDailyTransactionsChart.setDuration(2000);
+        bgDailyTransactionsChart.setInterpolator(new AccelerateDecelerateInterpolator());
+        bgDailyTransactionsChart.setValueStringPrecision(2);
+        bgDailyTransactionsChart.animateToGoalValues();
     }
 
 }
