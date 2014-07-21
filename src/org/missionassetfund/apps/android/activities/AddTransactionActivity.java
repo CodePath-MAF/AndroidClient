@@ -243,7 +243,7 @@ public class AddTransactionActivity extends BaseFragmentActivity
         if (mTransactionName != null) {
             editTextName.setText(mTransactionName);
         }
-        editTextName.setHint(R.string.smaple_new_transaction_name);
+        editTextName.setHint(R.string.sample_new_transaction_name);
     }
 
     @Override
