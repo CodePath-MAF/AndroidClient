@@ -17,18 +17,21 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:gravity="center" >
+            android:gravity="center"
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/tvLiquidAsset"
-                style="@style/DashboardLiquidAssetBalance"
-                android:text="@string/sample_remaining_amount"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                style="@style/DashboardUI.TotalCash.Amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_remaining_amount" />
 
             <TextView
                 android:id="@+id/tvLiquidAssetLabel"
-                style="@style/DashboardLiquidAssetLabel"
+                style="@style/DashboardUI.TotalCash.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/dashboard_total_cash_label" />
         </LinearLayout>
 
@@ -62,12 +65,16 @@
 
             <TextView
                 android:id="@+id/tvMonthlyGoalsLabel"
-                style="@style/SmallText"
+                style="@style/DashboardUI.AggregateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/dashboard_monthly_goals_label" />
 
             <TextView
                 android:id="@+id/tvMonthlyGoals"
-                style="@style/MediumAmount"
+                style="@style/DashboardUI.AggregateValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/sample_spent_today" />
         </LinearLayout>
 
@@ -81,15 +88,17 @@
 
             <TextView
                 android:id="@+id/tvSpentTodayLabel"
-                style="@style/SmallText"
-                android:text="@string/dashboard_spent_today_label"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                style="@style/DashboardUI.AggregateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dashboard_spent_today_label" />
 
             <TextView
                 android:id="@+id/tvSpentToday"
-                style="@style/MediumAmount"
-                android:text="@string/sample_spent_today"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                style="@style/DashboardUI.AggregateValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_spent_today" />
         </LinearLayout>
     </LinearLayout>
 

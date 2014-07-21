@@ -14,6 +14,7 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:homeAsUpIndicator">@drawable/leftarrow_white_button</item>
     </style>
@@ -60,12 +61,31 @@
 
     <style name="NewGoalDialog" parent="@android:style/Theme.Holo.Light.DialogWhenLarge.NoActionBar"></style>
 
-    <style name="DashboardLiquidAssetBalance" parent="@style/LargeAmount">
+    <!-- Dashboard UI -->
+    <style name="DashboardUI" />
+
+    <style name="DashboardUI.TotalCash.Amount" parent="@android:style/TextAppearance">
+        <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
+        <item name="android:textSize">30sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="DashboardLiquidAssetLabel" parent="@style/SmallText">
+    <style name="DashboardUI.TotalCash.Label" parent="@android:style/TextAppearance">
+        <item name="android:textSize">30sp</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="DashboardUI.AggregateLabel" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/dashboard_aggregate_label</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:typeface">normal</item>
+    </style>
+
+    <style name="DashboardUI.AggregateValue" parent="@android:style/TextAppearance">
+        <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
+        <item name="android:textColor">@color/dashboard_aggregate_value</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <!-- Add Transaction UI -->
@@ -102,11 +122,12 @@
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:background">@null</item>
     </style>
+
     <style name="AddTransactionUI.AmountInput.AmountSymbol">
         <item name="android:textSize">65sp</item>
         <item name="android:textColor">@color/add_transaction_amount_display_value</item>
     </style>
-    
+
     <style name="AddTransactionUI.NameInput">
         <item name="android:textSize">65sp</item>
         <item name="android:textColor">@color/add_transaction_name_display_value</item>
@@ -116,28 +137,28 @@
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:background">@null</item>
     </style>
-    
+
     <style name="AddTransactionUI.CategoryInput">
         <item name="android:textSize">40sp</item>
         <item name="android:textColor">@color/add_transaction_category_display_value</item>
         <item name="android:singleLine">true</item>
     </style>
-    
+
     <style name="AddTransactionUI.CategoryInput.Dropdown">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/add_transaction_category_dropdown_value</item>
         <item name="android:singleLine">true</item>
     </style>
-    
+
     <!-- Custom Input Fragments -->
     <style name="FrequencyUI" />
-    
+
     <style name="FrequencyUI.TextView">
         <item name="android:textSize">40sp</item>
         <item name="android:textColor">@color/frequency_fragment_item_display_text</item>
         <item name="android:singleLine">true</item>
     </style>
-    
+
     <style name="FrequencyUI.TextView.Dropdown">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/frequency_fragment_item_dropdown_text</item>
