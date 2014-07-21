@@ -7,9 +7,8 @@ import org.missionassetfund.apps.android.fragments.LiquidAssetsFragment;
 import org.missionassetfund.apps.android.models.TransactionGroup;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
-public class LiquidAssetsActivity extends FragmentActivity implements OnTransactionGroupClickedListener {
+public class LiquidAssetsActivity extends BaseFragmentActivity implements OnTransactionGroupClickedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
