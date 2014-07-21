@@ -101,6 +101,10 @@
             android:name=".activities.NewGoalActivity"
             android:label="@string/title_activity_new_goal" >
         </activity>
+        <activity
+            android:name=".activities.AddGoalPaymentActivity"
+            android:label="@string/label_goal_payment" >
+        </activity>
 
         <service android:name="com.parse.PushService" />
 

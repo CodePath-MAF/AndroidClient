@@ -4,6 +4,7 @@ package org.missionassetfund.apps.android.fragments;
 import java.util.Date;
 
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.interfaces.UpdatePaymentsListener;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
@@ -25,10 +26,6 @@ import com.parse.ParseException;
 import com.parse.SaveCallback;
 
 public class GoalPaymentFragment extends DialogFragment {
-
-    public interface UpdatePaymentsListener {
-        public void updatePayment(Transaction txn);
-    }
 
     private Goal goal;
     EditText etAmount;
@@ -72,8 +69,8 @@ public class GoalPaymentFragment extends DialogFragment {
         public void onClick(View v) {
             Double amount = Double.parseDouble(etAmount.getText().toString());
             final Transaction txn = new Transaction();
-            txn.setAmount(amount);
             txn.setUser((User) User.getCurrentUser());
+            txn.setAmount(amount);
             txn.setGoal(goal);
             txn.setTransactionDate(new Date());
             txn.setName(getString(R.string.goal_payment_desc));
