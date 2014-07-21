@@ -11,12 +11,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
 
 public class DailyTransactionsDetailChartFragment extends Fragment {
 
+    private static final int AVERAGE_DAILY_SPEND = 50;
     private TransactionGroup mTransactionGroup;
     private PieGraph pgTransactionsDetailChart;
 
@@ -36,24 +38,33 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
     }
 
     private void setupChart() {
+        pgTransactionsDetailChart.setPadding(1);
         pgTransactionsDetailChart.removeSlices();
-
-        PieSlice slice = new PieSlice();
-        slice.setColor(Color.parseColor("#ffffff"));
-        slice.setValue(0.0001f);
-        pgTransactionsDetailChart.addSlice(slice);
+        PieSlice slice = null;
 
         for (Transaction transaction: mTransactionGroup.getTransactions()) {
+            if (transaction.isCredit()) {
+                slice = new PieSlice();
+                slice.setColor(Color.parseColor(transaction.getCategory().getColor()));
+                slice.setValue(AVERAGE_DAILY_SPEND);
+                slice.setGoalValue(transaction.getAmount().floatValue());
+                slice.setTitle(transaction.getCategory().getName());
+                pgTransactionsDetailChart.addSlice(slice);
+            }
+        }
+        
+        // Hack on chart because it doesn't work with only one item
+        if (pgTransactionsDetailChart.getSlices().size() == 1) {
             slice = new PieSlice();
-            slice.setColor(Color.parseColor(transaction.getCategory().getColor()));
-            slice.setValue(transaction.getAmount().floatValue());
+            slice.setColor(Color.parseColor("#ffffff"));
+            slice.setValue(0.001f);
             pgTransactionsDetailChart.addSlice(slice);
         }
         
-        pgTransactionsDetailChart.setInnerCircleRatio(190);
-//            pgTransactionsDetailChart.setDuration(2000);
-//            pgTransactionsDetailChart.setInterpolator(new AccelerateDecelerateInterpolator());
-//            pgTransactionsDetailChart.animateToGoalValues();
+        pgTransactionsDetailChart.setInnerCircleRatio(180);
+        pgTransactionsDetailChart.setDuration(2000);
+        pgTransactionsDetailChart.setInterpolator(new AccelerateDecelerateInterpolator());
+        pgTransactionsDetailChart.animateToGoalValues();
     }
 
 }

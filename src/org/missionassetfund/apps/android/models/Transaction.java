@@ -115,4 +115,8 @@ public class Transaction extends ParseObject implements Serializable {
                 .getCurrencyValueFormatted(BigDecimal
                         .valueOf(this.getAmount()));
     }
+
+    public boolean isCredit() {
+        return this.getType().equals(TransactionType.CREDIT);
+    }
 }

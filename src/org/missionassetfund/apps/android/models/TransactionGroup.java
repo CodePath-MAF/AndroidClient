@@ -2,8 +2,10 @@
 package org.missionassetfund.apps.android.models;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
@@ -14,7 +16,8 @@ public class TransactionGroup {
 
     private Date transactionDate;
     private List<Transaction> transactions;
-    private BigDecimal amount;
+    private BigDecimal spentAmount;
+    private SimpleDateFormat sdf = new SimpleDateFormat("EEE (MM/dd)", Locale.US);
 
     public TransactionGroup(Date transactionDate, List<Transaction> transactions) {
         super();
@@ -43,16 +46,22 @@ public class TransactionGroup {
                 new Date().getTime(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
     }
     
-    public BigDecimal getAmount() {
-        if (amount == null) {
-            amount = CurrencyUtils.ZERO;
+    public String getTransactionDateFormatted() {
+        return sdf.format(this.transactionDate);
+    }
+    
+    public BigDecimal getSpentAmount() {
+        if (spentAmount == null) {
+            spentAmount = CurrencyUtils.ZERO;
 
             for (Transaction transaction : this.getTransactions()) {
-                amount = amount.add(CurrencyUtils.newCurrency(transaction.getAmount()));
+                if (transaction.isCredit()) {
+                    spentAmount = spentAmount.add(CurrencyUtils.newCurrency(transaction.getAmount()));
+                }
             }
         }
         
-        return amount;
+        return spentAmount;
     }
 
     @Override
