@@ -45,7 +45,11 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
         for (Transaction transaction: mTransactionGroup.getTransactions()) {
             if (transaction.isCredit()) {
                 slice = new PieSlice();
-                slice.setColor(Color.parseColor(transaction.getCategory().getColor()));
+                
+                if (transaction.getCategory() != null && transaction.getCategory().getColor() != null) {
+                    slice.setColor(Color.parseColor(transaction.getCategory().getColor()));
+                }
+                
                 slice.setValue(AVERAGE_DAILY_SPEND);
                 slice.setGoalValue(transaction.getAmount().floatValue());
                 slice.setTitle(transaction.getCategory().getName());

@@ -106,10 +106,12 @@ public class TransactionsExpandableListAdapter extends BaseExpandableListAdapter
         tvTransactionAmount.setText(transaction.getAmountFormatted());
         tvTransactionName.setText(transaction.getName());
         
-        RelativeLayout rlTransactionsListDetail = (RelativeLayout) convertView.findViewById(R.id.rlTransactionsListDetail);
-        LayerDrawable layers = (LayerDrawable) rlTransactionsListDetail.getBackground();
-        GradientDrawable shape = (GradientDrawable) layers.getDrawable(0);
-        shape.setColor(Color.parseColor(transaction.getCategory().getColor()));
+        if (transaction.getCategory() != null) {
+            RelativeLayout rlTransactionsListDetail = (RelativeLayout) convertView.findViewById(R.id.rlTransactionsListDetail);
+            LayerDrawable layers = (LayerDrawable) rlTransactionsListDetail.getBackground();
+            GradientDrawable shape = (GradientDrawable) layers.getDrawable(0);
+            shape.setColor(Color.parseColor(transaction.getCategory().getColor()));
+        }
 
         return convertView;
     }
