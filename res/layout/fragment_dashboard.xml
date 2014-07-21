@@ -13,12 +13,28 @@
         android:background="@color/app_green" >
 
         <LinearLayout
+            android:id="@+id/llTotalCashProgress"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ProgressBar
+                android:id="@+id/pbTotalCashLoading"
+                style="@android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llTotalCash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <TextView
                 android:id="@+id/tvLiquidAsset"
@@ -56,12 +72,28 @@
         android:showDividers="middle" >
 
         <LinearLayout
-            android:id="@+id/llMonthlyGoals"
+            android:id="@+id/llMonthlyGoalsProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical" >
+
+            <ProgressBar
+                android:id="@+id/pbMonthlyGoalLoading"
+                style="@android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMonthlyGoals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <TextView
                 android:id="@+id/tvMonthlyGoalsLabel"
@@ -79,12 +111,28 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llSpentToday"
+            android:id="@+id/llSpentTodayProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical" >
+
+            <ProgressBar
+                android:id="@+id/pbSpentTodayLoading"
+                style="@android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSpentToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <TextView
                 android:id="@+id/tvSpentTodayLabel"
