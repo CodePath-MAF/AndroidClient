@@ -12,6 +12,7 @@ import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
+import org.missionassetfund.apps.android.utils.ParseUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -92,11 +93,10 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         // goal = (Goal) getIntent().getSerializableExtra(Goal.GOAL_KEY);
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
 
-        // TODO(amit) consume goal being set from the intent
-        // Goal will come from Dashboard. For now let's get one from parse
+        // Goal was pinned when calling goal details activity.
+        // Querying form local datastore.
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
-        // query.whereEqualTo("user", (User) ParseUser.getCurrentUser());
-        // query.addDescendingOrder("createdAt");
+        query.fromLocalDatastore();
 
         query.getInBackground(goalId, new GetCallback<Goal>() {
 
@@ -175,7 +175,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         // GoalPaymentFragment.newInstance(goal);
         // newGoalPaymentFragment.show(fm, "fragment_new_goal");
         Intent addPaymentIntent = new Intent(this, AddGoalPaymentActivity.class);
-        addPaymentIntent.putExtra(Goal.GOAL_KEY, goal);
+        addPaymentIntent.putExtra(Goal.GOAL_KEY, goal.getObjectId());
         startActivityForResult(addPaymentIntent, ADD_PAYMENT_REQUEST_CODE);
     }
 
@@ -213,9 +213,30 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == ADD_PAYMENT_REQUEST_CODE) {
-            Transaction txn = (Transaction) data.getSerializableExtra(Transaction.NAME_KEY);
-            updatePayment(txn);
+            String txnId = data.getStringExtra(Transaction.NAME_KEY);
+            ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
+            query.fromLocalDatastore();
+
+            query.getInBackground(txnId, new GetCallback<Transaction>() {
+
+                @Override
+                public void done(Transaction txn, ParseException e) {
+                    if (e == null) {
+                        updatePayment(txn);
+                        txn.saveEventually();
+                    } else {
+                        Log.e("error", "error getting goal payments", e);
+                    }
+                }
+            });
+
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        goal.unpinInBackground(ParseUtils.DELETE_CALLBACKs);
+        super.onDestroy();
     }
 
     @Override

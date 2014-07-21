@@ -5,11 +5,11 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.activities.GoalDetailsActivity;
 import org.missionassetfund.apps.android.adapters.GoalAdapter;
 import org.missionassetfund.apps.android.models.Goal;
+import org.missionassetfund.apps.android.utils.ParseUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +48,8 @@ public class GoalsListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapter, View parent, int position, long rowId) {
                 Goal goal = (Goal) adapter.getItemAtPosition(position);
-                Log.d("debug", goal.getCreatedAt().toString());
+                goal.pinInBackground(ParseUtils.PIN_CALLBACK);
                 Intent intent = new Intent(getActivity(), GoalDetailsActivity.class);
-                // Goal is not serialized properly. Passing id for now.
-                // intent.putExtra(Goal.GOAL_KEY, goal);
                 intent.putExtra(Goal.GOAL_KEY, goal.getObjectId());
                 getActivity().startActivity(intent);
             }

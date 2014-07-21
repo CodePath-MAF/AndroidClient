@@ -16,6 +16,7 @@ import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
+import org.missionassetfund.apps.android.utils.ParseUtils;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -24,7 +25,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -35,8 +35,9 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.SaveCallback;
+import com.parse.ParseQuery;
 
 public class AddGoalPaymentActivity extends BaseFragmentActivity
         implements OnInputFormListener, NameInputFragment.OnCreateViewListener,
@@ -138,11 +139,32 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
     }
 
     private void setupDataFromIntent() {
-        goal = (Goal) getIntent().getSerializableExtra(Goal.GOAL_KEY);
-        Input input = inputElements[0];
-        input.setValue(FormatterUtils.formatAmount(goal.getPaymentAmount()));
-        inputs.add(input);
-        aInput.notifyDataSetChanged();
+        String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
+
+        // TODO (amit) : code duplication.
+        // Goal was pinned when calling goal details activity.
+        // Querying form local datastore.
+        ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
+        query.fromLocalDatastore();
+
+        query.getInBackground(goalId, new GetCallback<Goal>() {
+
+            @Override
+            public void done(Goal g, ParseException e) {
+                if (e == null) {
+                    goal = g;
+
+                    Input input = inputElements[0];
+                    input.setValue(FormatterUtils.formatAmount(goal.getPaymentAmount()));
+                    inputs.add(input);
+                    aInput.notifyDataSetChanged();
+
+                } else {
+                    Toast.makeText(AddGoalPaymentActivity.this, "Error getting goal",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -172,25 +194,34 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         transaction.setGoal(goal);
         transaction.setTransactionDate(new Date());
         transaction.setType(TransactionType.CREDIT);
-        transaction.saveInBackground(new SaveCallback() {
 
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Toast.makeText(AddGoalPaymentActivity.this, "Done savign txn",
-                            Toast.LENGTH_LONG).show();
-                    Intent txnData = new Intent();
-                    txnData.putExtra(Transaction.NAME_KEY, transaction);
-                    setResult(RESULT_OK, txnData);
-                    setResult(RESULT_OK, txnData);
-                    finish();
-                } else {
-                    Log.e("goal", e.getLocalizedMessage(), e);
-                    Toast.makeText(AddGoalPaymentActivity.this, R.string.parse_error_saving,
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        transaction.pinInBackground(ParseUtils.PIN_CALLBACK);
+
+        Intent txnData = new Intent();
+        txnData.putExtra(Transaction.NAME_KEY, transaction.getObjectId());
+        setResult(RESULT_OK, txnData);
+        finish();
+
+        // transaction.saveInBackground(new SaveCallback() {
+        //
+        // @Override
+        // public void done(ParseException e) {
+        // if (e == null) {
+        // Toast.makeText(AddGoalPaymentActivity.this, "Done savign txn",
+        // Toast.LENGTH_LONG).show();
+        // Intent txnData = new Intent();
+        // txnData.putExtra(Transaction.NAME_KEY, transaction);
+        // setResult(RESULT_OK, txnData);
+        // setResult(RESULT_OK, txnData);
+        // finish();
+        // } else {
+        // Log.e("goal", e.getLocalizedMessage(), e);
+        // Toast.makeText(AddGoalPaymentActivity.this,
+        // R.string.parse_error_saving,
+        // Toast.LENGTH_SHORT).show();
+        // }
+        // }
+        // });
 
     }
 
