@@ -193,7 +193,7 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
                 .findFragmentByTag(AmountInputFragment.class.getName());
         transaction.setAmount(Double.parseDouble(amountFragment.getAmountSelected()));
 
-        transaction.setName(getString(R.string.label_goal_payment));
+        transaction.setName(getString(R.string.add_goal_payment_transaction_name, goal.getName()));
 
         transaction.setGoal(goal);
         transaction.setTransactionDate(new Date());
