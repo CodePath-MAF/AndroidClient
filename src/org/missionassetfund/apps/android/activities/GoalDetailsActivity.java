@@ -141,8 +141,11 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
 
     private void populateViews() {
         // Once goal is available let's setup views
-        // If goal is of type lending circle then change visibility to visible
-        // rlLendingCircle.setVisibility(View.GONE);
+        // TODO (amit): If goal is of type lending circle then change visibility
+        // to visible
+        if (goal.getName().contains("Amit")) {
+            rlLendingCircle.setVisibility(View.VISIBLE);
+        }
 
         // tvTotalTargetPayment.setText(Double.toString(goal.getAmount()));
         // tvTargetDate.setText(FormatterUtils.formatMonthDate(goal.getGoalDate()));
@@ -254,9 +257,9 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
     private List<Fragment> getLendingCircleFriendsAdapter() {
         List<Fragment> fList = new ArrayList<Fragment>();
 
-        fList.add(LendingCircleProfilesFragment.newInstance("Fragment 1"));
-        fList.add(LendingCircleProfilesFragment.newInstance("Fragment 2"));
-        fList.add(LendingCircleProfilesFragment.newInstance("Fragment 3"));
+        fList.add(LendingCircleProfilesFragment.newInstance(0));
+        fList.add(LendingCircleProfilesFragment.newInstance(4));
+        fList.add(LendingCircleProfilesFragment.newInstance(8));
 
         return fList;
     }

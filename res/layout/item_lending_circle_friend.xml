@@ -6,7 +6,7 @@
     android:background="@android:color/transparent">
 
     <ImageView
-        android:id="@+id/ivFriend1"
+        android:id="@+id/ivFriend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -16,10 +16,10 @@
         android:src="@drawable/profile_1" />
 
     <TextView
-        android:id="@+id/tvFriendName1"
+        android:id="@+id/tvFriendName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivFriend1"
+        android:layout_below="@+id/ivFriend"
         android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
         android:text="@string/sample_name"
