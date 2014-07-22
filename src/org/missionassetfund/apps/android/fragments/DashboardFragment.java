@@ -174,7 +174,8 @@ public class DashboardFragment extends Fragment {
                         // Check Spents Today.
                         if (DateUtils.isToday(t.getTransactionDate().getTime())
                                 && t.isCredit()) {
-                            spentToday = spentToday.subtract(CurrencyUtils.newCurrency(t.getAmount()));
+                            spentToday = spentToday.subtract(CurrencyUtils.newCurrency(t
+                                    .getAmount()));
                         }
                     }
 
@@ -183,7 +184,7 @@ public class DashboardFragment extends Fragment {
                         tvSpentToday.setTextAppearance(getActivity(),
                                 R.style.DashboardUI_SpentToday);
                     }
-                    
+
                     // Set values into the view
                     tvSpentToday.setText(CurrencyUtils.getCurrencyValueFormatted(spentToday));
 
@@ -193,10 +194,17 @@ public class DashboardFragment extends Fragment {
         });
     }
 
+    private void refreshGoalList() {
+        GoalsListFragment fragmentGoalList = (GoalsListFragment) getActivity()
+                .getSupportFragmentManager().findFragmentById(R.id.goalListFragment);
+        fragmentGoalList.updateGoalList();
+    }
+
     @Override
     public void onResume() {
         refreshTotalCash();
         refreshSpentToday();
+        refreshGoalList();
         super.onResume();
     }
 
