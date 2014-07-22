@@ -6,142 +6,110 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/rlGoalData"
+        android:id="@+id/rlLendingCircle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/bg_card"
-        android:orientation="vertical"
-        android:paddingBottom="10dp" >
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@color/white"
+        android:visibility="gone" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vpLendingCircle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true" />
+
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rlFinalTargetData"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="3"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/tvTotalPaymentLabel"
+            android:id="@+id/tvTotalTargetLabel"
             style="@style/SmallText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/label_payment"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:text="@string/label_receive" />
+
+        <TextView
+            android:id="@+id/tvTotalTargetPayment"
+            style="@style/LargeAmount"
+            android:text="@string/sample_total_payment" />
+
+        <TextView
+            android:id="@+id/tvSavedToDate"
+            style="@style/SmallText"
+            android:text="@string/sample_saved_to_date" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rlGoalData"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="3"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tvNextPaymentLabel"
+            style="@style/SmallText"
+            android:text="@string/next_payment_label" />
 
         <TextView
             android:id="@+id/tvPaymentDue"
             style="@style/LargeAmount"
-            android:layout_alignLeft="@+id/tvTotalPaymentLabel"
-            android:layout_below="@+id/tvTotalPaymentLabel"
-            android:text="@string/sample_total_payment"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/tvDueDateLabel"
-            style="@style/SmallText"
-            android:layout_alignBaseline="@+id/tvTotalPaymentLabel"
-            android:layout_alignBottom="@+id/tvTotalPaymentLabel"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:text="@string/label_due_date"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <TextView
-            android:id="@+id/tvDueDate"
-            style="@style/MediumAmount"
-            android:layout_alignRight="@+id/tvDueDateLabel"
-            android:layout_alignTop="@+id/tvPaymentDue"
-            android:text="@string/sample_due_date"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/sample_total_payment" />
 
         <TextView
             android:id="@+id/tvDueDateHuman"
             style="@style/SmallText"
-            android:layout_alignRight="@+id/tvDueDate"
-            android:layout_below="@+id/tvDueDate"
-            android:text="@string/sample_due_date_human"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-    </RelativeLayout>
+            android:drawableLeft="@drawable/img_time_red"
+            android:text="@string/sample_due_date_human_goal_details" />
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llFinalTarget"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/bg_card"
-        android:orientation="vertical"
-        android:paddingBottom="10dp" >
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-        <RelativeLayout
-            android:id="@+id/rlFinalTargetData"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/tvTotalTargetLabel"
-                style="@style/SmallText"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/label_receive"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <TextView
-                android:id="@+id/tvTotalTargetPayment"
-                style="@style/LargeAmount"
-                android:layout_alignLeft="@+id/tvTotalTargetLabel"
-                android:layout_below="@+id/tvTotalTargetLabel"
-                android:text="@string/sample_total_payment"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <TextView
-                android:id="@+id/tvTargetDateLabel"
-                style="@style/SmallText"
-                android:layout_alignBaseline="@+id/tvTotalTargetLabel"
-                android:layout_alignBottom="@+id/tvTotalTargetLabel"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:text="@string/label_due_date"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <TextView
-                android:id="@+id/tvTargetDate"
-                style="@style/MediumAmount"
-                android:layout_alignRight="@+id/tvTargetDateLabel"
-                android:layout_alignTop="@+id/tvTotalTargetPayment"
-                android:text="@string/sample_due_date"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/tvTargetDateHuman"
-                style="@style/SmallText"
-                android:layout_alignRight="@+id/tvTargetDate"
-                android:layout_below="@+id/tvTargetDate"
-                android:text="@string/sample_due_date_human"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-        </RelativeLayout>
-
-        <ProgressBar
-            android:id="@+id/pbGoalProgress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/btnMakePayment"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:progress="50" />
+            android:background="@drawable/make_goal_payment_button"
+            android:contentDescription="@string/label_btn_goal_payment"
+            android:onClick="onMakePayment" />
+
+        <TextView
+            android:id="@+id/tvNumPayments"
+            style="@style/SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next_payment_label" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/llPastPayments"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/bg_card"
-        android:orientation="vertical"
-        android:paddingBottom="10dp" >
-
-        <ListView
-            android:id="@+id/lvPastPayments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
-    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/pbGoalPayment"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:progress="60"
+        android:progressDrawable="@drawable/goal_payment_progress_bar" />
 
 </LinearLayout>

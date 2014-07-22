@@ -20,7 +20,7 @@ public class MAFApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        
+
         // Register default font
         CalligraphyConfig.initDefault("fonts/OpenSans-Regular.ttf", R.attr.fontPath);
 
@@ -29,6 +29,9 @@ public class MAFApplication extends Application {
         ParseObject.registerSubclass(Transaction.class);
         ParseObject.registerSubclass(Goal.class);
         ParseObject.registerSubclass(Category.class);
+
+        // Enable local datastore
+        Parse.enableLocalDatastore(this);
 
         // Initializing Parse
         Parse.initialize(this, getString(R.string.parseApplicationId),
