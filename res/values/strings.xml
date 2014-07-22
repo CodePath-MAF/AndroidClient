@@ -60,12 +60,17 @@
     <string name="dashboard_title">Dashboard</string>
     <string name="dashboard_total_cash_label">TOTAL CASH</string>
     <string name="dashboard_monthly_goals_label">MONTHLY GOALS</string>
+    <string name="dashboard_saved_today_label">SAVED TODAY</string>
     <string name="dashboard_spent_today_label">SPENT TODAY</string>
     <string name="dashboard_goal_item_due_date_today">due in today</string>
     <string name="dashboard_goal_item_due_date_tomorrow">due in tomorrow</string>
     <string name="dashboard_goal_item_due_date_days">due in %1$d days</string>
     <string name="dashboard_goal_item_due_date">due %1$s</string>
-    <string name="dashboard_milestones_left_human">%1$d milestones left</string>
+    <plurals name="dashboard_milestones_left_human">
+        <item quantity="zero">No payments left</item>
+        <item quantity="one">%d payment left</item>
+        <item quantity="other">%d payments left</item>
+    </plurals>
 
     <!-- Initial Setup -->
     <string name="initial_setup_title">Enter Current Cash balance</string>

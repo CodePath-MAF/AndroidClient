@@ -72,7 +72,7 @@
         android:showDividers="middle" >
 
         <LinearLayout
-            android:id="@+id/llMonthlyGoalsProgress"
+            android:id="@+id/llSavedTodayProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -80,14 +80,14 @@
             android:orientation="vertical" >
 
             <ProgressBar
-                android:id="@+id/pbMonthlyGoalLoading"
+                android:id="@+id/pbSavedTodayLoading"
                 style="@android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llMonthlyGoals"
+            android:id="@+id/llSavedToday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -96,14 +96,14 @@
             android:visibility="gone" >
 
             <TextView
-                android:id="@+id/tvMonthlyGoalsLabel"
+                android:id="@+id/tvSavedTodayLabel"
                 style="@style/DashboardUI.AggregateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/dashboard_monthly_goals_label" />
+                android:text="@string/dashboard_saved_today_label" />
 
             <TextView
-                android:id="@+id/tvMonthlyGoals"
+                android:id="@+id/tvSavedToday"
                 style="@style/DashboardUI.AggregateValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

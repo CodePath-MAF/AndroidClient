@@ -2,7 +2,6 @@
 package org.missionassetfund.apps.android.adapters;
 
 import java.util.Locale;
-import java.util.Random;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Goal;
@@ -78,10 +77,14 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
 
         tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
 
-        // TODO: set Number of milestone left base on Goal View logic
-        Random rand = new Random();
-        tvMilestonesLeft.setText(getContext().getString(R.string.dashboard_milestones_left_human,
-                rand.nextInt(8)).toUpperCase(Locale.US));
+        int paymentsMade = (int) (goal.getCurrentTotal() / goal.getPaymentAmount());
+        int paymentsLeft = goal.getNumPayments() - paymentsMade;
+
+        tvMilestonesLeft.setText(getContext()
+                .getResources()
+                .getQuantityString(R.plurals.dashboard_milestones_left_human, paymentsLeft,
+                        paymentsLeft)
+                .toUpperCase(Locale.US));
 
         return v;
     }
