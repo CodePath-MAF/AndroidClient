@@ -150,6 +150,7 @@ public class NewGoalActivity extends BaseFragmentActivity implements OnInputForm
         goal.setPaymenyInterval(paymentInterval);
         goal.setNumPayments(numPayments);
         goal.setPaymentAmount(goalAmount / numPayments);
+        goal.setCurrentTotal(0d);
         goal.setGoalDate(goalDate);
 
         goal.saveInBackground(new SaveCallback() {
