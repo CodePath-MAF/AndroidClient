@@ -67,7 +67,8 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/label_dashboard_title"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
             android:name=".activities.LiquidAssetsActivity"

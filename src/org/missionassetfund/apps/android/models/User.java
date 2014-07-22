@@ -8,7 +8,8 @@ import com.parse.ParseUser;
 public class User extends ParseUser {
     public static final String NAME_KEY = "name";
     public static final String PHONE_NUMBER_KEY = "phoneNumber";
-    public static final String LIQUID_ASSETS_KEY = "liquidAssets";
+    public static final String TOTAL_CASH_KEY = "totalCash";
+    public static final String SETUP_KEY = "setup";
 
     public User() {
         super();
@@ -30,12 +31,19 @@ public class User extends ParseUser {
         put(PHONE_NUMBER_KEY, phoneNumber);
     }
     
-    // For now, lets store liquid assets within the user Obj
-    public Double getLiquidAssets() {
-        return getDouble(LIQUID_ASSETS_KEY);
+    public Double getTotalCash() {
+        return getDouble(TOTAL_CASH_KEY);
     }
     
-    public void setLiquidAssets(Double liquidAsset) {
-        put(LIQUID_ASSETS_KEY, liquidAsset);
+    public void setTotalCash(Double liquidAsset) {
+        put(TOTAL_CASH_KEY, liquidAsset);
+    }
+    
+    public boolean isSetup() {
+        return getBoolean(SETUP_KEY);
+    }
+    
+    public void setSetup(boolean setup) {
+        put(SETUP_KEY, setup);
     }
 }

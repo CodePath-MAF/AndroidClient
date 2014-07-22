@@ -5,35 +5,75 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.fragments.DashboardFragment;
 import org.missionassetfund.apps.android.fragments.DashboardFragment.SwitchMainFragmentListener;
 import org.missionassetfund.apps.android.fragments.GoalsListFragment;
+import org.missionassetfund.apps.android.fragments.InitialSetupFragment;
+import org.missionassetfund.apps.android.fragments.InitialSetupFragment.OnInitialSetupListener;
+import org.missionassetfund.apps.android.models.User;
 
+import com.parse.ParseException;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
-public class MainActivity extends BaseFragmentActivity implements SwitchMainFragmentListener {
+public class MainActivity extends BaseFragmentActivity implements SwitchMainFragmentListener,
+        OnInitialSetupListener {
     public static final int NEW_GOAL_REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-        showDashboardFragment();
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateFragments();
+    }
+
+    private void updateFragments() {
+        User currentUser = (User) User.getCurrentUser();
+
+        // Try to get a fresh copy of the user
+        try {
+            currentUser.refresh();
+        } catch (ParseException e) {
+            Log.d("Error", "Could not get fresh user");
+            Log.d("Error", e.getMessage());
+        }
+
+        if (currentUser.isSetup()) {
+            showDashboardFragment();
+        } else {
+            showInitialSetupFragment();
+        }
     }
 
     private void showDashboardFragment() {
         showFragment(DashboardFragment.class);
     }
 
+    private void showInitialSetupFragment() {
+        showFragment(InitialSetupFragment.class);
+    }
+
     @SuppressWarnings("rawtypes")
     private void showFragment(Class activeFragmentClass) {
         Class[] fragmentClasses = new Class[] {
-                DashboardFragment.class
+                DashboardFragment.class,
+                InitialSetupFragment.class
         };
         FragmentManager mgr = getSupportFragmentManager();
         FragmentTransaction transaction = mgr.beginTransaction();
@@ -96,5 +136,19 @@ public class MainActivity extends BaseFragmentActivity implements SwitchMainFrag
                     .findFragmentById(R.id.goalListFragment);
             fragmentGoalList.updateGoalList();
         }
+    }
+
+    @Override
+    public void onSuccessfulSetup() {
+        hideSoftKeyboard();
+        setProgressBarIndeterminateVisibility(false);
+        updateFragments();
+        Toast.makeText(this, getString(R.string.initial_setup_toast_successful_message),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    public void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
     }
 }
