@@ -231,7 +231,6 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
                 public void done(Transaction txn, ParseException e) {
                     if (e == null) {
                         updatePayment(txn);
-                        txn.saveEventually();
                     } else {
                         Log.e("error", "error getting goal payments", e);
                     }

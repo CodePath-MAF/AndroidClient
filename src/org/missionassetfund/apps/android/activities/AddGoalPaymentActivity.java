@@ -202,6 +202,8 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
 
         transaction.pinInBackground(ParseUtils.PIN_CALLBACK);
 
+        transaction.saveInBackground(ParseUtils.SAVE_CALLBACK);
+
         Intent txnData = new Intent();
         txnData.putExtra(Transaction.NAME_KEY, transaction.getObjectId());
         setResult(RESULT_OK, txnData);
