@@ -9,6 +9,7 @@ import org.missionassetfund.apps.android.adapters.GoalDetailsVPAdapter;
 import org.missionassetfund.apps.android.fragments.LendingCircleProfilesFragment;
 import org.missionassetfund.apps.android.interfaces.UpdatePaymentsListener;
 import org.missionassetfund.apps.android.models.Goal;
+import org.missionassetfund.apps.android.models.GoalType;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
@@ -141,9 +142,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
 
     private void populateViews() {
         // Once goal is available let's setup views
-        // TODO (amit): If goal is of type lending circle then change visibility
-        // to visible
-        if (goal.getName().contains("Amit")) {
+        if (goal.getType() != null && goal.getType() == GoalType.LENDING_CIRCLE) {
             rlLendingCircle.setVisibility(View.VISIBLE);
         }
 

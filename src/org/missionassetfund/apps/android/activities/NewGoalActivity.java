@@ -14,6 +14,7 @@ import org.missionassetfund.apps.android.fragments.NameInputFragment;
 import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.GoalPaymentInterval;
+import org.missionassetfund.apps.android.models.GoalType;
 import org.missionassetfund.apps.android.models.Input;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
@@ -143,6 +144,7 @@ public class NewGoalActivity extends BaseFragmentActivity implements OnInputForm
         // TODO(jose): Data validation
         Goal goal = new Goal();
         goal.setUser((User) User.getCurrentUser());
+        goal.setType(GoalType.GENERAL);
         goal.setAmount(goalAmount);
         goal.setName(goalName);
         goal.setPaymenyInterval(paymentInterval);

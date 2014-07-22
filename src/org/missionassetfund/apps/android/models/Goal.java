@@ -53,14 +53,12 @@ public class Goal extends ParseObject implements Serializable {
         put(DESCRIPTION_KEY, description);
     }
 
-    // TODO: Discuss if hardcode 'type' via an enum or have a dummy Transaction
-    // Type Model
-    public String getType() {
-        return getString(TYPE_KEY);
+    public GoalType getType() {
+        return GoalType.getTypeFromInt(getInt(TYPE_KEY));
     }
 
-    public void setType(String type) {
-        put(TYPE_KEY, type);
+    public void setType(GoalType goalType) {
+        put(TYPE_KEY, goalType.toInt());
     }
 
     public GoalStatus getStatus() {
