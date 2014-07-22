@@ -119,4 +119,8 @@ public class Transaction extends ParseObject implements Serializable {
     public boolean isCredit() {
         return this.getType().equals(TransactionType.CREDIT);
     }
+    
+    public boolean isDebit() {
+        return this.getType().equals(TransactionType.DEBIT);
+    }
 }

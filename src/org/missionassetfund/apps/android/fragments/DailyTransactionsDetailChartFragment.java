@@ -41,6 +41,10 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
         pgTransactionsDetailChart.setPadding(1);
         pgTransactionsDetailChart.removeSlices();
         PieSlice slice = null;
+        
+        if (mTransactionGroup == null) {
+            return;
+        }
 
         for (Transaction transaction: mTransactionGroup.getTransactions()) {
             if (transaction.isCredit()) {

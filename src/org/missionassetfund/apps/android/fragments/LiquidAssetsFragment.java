@@ -10,7 +10,6 @@ import org.missionassetfund.apps.android.activities.AddTransactionActivity;
 import org.missionassetfund.apps.android.adapters.ChartsViewPagerAdapter;
 import org.missionassetfund.apps.android.adapters.TransactionsExpandableListAdapter;
 import org.missionassetfund.apps.android.models.Transaction;
-import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.TransactionGroup;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
@@ -50,6 +49,7 @@ public class LiquidAssetsFragment extends Fragment {
     private ProgressBar pbLoadingLiquidAssets;
     private RelativeLayout rlLiquidAssets;
     private List<TransactionGroup> mTransactionsGroup;
+    private List<TransactionGroup> mTransactionsGroupChart;
     private BigDecimal mSpentToday;
     private BigDecimal mSpentThisWeek;
     private BigDecimal mLiquidAssets;
@@ -122,23 +122,35 @@ public class LiquidAssetsFragment extends Fragment {
 
     private void setupTransactions(List<Transaction> transactions) {
         mTransactionsGroup = new ArrayList<TransactionGroup>();
+        mTransactionsGroupChart = new ArrayList<TransactionGroup>();
         mSpentToday = CurrencyUtils.ZERO;
         mSpentThisWeek = CurrencyUtils.ZERO;
         mLiquidAssets = CurrencyUtils.ZERO;
         
         TransactionGroup tg = null;
+        TransactionGroup tgChart = null;
         int index = -1;
+        int indexChart = -1;
 
         for (Transaction t : transactions) {
             // Set transactions for ListView
             tg = new TransactionGroup(t.getTransactionDate(), new ArrayList<Transaction>());
+            tgChart = new TransactionGroup(t.getTransactionDate(), new ArrayList<Transaction>());
             index = mTransactionsGroup.indexOf(tg);
+            indexChart = mTransactionsGroupChart.indexOf(tg);
             
             if (index == -1) {
                 tg.getTransactions().add(t);
                 mTransactionsGroup.add(tg);
             } else {
                 mTransactionsGroup.get(index).getTransactions().add(t);
+            }
+            
+            if (indexChart == -1 && t.isCredit()) {
+                tgChart.getTransactions().add(t);
+                mTransactionsGroupChart.add(tgChart);
+            } else if (t.isCredit()) {
+                mTransactionsGroupChart.get(indexChart).getTransactions().add(t);
             }
 
             if (t.isCredit()) {
@@ -151,7 +163,7 @@ public class LiquidAssetsFragment extends Fragment {
                 }
                 
                 mLiquidAssets = mLiquidAssets.subtract(BigDecimal.valueOf(t.getAmount()));
-            } else if (t.getType().equals(TransactionType.DEBIT)) {
+            } else if (t.isDebit()) {
                 mLiquidAssets = mLiquidAssets.add(BigDecimal.valueOf(t.getAmount()));
             }
         }
@@ -196,8 +208,12 @@ public class LiquidAssetsFragment extends Fragment {
 
     private void setupChart() {
         mChartsViewPageAdapter = new ChartsViewPagerAdapter(getActivity().getSupportFragmentManager());
-        mChartsViewPageAdapter.setTransactionGroups(mTransactionsGroup);
-        mChartsViewPageAdapter.setTransactionGroup(mTransactionsGroup.get(0));
+        mChartsViewPageAdapter.setTransactionGroups(mTransactionsGroupChart);
+
+        if (!mTransactionsGroupChart.isEmpty()) {
+            mChartsViewPageAdapter.setTransactionGroup(mTransactionsGroupChart.get(0));
+        }
+        
         vpCharts.setAdapter(mChartsViewPageAdapter);
     }
 
