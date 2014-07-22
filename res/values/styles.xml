@@ -169,7 +169,7 @@
     </style>
 
     <style name="AddTransactionUI.NameInput">
-        <item name="android:textSize">65sp</item>
+        <item name="android:textSize">50sp</item>
         <item name="android:textColor">@color/add_transaction_name_display_value</item>
         <item name="android:textColorHint">@color/add_transaction_name_hint_value</item>
         <item name="android:maxLines">1</item>
