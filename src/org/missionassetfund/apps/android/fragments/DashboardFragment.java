@@ -7,7 +7,6 @@ import java.util.List;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.activities.LiquidAssetsActivity;
 import org.missionassetfund.apps.android.models.Transaction;
-import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
@@ -137,7 +136,7 @@ public class DashboardFragment extends Fragment {
                 } else {
                     BigDecimal totalCash = CurrencyUtils.newCurrency(0d);
                     for (Transaction t : results) {
-                        if (t.getType().equals(TransactionType.DEBIT)) {
+                        if (t.isDebit()) {
                             totalCash = totalCash.add(CurrencyUtils.newCurrency(t.getAmount()));
                         } else {
                             totalCash = totalCash.subtract(CurrencyUtils.newCurrency(t.getAmount()));
@@ -174,7 +173,7 @@ public class DashboardFragment extends Fragment {
                     for (Transaction t : results) {
                         // Check Spents Today.
                         if (DateUtils.isToday(t.getTransactionDate().getTime())
-                                && t.getType().equals(TransactionType.CREDIT)) {
+                                && t.isCredit()) {
                             spentToday = spentToday.subtract(CurrencyUtils.newCurrency(t.getAmount()));
                         }
                     }

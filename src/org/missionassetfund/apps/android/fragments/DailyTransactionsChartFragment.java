@@ -69,6 +69,10 @@ public class DailyTransactionsChartFragment extends Fragment {
     }
 
     private void setupChart() {
+        if (mTransactionGroups.isEmpty()) {
+            return;
+        }
+        
         ArrayList<Bar> points = new ArrayList<Bar>();
         ArrayList<TransactionGroup> reversedList = new ArrayList<TransactionGroup>(
                 mTransactionGroups);
