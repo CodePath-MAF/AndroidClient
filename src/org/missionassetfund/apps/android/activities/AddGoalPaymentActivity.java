@@ -183,8 +183,7 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
     public void OnFinishSelected() {
         FragmentManager mgr = getSupportFragmentManager();
 
-        Category txnCategory = ParseObject.create(Category.class);
-        txnCategory.setObjectId("93BaEoZPfo");
+        Category txnCategory = ParseObject.createWithoutData(Category.class, "93BaEoZPfo");
 
         final Transaction transaction = new Transaction();
         transaction.setUser((User) User.getCurrentUser());
