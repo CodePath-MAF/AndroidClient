@@ -72,7 +72,7 @@
             android:layout_below="@+id/tvPaymentDue"
             android:layout_centerHorizontal="true"
             android:drawableLeft="@drawable/img_time_red"
-            android:text="@string/sample_due_date_human" />
+            android:text="@string/sample_due_date_human_goal_details" />
     </RelativeLayout>
 
     <RelativeLayout

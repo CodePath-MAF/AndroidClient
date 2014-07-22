@@ -2,13 +2,23 @@
 <resources>
 
     <color name="white">#FFFFFF</color>
-    <color name="lightgray">#E5E5E5</color>
+    <color name="lightgray">#F3F3F3</color>
     <color name="darkgray">#575757</color>
     <color name="gray">#CCCCCC</color>
     <color name="light_blue">#c1dbee</color>
     <color name="navy_blue">#165b8c</color>
     <color name="app_green">#23c7a1</color>
     <color name="light_red">#E82C0C</color>
+    
+    <!-- Dashboard -->
+    <color name="dashboard_aggregate_label">#8D8D8D</color>
+    <color name="dashboard_aggregate_value">#4A4A4A</color>
+    <color name="dashboard_spent_today_text">#D0021B</color>
+    <color name="dashboard_goal_item_background">#F3F3F3</color>
+    <color name="dashboard_goal_item_name_text">#342F33</color>
+    <color name="dashboard_goal_item_due_date_text">#878787</color>
+    <color name="dashboard_goal_item_due_date_soon_text">#D0021B</color>
+    <color name="dashboard_goal_item_milestones_text">#878787</color>
     
     <!-- Add Transaction -->
     <color name="add_transaction_input_item_display_name">#80FFFFFF</color>
@@ -39,5 +49,8 @@
     <color name="com_parse_ui_twitter_login_button">#2DAAE2</color>
     <color name="com_parse_ui_twitter_login_button_push">#2588B5</color>
     <color name="com_parse_ui_twitter_login_button_focus">#2788BE</color>
+    
+    <!-- Liquid Assets -->
+    <color name="liquid_assets_bar_chart">#AC59D6</color>
 
 </resources>

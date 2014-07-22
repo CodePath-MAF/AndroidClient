@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightgray"
+    android:background="@color/white"
     tools:context="${relativePackage}.${activityClass}" >
 
     <ProgressBar
@@ -16,10 +16,10 @@
         android:id="@+id/tvEmptyLiquidAssets"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:enabled="false"
         android:gravity="center"
         android:text="No transactions yet?!?!? Tap on the plus sign and start adding your transactions!!!"
-        android:visibility="invisible"
-        android:enabled="false" />
+        android:visibility="invisible" />
 
     <RelativeLayout
         android:id="@+id/rlLiquidAssets"
@@ -27,20 +27,19 @@
         android:layout_height="match_parent"
         android:visibility="invisible" >
 
-        <com.echo.holographlibrary.PieGraph
-            android:id="@+id/pgLiquidAssetDonutChart"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp" />
+        <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/vpCharts"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+        </android.support.v4.view.ViewPager>
 
         <LinearLayout
             android:id="@+id/llAssetsSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/pgLiquidAssetDonutChart"
+            android:layout_below="@+id/vpCharts"
+            android:background="@drawable/gray_border"
             android:baselineAligned="false"
             android:divider="?android:dividerHorizontal"
             android:orientation="horizontal"
@@ -50,7 +49,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/green_bottom_border"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="8dp" >
@@ -69,7 +67,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/red_bottom_border"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="8dp" >
@@ -88,7 +85,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/blue_bottom_border"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="8dp" >
@@ -115,7 +111,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:background="@color/white" >
+                android:background="@color/white"
+                android:childDivider="@color/white" >
             </ExpandableListView>
 
             <TextView

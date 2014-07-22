@@ -7,11 +7,17 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.TransactionGroup;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class TransactionsExpandableListAdapter extends BaseExpandableListAdapter {
@@ -92,10 +98,20 @@ public class TransactionsExpandableListAdapter extends BaseExpandableListAdapter
                 .findViewById(R.id.tvTransactionCategory);
         TextView tvTransactionAmount = (TextView) convertView
                 .findViewById(R.id.tvTransactionAmount);
+        TextView tvTransactionName = (TextView) convertView
+                .findViewById(R.id.tvTransactionName);
 
         tvTransactionCategory.setText(transaction.getCategory() == null ? transaction
                 .getName() : transaction.getCategory().getName());
         tvTransactionAmount.setText(transaction.getAmountFormatted());
+        tvTransactionName.setText(transaction.getName());
+        
+        if (transaction.getCategory() != null) {
+            RelativeLayout rlTransactionsListDetail = (RelativeLayout) convertView.findViewById(R.id.rlTransactionsListDetail);
+            LayerDrawable layers = (LayerDrawable) rlTransactionsListDetail.getBackground();
+            GradientDrawable shape = (GradientDrawable) layers.getDrawable(0);
+            shape.setColor(Color.parseColor(transaction.getCategory().getColor()));
+        }
 
         return convertView;
     }

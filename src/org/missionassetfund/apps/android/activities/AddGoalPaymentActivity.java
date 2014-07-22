@@ -10,6 +10,7 @@ import org.missionassetfund.apps.android.fragments.AmountInputFragment;
 import org.missionassetfund.apps.android.fragments.CategoryInputFragment;
 import org.missionassetfund.apps.android.fragments.NameInputFragment;
 import org.missionassetfund.apps.android.interfaces.OnInputFormListener;
+import org.missionassetfund.apps.android.models.Category;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Input;
 import org.missionassetfund.apps.android.models.Transaction;
@@ -37,6 +38,7 @@ import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 public class AddGoalPaymentActivity extends BaseFragmentActivity
@@ -181,6 +183,9 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
     public void OnFinishSelected() {
         FragmentManager mgr = getSupportFragmentManager();
 
+        Category txnCategory = ParseObject.create(Category.class);
+        txnCategory.setObjectId("93BaEoZPfo");
+
         final Transaction transaction = new Transaction();
         transaction.setUser((User) User.getCurrentUser());
 
@@ -194,6 +199,7 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         transaction.setGoal(goal);
         transaction.setTransactionDate(new Date());
         transaction.setType(TransactionType.CREDIT);
+        transaction.setCategory(txnCategory);
 
         transaction.pinInBackground(ParseUtils.PIN_CALLBACK);
 
@@ -201,27 +207,6 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         txnData.putExtra(Transaction.NAME_KEY, transaction.getObjectId());
         setResult(RESULT_OK, txnData);
         finish();
-
-        // transaction.saveInBackground(new SaveCallback() {
-        //
-        // @Override
-        // public void done(ParseException e) {
-        // if (e == null) {
-        // Toast.makeText(AddGoalPaymentActivity.this, "Done savign txn",
-        // Toast.LENGTH_LONG).show();
-        // Intent txnData = new Intent();
-        // txnData.putExtra(Transaction.NAME_KEY, transaction);
-        // setResult(RESULT_OK, txnData);
-        // setResult(RESULT_OK, txnData);
-        // finish();
-        // } else {
-        // Log.e("goal", e.getLocalizedMessage(), e);
-        // Toast.makeText(AddGoalPaymentActivity.this,
-        // R.string.parse_error_saving,
-        // Toast.LENGTH_SHORT).show();
-        // }
-        // }
-        // });
 
     }
 

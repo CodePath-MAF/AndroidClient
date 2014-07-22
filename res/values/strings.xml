@@ -3,9 +3,9 @@
 
     <string name="app_name">Mission Asset Fund</string>
     <string name="title_add_goal">Add Goal</string>
-    <string name="title_liquid_asset">Liquid Assets</string>
+    <string name="title_liquid_asset">Transactions</string>
     <string name="title_goal_details">Goals</string>
-    <string name="label_liquid_assets">LIQUID ASSETS</string>
+    <string name="label_liquid_assets">TOTAL CASH</string>
     <string name="label_spent_today">SPENT TODAY</string>
     <string name="label_spent_this_week">SPENT THIS WEEK</string>
     <string name="next_payment_label">NEXT PAYMENT OF</string>
@@ -57,6 +57,17 @@
     
 	    
     
+    <!-- Dashboard strings -->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_total_cash_label">TOTAL CASH</string>
+    <string name="dashboard_monthly_goals_label">MONTHLY GOALS</string>
+    <string name="dashboard_spent_today_label">SPENT TODAY</string>
+    <string name="dashboard_goal_item_due_date_today">due in today</string>
+    <string name="dashboard_goal_item_due_date_tomorrow">due in tomorrow</string>
+    <string name="dashboard_goal_item_due_date_days">due in %1$d days</string>
+    <string name="dashboard_goal_item_due_date">due %1$s</string>
+    <string name="dashboard_milestones_left_human">%1$d milestones left</string>
+    
     <!-- App notifications -->
     <string name="parse_success_user_save">User profile updated!</string>
     <string name="parse_error_password_missing">Password is missing&#8230;</string>
@@ -82,10 +93,13 @@
     <string name="sample_goal_due_date">06/10/14</string>
     <string name="sample_goal_frequency">Monthly</string>
     <string name="sample_due_date">JUL 25</string>
-    <string name="sample_due_date_human">&#160; DUE IN 2 DAYS (JULY 15) </string>
+    <string name="sample_due_date_human_goal_details">&#160; DUE IN 2 DAYS (JULY 15) </string>
     <string name="sample_new_goal_name">Vegas Trip</string>
     <string name="sample_name">Amit B. </string>
     <string name="smaple_new_transaction_name">Lunch</string>
+    <string name="sample_due_date_human">DUE IN 2 DAYS</string>
+    <string name="sample_new_transaction_name">Lunch</string>
+    <string name="sample_milestones_left">4 MILESTONES LEFT</string>
 
     <!-- Parse -->
     <string name="com_parse_ui_logo_content_description">Logo</string>
