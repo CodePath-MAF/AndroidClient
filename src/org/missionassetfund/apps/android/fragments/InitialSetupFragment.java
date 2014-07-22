@@ -56,9 +56,9 @@ public class InitialSetupFragment extends Fragment {
                     getActivity().setProgressBarIndeterminateVisibility(true);
 
                     Double amount = Double.parseDouble(etAmount.getText().toString());
-                    // Setting up a category referene for "Bills" category
+                    // Setting up a category that reference a "Bills" category
                     Category categoryReference = ParseObject.createWithoutData(Category.class,
-                            "93BaEoZPfo");
+                            getString(R.string.initial_setup_category_bills_object_id));
                     Transaction transaction = new Transaction();
                     transaction.setAmount(amount);
                     transaction.setUser((User) User.getCurrentUser());

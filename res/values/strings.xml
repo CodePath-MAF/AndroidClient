@@ -67,6 +67,7 @@
     <string name="initial_setup_title">Enter Current Cash balance</string>
     <string name="initial_setup_transaction_name">Initial Setup</string>
     <string name="initial_setup_toast_successful_message">Account successfully setup.</string>
+    <string name="initial_setup_category_bills_object_id">93BaEoZPfo</string>
     
     <!-- App notifications -->
     <string name="parse_success_user_save">User profile updated!</string>
