@@ -10,7 +10,7 @@
     <string name="label_spent_this_week">SPENT THIS WEEK</string>
     <string name="next_payment_label">NEXT PAYMENT OF</string>
     <string name="label_due_date">Due On</string>
-    <string name="label_receive">You will receive</string>
+    <string name="label_receive">TOTAL GOAL</string>
     <string name="nothing"></string>
     <string name="label_new_savings_goal">Add New Savings Goal</string>
     <string name="label_goal_payment">Make Goal Payment</string>
@@ -51,12 +51,11 @@
     <string name="goal_due_date_tomorrow">DUE IN TOMORROW</string>
     <string name="goal_due_date_days">DUE IN %1$d DAYS</string>
     <string name="goal_due_date">DUE %1$s</string>
-	<string name="goal_due_date_custom_format">&#160; %1$s (%2$s) </string>
-	<string name="label_goal_payments_made"> %1$d OF %2$d PAYMENTS MADE</string>
-	
+    <string name="goal_due_date_custom_format">&#160; %1$s (%2$s) </string>
+    <string name="label_goal_payments_made"> %1$d OF %2$d PAYMENTS MADE</string>
+    <string name="label_saved_to_date"> %1$s SAVED TO DATE</string>
     
-	    
-    
+
     <!-- Dashboard strings -->
     <string name="dashboard_title">Dashboard</string>
     <string name="dashboard_total_cash_label">TOTAL CASH</string>
@@ -67,13 +66,13 @@
     <string name="dashboard_goal_item_due_date_days">due in %1$d days</string>
     <string name="dashboard_goal_item_due_date">due %1$s</string>
     <string name="dashboard_milestones_left_human">%1$d milestones left</string>
-    
+
     <!-- Initial Setup -->
     <string name="initial_setup_title">Enter Current Cash balance</string>
     <string name="initial_setup_transaction_name">Initial Setup</string>
     <string name="initial_setup_toast_successful_message">Account successfully setup.</string>
     <string name="initial_setup_category_bills_object_id">93BaEoZPfo</string>
-    
+
     <!-- App notifications -->
     <string name="parse_success_user_save">User profile updated!</string>
     <string name="parse_error_password_missing">Password is missing&#8230;</string>
@@ -87,7 +86,7 @@
     <string name="error_amount_require">Oops! No amount added</string>
     <string name="error_name_require">Oops! No name added</string>
     <string name="error_category_require">Oops! No category selected</string>
-    
+
     <!-- sample strings -->
     <string name="sample_avg_per_day">AVG $5.62 PER DAY</string>
     <string name="sample_remaining_amount">$234.64</string>
@@ -95,6 +94,7 @@
     <string name="sample_goal_title">Lending Circle Bill</string>
     <string name="sample_goal_name">Lending Circle</string>
     <string name="sample_total_payment">$35.00</string>
+    <string name="sample_saved_to_date">$35.00 SAVED TO DATE</string>
     <string name="sample_payment_number">payment 5 of 10</string>
     <string name="sample_goal_due_date">06/10/14</string>
     <string name="sample_goal_frequency">Monthly</string>

@@ -44,12 +44,12 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
     RelativeLayout rlLendingCircle;
 
     TextView tvPaymentDue;
-    // TextView tvDueDate;
     TextView tvDueDateHuman;
     TextView tvNumPayments;
     ProgressBar pbGoalPayment;
 
-    // TextView tvTotalTargetPayment;
+    TextView tvTotalTargetPayment;
+    TextView tvSavedToDate;
     // TextView tvTargetDate;
     // TextView tvTargetDateHuman;
 
@@ -75,8 +75,9 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         tvNumPayments = (TextView) findViewById(R.id.tvNumPayments);
         pbGoalPayment = (ProgressBar) findViewById(R.id.pbGoalPayment);
 
-        // tvTotalTargetPayment = (TextView)
-        // findViewById(R.id.tvTotalTargetPayment);
+        tvTotalTargetPayment = (TextView) findViewById(R.id.tvTotalTargetPayment);
+        tvSavedToDate = (TextView) findViewById(R.id.tvSavedToDate);
+
         // tvTargetDate = (TextView) findViewById(R.id.tvTargetDate);
         // tvTargetDateHuman = (TextView) findViewById(R.id.tvTargetDateHuman);
         // lvPastPayments = (ListView) findViewById(R.id.lvPastPayments);
@@ -146,7 +147,8 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
             rlLendingCircle.setVisibility(View.VISIBLE);
         }
 
-        // tvTotalTargetPayment.setText(Double.toString(goal.getAmount()));
+        tvTotalTargetPayment.setText(Double.toString(goal.getAmount()));
+
         // tvTargetDate.setText(FormatterUtils.formatMonthDate(goal.getGoalDate()));
         // tvTargetDateHuman.setText(FormatterUtils.getRelativeTimeHuman(goal.getGoalDate()));
 
@@ -156,7 +158,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         paymentsDone = getPaymentsDone();
         int paymentAmountInCents = (int) (goal.getPaymentAmount() * 100);
         paymentsMade = (int) (paymentsDone * 100 / paymentAmountInCents);
-        Double paymentsDue = idealPaymentsTotal - paymentsDone;
+        Double paymentsDue = Math.max((idealPaymentsTotal - paymentsDone), 0);
 
         tvPaymentDue.setText(FormatterUtils.formatAmount(paymentsDue));
 
@@ -169,6 +171,10 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
 
         pbGoalPayment.setProgress(
                 (int) ((paymentsDone * pbGoalPayment.getMax()) / goal.getAmount()));
+
+        tvSavedToDate.setText(getString(R.string.label_saved_to_date,
+                FormatterUtils.formatAmount(paymentsDone)));
+
     }
 
     public void onMakePayment(View v) {
@@ -237,7 +243,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
 
     @Override
     protected void onDestroy() {
-        goal.unpinInBackground(ParseUtils.DELETE_CALLBACKs);
+        goal.unpinInBackground(ParseUtils.DELETE_CALLBACK);
         super.onDestroy();
     }
 
@@ -251,6 +257,11 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
                 (int) (((paymentsDone + txn.getAmount()) * pbGoalPayment.getMax())
                 / goal.getAmount()));
 
+        tvSavedToDate.setText(getString(R.string.label_saved_to_date,
+                paymentsDone + txn.getAmount()));
+
+        // Unpin transaction
+        txn.unpinInBackground(ParseUtils.DELETE_CALLBACK);
     }
 
     private List<Fragment> getLendingCircleFriendsAdapter() {

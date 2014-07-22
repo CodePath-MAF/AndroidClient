@@ -29,7 +29,7 @@ public class ParseUtils {
         }
     };
 
-    public static final DeleteCallback DELETE_CALLBACKs = new DeleteCallback() {
+    public static final DeleteCallback DELETE_CALLBACK = new DeleteCallback() {
 
         @Override
         public void done(ParseException e) {
