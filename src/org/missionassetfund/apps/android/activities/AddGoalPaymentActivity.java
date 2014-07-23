@@ -102,6 +102,7 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -144,13 +145,15 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
     }
 
     private void setupDataFromIntent() {
-        int notificationId = getIntent().getIntExtra(PushNotificationReceiver.NOTIFICATION_ID_KEY, -1);
-        
+        int notificationId = getIntent().getIntExtra(PushNotificationReceiver.NOTIFICATION_ID_KEY,
+                -1);
+
         if (notificationId != -1) {
-            NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager manager = (NotificationManager) this
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
             manager.cancel(notificationId);
         }
-        
+
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
 
         // TODO (amit) : code duplication.
@@ -220,7 +223,7 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
                 txnData.putExtra(Transaction.NAME_KEY, transaction.getObjectId());
                 setResult(RESULT_OK, txnData);
                 finish();
-
+                overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
             }
         });
 

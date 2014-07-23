@@ -71,7 +71,7 @@ public class LiquidAssetsFragment extends Fragment {
         rlLiquidAssets = (RelativeLayout) view.findViewById(R.id.rlLiquidAssets);
         tvEmptyTransactions = (TextView) view.findViewById(R.id.tvEmptyTransactions);
         vpCharts = (ViewPager) view.findViewById(R.id.vpCharts);
-        
+
         setupData();
         return view;
     }
@@ -104,13 +104,13 @@ public class LiquidAssetsFragment extends Fragment {
                 elvTransactions.setAdapter(mTransactionsAdapter);
                 elvTransactions.setEmptyView(tvEmptyTransactions);
                 elvTransactions.setGroupIndicator(null);
-                
+
                 for (int i = 0; i < mTransactionsAdapter.getGroupCount(); i++) {
                     elvTransactions.expandGroup(i);
                 }
-                
+
                 pbLoadingLiquidAssets.setVisibility(View.INVISIBLE);
-                
+
                 if (isSummaryEmpty()) {
                     tvEmptyLiquidAssets.setVisibility(View.VISIBLE);
                 } else {
@@ -126,7 +126,7 @@ public class LiquidAssetsFragment extends Fragment {
         mSpentToday = CurrencyUtils.ZERO;
         mSpentThisWeek = CurrencyUtils.ZERO;
         mLiquidAssets = CurrencyUtils.ZERO;
-        
+
         TransactionGroup tg = null;
         TransactionGroup tgChart = null;
         int index = -1;
@@ -138,14 +138,14 @@ public class LiquidAssetsFragment extends Fragment {
             tgChart = new TransactionGroup(t.getTransactionDate(), new ArrayList<Transaction>());
             index = mTransactionsGroup.indexOf(tg);
             indexChart = mTransactionsGroupChart.indexOf(tg);
-            
+
             if (index == -1) {
                 tg.getTransactions().add(t);
                 mTransactionsGroup.add(tg);
             } else {
                 mTransactionsGroup.get(index).getTransactions().add(t);
             }
-            
+
             if (indexChart == -1 && t.isCredit()) {
                 tgChart.getTransactions().add(t);
                 mTransactionsGroupChart.add(tgChart);
@@ -157,11 +157,11 @@ public class LiquidAssetsFragment extends Fragment {
                 if (DateUtils.isToday(t.getTransactionDate().getTime())) {
                     mSpentToday = mSpentToday.add(BigDecimal.valueOf(t.getAmount()));
                 }
-                
+
                 if (MAFDateUtils.isSameWeek(t.getTransactionDate())) {
                     mSpentThisWeek = mSpentThisWeek.add(BigDecimal.valueOf(t.getAmount()));
                 }
-                
+
                 mLiquidAssets = mLiquidAssets.subtract(BigDecimal.valueOf(t.getAmount()));
             } else if (t.isDebit()) {
                 mLiquidAssets = mLiquidAssets.add(BigDecimal.valueOf(t.getAmount()));
@@ -189,6 +189,7 @@ public class LiquidAssetsFragment extends Fragment {
                 Intent addTransactionIntent = new Intent(getActivity(),
                         AddTransactionActivity.class);
                 startActivityForResult(addTransactionIntent, ADD_TRANSACTION_REQUEST_CODE);
+                getActivity().overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -202,18 +203,20 @@ public class LiquidAssetsFragment extends Fragment {
     }
 
     private boolean isSummaryEmpty() {
-        return mLiquidAssets.equals(CurrencyUtils.ZERO) && mSpentThisWeek.equals(CurrencyUtils.ZERO)
+        return mLiquidAssets.equals(CurrencyUtils.ZERO)
+                && mSpentThisWeek.equals(CurrencyUtils.ZERO)
                 && mSpentToday.equals(CurrencyUtils.ZERO);
     }
 
     private void setupChart() {
-        mChartsViewPageAdapter = new ChartsViewPagerAdapter(getActivity().getSupportFragmentManager());
+        mChartsViewPageAdapter = new ChartsViewPagerAdapter(getActivity()
+                .getSupportFragmentManager());
         mChartsViewPageAdapter.setTransactionGroups(mTransactionsGroupChart);
 
         if (!mTransactionsGroupChart.isEmpty()) {
             mChartsViewPageAdapter.setTransactionGroup(mTransactionsGroupChart.get(0));
         }
-        
+
         vpCharts.setAdapter(mChartsViewPageAdapter);
     }
 
@@ -221,7 +224,7 @@ public class LiquidAssetsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == FragmentActivity.RESULT_OK && requestCode == ADD_TRANSACTION_REQUEST_CODE) {
             setupData();
-            
+
             Toast.makeText(getActivity(), getString(R.string.parse_success_transaction_save),
                     Toast.LENGTH_SHORT).show();
         }
@@ -232,5 +235,5 @@ public class LiquidAssetsFragment extends Fragment {
         mChartsViewPageAdapter.notifyDataSetChanged();
         vpCharts.setCurrentItem(1, true);
     }
-    
+
 }

@@ -150,11 +150,13 @@ public class AddTransactionActivity extends BaseFragmentActivity
     private void setupDataFromIntent() {
         mCategoryId = getIntent().getStringExtra("category_id");
         mTransactionName = getIntent().getStringExtra("transaction_name");
-        
-        int notificationId = getIntent().getIntExtra(PushNotificationReceiver.NOTIFICATION_ID_KEY, -1);
-        
+
+        int notificationId = getIntent().getIntExtra(PushNotificationReceiver.NOTIFICATION_ID_KEY,
+                -1);
+
         if (notificationId != -1) {
-            NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager manager = (NotificationManager) this
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
             manager.cancel(notificationId);
         }
     }
@@ -211,6 +213,7 @@ public class AddTransactionActivity extends BaseFragmentActivity
                 } else {
                     setResult(RESULT_OK);
                     finish();
+                    overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
                 }
             }
         });

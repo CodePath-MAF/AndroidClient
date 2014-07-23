@@ -117,10 +117,12 @@ public class MainActivity extends BaseFragmentActivity implements SwitchMainFrag
             case R.id.action_add_goal:
                 Intent newGoalIntent = new Intent(this, NewGoalActivity.class);
                 startActivityForResult(newGoalIntent, NEW_GOAL_REQUEST_CODE);
+                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                 break;
             case R.id.action_edit_profile:
                 Intent intent = new Intent(this, EditProfileActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                 break;
             default:
                 break;

@@ -112,6 +112,7 @@ public class DashboardFragment extends Fragment {
         public void onClick(View v) {
             Intent intent = new Intent(getActivity(), LiquidAssetsActivity.class);
             getActivity().startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         }
     };
 
@@ -191,7 +192,7 @@ public class DashboardFragment extends Fragment {
             }
         });
     }
-    
+
     private void refreshSavedToday() {
         showMonthlyGoalProgressBar();
 

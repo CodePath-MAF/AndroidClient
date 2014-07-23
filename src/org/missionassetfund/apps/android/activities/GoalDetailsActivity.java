@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -101,7 +102,8 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
     }
 
     protected void getPaymentsForGoal() {
-        // TODO: later remove the global paymentDone in favor of the object currentTotal.
+        // TODO: later remove the global paymentDone in favor of the object
+        // currentTotal.
         if (goal.getCurrentTotal() != null) {
             paymentsDone = goal.getCurrentTotal();
             populateViews();
@@ -161,6 +163,19 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         Intent addPaymentIntent = new Intent(this, AddGoalPaymentActivity.class);
         addPaymentIntent.putExtra(Goal.GOAL_KEY, goal.getObjectId());
         startActivityForResult(addPaymentIntent, ADD_PAYMENT_REQUEST_CODE);
+        overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

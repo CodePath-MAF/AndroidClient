@@ -37,6 +37,18 @@ public class EditProfileActivity extends BaseFragmentActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void onSaveProfile(MenuItem menuItem) {
         User user = mProfileFragment.getModifiedUser();
 
@@ -66,6 +78,7 @@ public class EditProfileActivity extends BaseFragmentActivity {
                 Toast.makeText(EditProfileActivity.this, R.string.parse_success_user_save,
                         Toast.LENGTH_SHORT).show();
                 EditProfileActivity.this.finish();
+                overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
             }
         });
     }
@@ -80,8 +93,10 @@ public class EditProfileActivity extends BaseFragmentActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                     | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
         } else {
             finish();
+            overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
         }
     }
 }

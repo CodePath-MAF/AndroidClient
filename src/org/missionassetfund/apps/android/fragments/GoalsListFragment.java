@@ -52,6 +52,8 @@ public class GoalsListFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), GoalDetailsActivity.class);
                 intent.putExtra(Goal.GOAL_KEY, goal.getObjectId());
                 getActivity().startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.push_left_in,
+                        R.anim.push_left_out);
             }
         });
     }
