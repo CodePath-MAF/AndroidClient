@@ -16,7 +16,7 @@ import org.missionassetfund.apps.android.models.Input;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
-import org.missionassetfund.apps.android.utils.FormatterUtils;
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.ParseUtils;
 
 import android.app.ActionBar;
@@ -158,7 +158,7 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
                     goal = g;
 
                     Input input = inputElements[0];
-                    input.setValue(FormatterUtils.formatAmount(goal.getPaymentAmount()));
+                    input.setValue(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
                     inputs.add(input);
                     aInput.notifyDataSetChanged();
 
