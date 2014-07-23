@@ -15,8 +15,10 @@ import org.missionassetfund.apps.android.models.Input;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.receivers.PushNotificationReceiver;
 
 import android.app.ActionBar;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -148,6 +150,13 @@ public class AddTransactionActivity extends BaseFragmentActivity
     private void setupDataFromIntent() {
         mCategoryId = getIntent().getStringExtra("category_id");
         mTransactionName = getIntent().getStringExtra("transaction_name");
+        
+        int notificationId = getIntent().getIntExtra(PushNotificationReceiver.NOTIFICATION_ID_KEY, -1);
+        
+        if (notificationId != -1) {
+            NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.cancel(notificationId);
+        }
     }
 
     @Override

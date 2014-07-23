@@ -16,10 +16,12 @@ import org.missionassetfund.apps.android.models.Input;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.receivers.PushNotificationReceiver;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.ParseUtils;
 
 import android.app.ActionBar;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -142,6 +144,13 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
     }
 
     private void setupDataFromIntent() {
+        int notificationId = getIntent().getIntExtra(PushNotificationReceiver.NOTIFICATION_ID_KEY, -1);
+        
+        if (notificationId != -1) {
+            NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.cancel(notificationId);
+        }
+        
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
 
         // TODO (amit) : code duplication.
