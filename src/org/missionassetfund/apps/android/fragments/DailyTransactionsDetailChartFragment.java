@@ -1,8 +1,12 @@
 
 package org.missionassetfund.apps.android.fragments;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 import org.missionassetfund.apps.android.R;
-import org.missionassetfund.apps.android.models.Transaction;
+import org.missionassetfund.apps.android.adapters.CategoryPercentageByDayAdapter;
+import org.missionassetfund.apps.android.models.Category;
 import org.missionassetfund.apps.android.models.TransactionGroup;
 
 import android.graphics.Color;
@@ -12,15 +16,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.GridView;
+import android.widget.TextView;
 
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
 
 public class DailyTransactionsDetailChartFragment extends Fragment {
 
-    private static final int AVERAGE_DAILY_SPEND = 50;
     private TransactionGroup mTransactionGroup;
     private PieGraph pgTransactionsDetailChart;
+    private TextView tvDetailChartDate;
+    private CategoryPercentageByDayAdapter mCategoryPercentageByDayAdapter;
+    private GridView gvDetailChartLabel;
 
     public void setTransactionGroup(TransactionGroup transactionGroup) {
         this.mTransactionGroup = transactionGroup;
@@ -32,6 +40,9 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
                 container, false);
 
         pgTransactionsDetailChart = (PieGraph) view.findViewById(R.id.pgTransactionsDetailChart);
+        tvDetailChartDate = (TextView) view.findViewById(R.id.tvDetailChartDate);
+        gvDetailChartLabel = (GridView) view.findViewById(R.id.gvDetailChartLabel);
+        
         setupChart();
 
         return view;
@@ -45,22 +56,26 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
         if (mTransactionGroup == null) {
             return;
         }
-
-        for (Transaction transaction: mTransactionGroup.getTransactions()) {
-            if (transaction.isCredit()) {
-                slice = new PieSlice();
-                
-                if (transaction.getCategory() != null && transaction.getCategory().getColor() != null) {
-                    slice.setColor(Color.parseColor(transaction.getCategory().getColor()));
-                }
-                
-                slice.setValue(AVERAGE_DAILY_SPEND);
-                slice.setGoalValue(transaction.getAmount().floatValue());
-                slice.setTitle(transaction.getCategory().getName());
-                pgTransactionsDetailChart.addSlice(slice);
-            }
-        }
         
+        tvDetailChartDate.setText(mTransactionGroup.getTransactionDateFormatted());
+        
+        mCategoryPercentageByDayAdapter = new CategoryPercentageByDayAdapter(this.getActivity(), mTransactionGroup.getTransactionGroupPercentageByCategory());
+        gvDetailChartLabel.setNumColumns(mTransactionGroup.getTransactionGroupPercentageByCategory().size());
+        gvDetailChartLabel.setAdapter(mCategoryPercentageByDayAdapter);
+        
+        for (Map.Entry<Category, BigDecimal> entry : mTransactionGroup.getTransactionGroupPercentageByCategory().entrySet()) {
+          slice = new PieSlice();
+          
+          if (entry.getKey() != null && entry.getKey().getColor() != null) {
+              slice.setColor(Color.parseColor(entry.getKey().getColor()));
+          }
+          
+          slice.setValue(1);
+          slice.setGoalValue(entry.getValue().floatValue());
+          slice.setTitle(entry.getKey().getName());
+          pgTransactionsDetailChart.addSlice(slice);
+            
+        }
         // Hack on chart because it doesn't work with only one item
         if (pgTransactionsDetailChart.getSlices().size() == 1) {
             slice = new PieSlice();
