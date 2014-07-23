@@ -28,11 +28,11 @@ public class PushNotificationReceiver extends BroadcastReceiver {
     private static final String MESSAGE_KEY = "message";
     private static final String TITLE_KEY = "title";
     private static final String TAG = "PushNotificationReceiver";
-    private static final String ADD_TRANSACTION_ACTION = "org.missionassetfund.apps.android.ADD_TRANSACTION";
-    private static final String PAYMENT_REMINDER_ACTION = "org.missionassetfund.apps.android.MAKE_PAYMENT";
+    public static final String ADD_TRANSACTION_ACTION = "org.missionassetfund.apps.android.ADD_TRANSACTION";
+    public static final String PAYMENT_REMINDER_ACTION = "org.missionassetfund.apps.android.MAKE_PAYMENT";
     private static final int ADD_TRANSACTION_NOTIFICATION_ID = 1;
     private static final int MAKE_PAYMENT_NOTIFICATION_ID = 2;
-    private static final String GOAL_ID_KEY = "goal_id";
+    public static final String GOAL_ID_KEY = "goal_id";
     
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -84,6 +84,7 @@ public class PushNotificationReceiver extends BroadcastReceiver {
                         );
         
         Intent dismissIntent = new Intent(context, DismissNotificationReceiver.class);
+        dismissIntent.setAction(ADD_TRANSACTION_ACTION);
         dismissIntent.putExtra(NOTIFICATION_ID_KEY, ADD_TRANSACTION_NOTIFICATION_ID);
         
         PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -101,9 +102,11 @@ public class PushNotificationReceiver extends BroadcastReceiver {
 
     private void postMakePaymentNotification(Context context, String title, String message,
             JSONObject data) throws JSONException {
+        String goalId = data.getString(GOAL_ID_KEY);
+        
         Intent notificationIntent = new Intent(context, AddGoalPaymentActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        notificationIntent.putExtra(Goal.GOAL_KEY, data.getString(GOAL_ID_KEY));
+        notificationIntent.putExtra(Goal.GOAL_KEY, goalId);
         notificationIntent.putExtra(NOTIFICATION_ID_KEY, MAKE_PAYMENT_NOTIFICATION_ID);
 
         final NotificationManager mNotificationManager = (NotificationManager) context
@@ -123,7 +126,9 @@ public class PushNotificationReceiver extends BroadcastReceiver {
                         );
         
         Intent dismissIntent = new Intent(context, DismissNotificationReceiver.class);
+        dismissIntent.setAction(PAYMENT_REMINDER_ACTION);
         dismissIntent.putExtra(NOTIFICATION_ID_KEY, MAKE_PAYMENT_NOTIFICATION_ID);
+        dismissIntent.putExtra(GOAL_ID_KEY, goalId);
         
         PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
