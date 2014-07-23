@@ -76,7 +76,7 @@
     <string name="initial_setup_title">Enter Current Cash balance</string>
     <string name="initial_setup_transaction_name">Initial Setup</string>
     <string name="initial_setup_toast_successful_message">Account successfully setup.</string>
-    <string name="initial_setup_category_bills_object_id">93BaEoZPfo</string>
+    <string name="initial_setup_category_bills_object_id">1KE7OZ8QUy</string>
     
     <!-- Add Goal Payment -->
     <string name="add_goal_payment_transaction_name">\'%1$s\' goal payment</string>
