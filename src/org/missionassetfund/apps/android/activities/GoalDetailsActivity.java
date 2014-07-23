@@ -101,6 +101,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
     }
 
     protected void getPaymentsForGoal() {
+        // TODO: later remove the global paymentDone in favor of the object currentTotal.
         if (goal.getCurrentTotal() != null) {
             paymentsDone = goal.getCurrentTotal();
             populateViews();
@@ -197,7 +198,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         populateViews();
 
         // Save goal and unpin transaction
-        goal.setCurrentTotal(paymentsDone + txn.getAmount());
+        goal.increment(Goal.CURRENT_TOTAL_KEY, txn.getAmount());
         goal.saveEventually();
         txn.unpinInBackground(ParseUtils.DELETE_CALLBACK);
     }
