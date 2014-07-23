@@ -7,7 +7,6 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.activities.AddTransactionActivity;
 import org.missionassetfund.apps.android.activities.LiquidAssetsActivity;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -20,6 +19,7 @@ import android.util.Log;
 
 public class PushNotificationReceiver extends BroadcastReceiver {
 
+    public static final String NOTIFICATION_ID_KEY = "notification_id";
     private static final String TRANSACTION_NAME_KEY = "transaction_name";
     private static final String CATEGORY_ID_KEY = "category_id";
     private static final String MESSAGE_KEY = "message";
@@ -27,7 +27,8 @@ public class PushNotificationReceiver extends BroadcastReceiver {
     private static final String TAG = "PushNotificationReceiver";
     private static final String ADD_TRANSACTION_ACTION = "org.missionassetfund.apps.android.ADD_TRANSACTION";
     private static final String PAYMENT_REMINDER_ACTION = "";
-
+    private static final int ADD_TRANSACTION_NOTIFICATION_ID = 1;
+    
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -43,12 +44,7 @@ public class PushNotificationReceiver extends BroadcastReceiver {
             String message = data.getString(MESSAGE_KEY);
 
             if (action.equals(ADD_TRANSACTION_ACTION)) {
-                Intent notificationIntent = new Intent(context, AddTransactionActivity.class);
-                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                notificationIntent.putExtra(CATEGORY_ID_KEY, data.getString(CATEGORY_ID_KEY));
-                notificationIntent.putExtra(TRANSACTION_NAME_KEY, data.getString(TRANSACTION_NAME_KEY));
-                
-                postNotification(context, title, message, notificationIntent, LiquidAssetsActivity.class);
+                postAddTransactionNotification(context, title, message, data);
             } else if (action.equals(PAYMENT_REMINDER_ACTION)) {
                 // TODO: waiting for goal to be an activity
             }
@@ -58,15 +54,21 @@ public class PushNotificationReceiver extends BroadcastReceiver {
         }
     }
 
-    private void postNotification(Context context, String title, String message,
-            Intent notificationIntent, Class<? extends Activity> parentActivity) {
+    private void postAddTransactionNotification(Context context, String title, String message,
+            JSONObject data) throws JSONException {
+        Intent notificationIntent = new Intent(context, AddTransactionActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        notificationIntent.putExtra(CATEGORY_ID_KEY, data.getString(CATEGORY_ID_KEY));
+        notificationIntent.putExtra(TRANSACTION_NAME_KEY, data.getString(TRANSACTION_NAME_KEY));
+        notificationIntent.putExtra(NOTIFICATION_ID_KEY, ADD_TRANSACTION_NOTIFICATION_ID);
+
         final NotificationManager mNotificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
                 context);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(parentActivity);
+        stackBuilder.addParentStack(LiquidAssetsActivity.class);
         stackBuilder.addNextIntent(notificationIntent);
 
         PendingIntent pendingIntent =
@@ -75,15 +77,21 @@ public class PushNotificationReceiver extends BroadcastReceiver {
                         PendingIntent.FLAG_UPDATE_CURRENT | Notification.DEFAULT_LIGHTS
                                 | Notification.FLAG_AUTO_CANCEL
                         );
+        
+        Intent dismissIntent = new Intent(context, DismissNotificationReceiver.class);
+        dismissIntent.putExtra(NOTIFICATION_ID_KEY, ADD_TRANSACTION_NOTIFICATION_ID);
+        
+        PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         final Notification notification = notificationBuilder.setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
+                .addAction(R.drawable.btn_check, context.getResources().getText(R.string.yes), pendingIntent)
+                .addAction(R.drawable.btn_close_white_up, context.getResources().getText(R.string.no), dismissPendingIntent)
                 .build();
 
-        mNotificationManager.notify(0, notification);
+        mNotificationManager.notify(ADD_TRANSACTION_NOTIFICATION_ID, notification);
     }
-
+    
 }

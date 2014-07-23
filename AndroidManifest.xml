@@ -132,6 +132,10 @@
                 <action android:name="org.missionassetfund.apps.android.ADD_TRANSACTION" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="org.missionassetfund.apps.android.receivers.DismissNotificationReceiver"
+            android:exported="false" >
+        </receiver>
     </application>
 
 </manifest>

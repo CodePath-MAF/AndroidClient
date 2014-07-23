@@ -54,7 +54,8 @@
     <string name="goal_due_date_custom_format">&#160; %1$s (%2$s) </string>
     <string name="label_goal_payments_made"> %1$d OF %2$d PAYMENTS MADE</string>
     <string name="label_saved_to_date"> %1$s SAVED TO DATE</string>
-    
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- Dashboard strings -->
     <string name="dashboard_title">Dashboard</string>
