@@ -25,7 +25,6 @@ import com.echo.holographlibrary.ExtendedBar;
 
 public class DailyTransactionsChartFragment extends Fragment {
 
-    private static final int AVERAGE_DAILY_SPEND = 50;
     private List<TransactionGroup> mTransactionGroups;
     private BarGraph bgDailyTransactionsChart;
     private OnTransactionGroupClickedListener listener;
@@ -69,7 +68,7 @@ public class DailyTransactionsChartFragment extends Fragment {
     }
 
     private void setupChart() {
-        if (mTransactionGroups.isEmpty()) {
+        if (mTransactionGroups == null || mTransactionGroups.isEmpty()) {
             return;
         }
 

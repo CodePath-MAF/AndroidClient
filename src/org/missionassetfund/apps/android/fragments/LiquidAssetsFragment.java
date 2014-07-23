@@ -222,12 +222,12 @@ public class LiquidAssetsFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        setupData();
         if (resultCode == FragmentActivity.RESULT_OK && requestCode == ADD_TRANSACTION_REQUEST_CODE) {
-            setupData();
-
             Toast.makeText(getActivity(), getString(R.string.parse_success_transaction_save),
                     Toast.LENGTH_SHORT).show();
         }
+
     }
 
     public void goToNextChart(TransactionGroup transactionGroup) {
