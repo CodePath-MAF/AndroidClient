@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.adapters.CategoryPercentageByDayAdapter;
 import org.missionassetfund.apps.android.models.Category;
 import org.missionassetfund.apps.android.models.TransactionGroup;
 
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.echo.holographlibrary.PieGraph;
@@ -25,6 +27,8 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
     private TransactionGroup mTransactionGroup;
     private PieGraph pgTransactionsDetailChart;
     private TextView tvDetailChartDate;
+    private CategoryPercentageByDayAdapter mCategoryPercentageByDayAdapter;
+    private GridView gvDetailChartLabel;
 
     public void setTransactionGroup(TransactionGroup transactionGroup) {
         this.mTransactionGroup = transactionGroup;
@@ -37,6 +41,8 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
 
         pgTransactionsDetailChart = (PieGraph) view.findViewById(R.id.pgTransactionsDetailChart);
         tvDetailChartDate = (TextView) view.findViewById(R.id.tvDetailChartDate);
+        gvDetailChartLabel = (GridView) view.findViewById(R.id.gvDetailChartLabel);
+        
         setupChart();
 
         return view;
@@ -52,7 +58,11 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
         }
         
         tvDetailChartDate.setText(mTransactionGroup.getTransactionDateFormatted());
-
+        
+        mCategoryPercentageByDayAdapter = new CategoryPercentageByDayAdapter(this.getActivity(), mTransactionGroup.getTransactionGroupPercentageByCategory());
+        gvDetailChartLabel.setNumColumns(mTransactionGroup.getTransactionGroupPercentageByCategory().size());
+        gvDetailChartLabel.setAdapter(mCategoryPercentageByDayAdapter);
+        
         for (Map.Entry<Category, BigDecimal> entry : mTransactionGroup.getTransactionGroupPercentageByCategory().entrySet()) {
           slice = new PieSlice();
           

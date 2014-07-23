@@ -86,11 +86,12 @@ public class TransactionGroup {
                 BigDecimal percentage = transactionGroupPercentageByCategory.get(transaction.getCategory());
                 
                 if (percentage == null) {
-                    percentage = CurrencyUtils.newCurrency(transaction.getAmount());
-                } else {
-                    currentPercentage = CurrencyUtils.newCurrency(transaction.getAmount()).divide(this.getSpentAmount(), 2, RoundingMode.DOWN);
-                    percentage = percentage.add(currentPercentage);
+                    percentage = CurrencyUtils.ZERO;
                 }
+                
+                currentPercentage = CurrencyUtils.newCurrency(transaction.getAmount()).divide(this.getSpentAmount(), 2, RoundingMode.DOWN);
+                percentage = percentage.add(currentPercentage);
+                
                 transactionGroupPercentageByCategory.put(transaction.getCategory(), percentage);
             }
         }

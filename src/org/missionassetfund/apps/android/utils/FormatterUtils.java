@@ -1,7 +1,9 @@
 
 package org.missionassetfund.apps.android.utils;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -38,4 +40,12 @@ public class FormatterUtils {
         return context.getString(R.string.goal_due_date_custom_format,
                 getRelativeTimeHuman(goalDate), formatMonthDate(goalDate));
     }
+    
+    public static String formatPercentage(BigDecimal value) {
+        NumberFormat percentFormat = NumberFormat.getPercentInstance();
+        percentFormat.setMaximumFractionDigits(2);
+        
+        return percentFormat.format(value);
+    }
+    
 }
