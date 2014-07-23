@@ -19,7 +19,8 @@ public class CurrencyUtils {
     }
     
     public static String getCurrencyValueFormattedAsNegative(BigDecimal value) {
-        return String.format("- %s", getCurrencyValueFormatted(value));
+        value = value.multiply(newCurrency(-1d));
+        return getCurrencyValueFormatted(value);
     }
     
     public static BigDecimal newCurrency(Double value) {
