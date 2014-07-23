@@ -14,15 +14,15 @@
     <com.echo.holographlibrary.PieGraph
         android:id="@+id/pgTransactionsDetailChart"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gvDetailChartLabel"
+        android:layout_height="110dp"
+        android:layout_below="@+id/tvDetailChartDate"
         android:layout_margin="8dp" />
 
     <GridView
         android:id="@+id/gvDetailChartLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDetailChartDate"
+        android:layout_alignParentBottom="true"
         android:numColumns="auto_fit"
         android:columnWidth="30dp" >
     </GridView>
