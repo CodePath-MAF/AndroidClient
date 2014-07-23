@@ -137,6 +137,28 @@
         <item name="android:textColor">@color/dashboard_goal_item_milestones_text</item>
         <item name="android:textSize">11sp</item>
     </style>
+    
+    <!-- Transactions UI -->
+    
+    <style name="TransactionUI" />
+    
+    <style name="TransactionUI.TransactionItem" />
+
+    <style name="TransactionUI.TransactionItem.Name">
+        <item name="android:textColor">@color/transactions_item_name_text</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="TransactionUI.TransactionItem.Amount">
+        <item name="android:textColor">@color/transactions_item_name_text</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
+    </style>
+    
+    <style name="TransactionUI.TransactionItem.Category">
+        <item name="android:textColor">@color/transactions_item_category_text</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 
     <!-- Add Transaction UI -->
     <style name="AddTransactionUI" />
