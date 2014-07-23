@@ -181,6 +181,12 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == ADD_PAYMENT_REQUEST_CODE) {
             String txnId = data.getStringExtra(Transaction.NAME_KEY);

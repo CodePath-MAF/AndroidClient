@@ -48,6 +48,12 @@ public class EditProfileActivity extends BaseFragmentActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
+    }
 
     public void onSaveProfile(MenuItem menuItem) {
         User user = mProfileFragment.getModifiedUser();
