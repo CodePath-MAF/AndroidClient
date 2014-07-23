@@ -133,6 +133,9 @@
             <intent-filter>
                 <action android:name="org.missionassetfund.apps.android.ADD_TRANSACTION" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="org.missionassetfund.apps.android.MAKE_PAYMENT" />
+            </intent-filter>
         </receiver>
         <receiver
             android:name="org.missionassetfund.apps.android.receivers.DismissNotificationReceiver"
