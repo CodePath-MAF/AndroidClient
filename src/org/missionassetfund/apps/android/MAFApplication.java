@@ -20,6 +20,7 @@ public class MAFApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // TODO: support portrait and landscape.
 
         // Register default font
         CalligraphyConfig.initDefault("fonts/OpenSans-Regular.ttf", R.attr.fontPath);
