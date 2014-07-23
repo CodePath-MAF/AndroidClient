@@ -2,10 +2,13 @@
 package org.missionassetfund.apps.android.models;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
@@ -18,6 +21,7 @@ public class TransactionGroup {
     private List<Transaction> transactions;
     private BigDecimal spentAmount;
     private SimpleDateFormat sdf = new SimpleDateFormat("EEE (MM/dd)", Locale.US);
+    private Map<Category, BigDecimal> transactionGroupPercentageByCategory; 
 
     public TransactionGroup(Date transactionDate, List<Transaction> transactions) {
         super();
@@ -62,6 +66,36 @@ public class TransactionGroup {
         }
         
         return spentAmount;
+    }
+    
+    public Map<Category, BigDecimal> getTransactionGroupPercentageByCategory() {
+        if (transactionGroupPercentageByCategory == null) {
+            transactionGroupPercentageByCategory = new HashMap<Category, BigDecimal>();
+            
+            if (transactions == null || transactions.isEmpty()) {
+                return transactionGroupPercentageByCategory;
+            }
+            
+            BigDecimal currentPercentage = CurrencyUtils.ZERO;
+            
+            for (Transaction transaction : transactions) {
+                if (transaction.isDebit()) {
+                    break;
+                }
+                
+                BigDecimal percentage = transactionGroupPercentageByCategory.get(transaction.getCategory());
+                
+                if (percentage == null) {
+                    percentage = CurrencyUtils.newCurrency(transaction.getAmount());
+                } else {
+                    currentPercentage = CurrencyUtils.newCurrency(transaction.getAmount()).divide(this.getSpentAmount(), 2, RoundingMode.DOWN);
+                    percentage = percentage.add(currentPercentage);
+                }
+                transactionGroupPercentageByCategory.put(transaction.getCategory(), percentage);
+            }
+        }
+        
+        return transactionGroupPercentageByCategory;
     }
 
     @Override
