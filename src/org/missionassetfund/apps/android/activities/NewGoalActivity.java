@@ -164,6 +164,7 @@ public class NewGoalActivity extends BaseFragmentActivity implements OnInputForm
                 } else {
                     setResult(RESULT_OK);
                     finish();
+                    overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
                 }
             }
         });
@@ -175,6 +176,7 @@ public class NewGoalActivity extends BaseFragmentActivity implements OnInputForm
         // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
                 return true;
         }
         return super.onOptionsItemSelected(item);
