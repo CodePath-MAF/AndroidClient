@@ -16,7 +16,7 @@ import org.missionassetfund.apps.android.models.Input;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
-import org.missionassetfund.apps.android.utils.FormatterUtils;
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.ParseUtils;
 
 import android.app.ActionBar;
@@ -40,6 +40,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 public class AddGoalPaymentActivity extends BaseFragmentActivity
         implements OnInputFormListener, NameInputFragment.OnCreateViewListener,
@@ -157,7 +158,7 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
                     goal = g;
 
                     Input input = inputElements[0];
-                    input.setValue(FormatterUtils.formatAmount(goal.getPaymentAmount()));
+                    input.setValue(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
                     inputs.add(input);
                     aInput.notifyDataSetChanged();
 
@@ -200,12 +201,23 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         transaction.setType(TransactionType.CREDIT);
         transaction.setCategory(txnCategory);
 
-        transaction.pinInBackground(ParseUtils.PIN_CALLBACK);
+        // Pinning to local database so GoalDetailsActivity could use it.
+        // TODO add a tag so that it can be unpinned.
+        transaction.pinInBackground(new SaveCallback() {
 
-        Intent txnData = new Intent();
-        txnData.putExtra(Transaction.NAME_KEY, transaction.getObjectId());
-        setResult(RESULT_OK, txnData);
-        finish();
+            @Override
+            public void done(ParseException arg0) {
+                Intent txnData = new Intent();
+                txnData.putExtra(Transaction.NAME_KEY, transaction.getObjectId());
+                setResult(RESULT_OK, txnData);
+                finish();
+
+            }
+        });
+
+        // Saving it here so that txn is saved when push notification calls this
+        // activity
+        transaction.saveInBackground(ParseUtils.SAVE_CALLBACK);
 
     }
 

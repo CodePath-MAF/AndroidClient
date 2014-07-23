@@ -88,7 +88,8 @@
         </activity>
         <activity
             android:name=".activities.AddTransactionActivity"
-            android:label="@string/title_activity_add_transaction" >
+            android:label="@string/title_activity_add_transaction"
+            android:theme="@style/Theme.SelectDate" >
         </activity>
         <activity
             android:name=".activities.EditProfileActivity"
@@ -100,7 +101,8 @@
         </activity>
         <activity
             android:name=".activities.NewGoalActivity"
-            android:label="@string/title_activity_new_goal" >
+            android:label="@string/title_activity_new_goal"
+            android:theme="@style/Theme.SelectDate" >
         </activity>
         <activity
             android:name=".activities.AddGoalPaymentActivity"

@@ -7,12 +7,14 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_above="@+id/btnNext"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:gravity="center" >
 
         <TextView
-            android:id="@+id/tvCurrencySymbol"
+            android:id="@+id/textView1"
             style="@style/AddTransactionUI.AmountInput.AmountSymbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +26,6 @@
             style="@style/AddTransactionUI.AmountInput.AmountEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:hint="0" >
 
             <requestFocus />

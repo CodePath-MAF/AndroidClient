@@ -34,13 +34,13 @@ import com.parse.ParseQuery;
 public class DashboardFragment extends Fragment {
     private RelativeLayout rlLiquidAsset;
     private TextView tvLiquidAsset;
-    private TextView tvMonthlyGoals;
+    private TextView tvSavedToday;
     private TextView tvSpentToday;
 
     private LinearLayout llTotalCashProgress;
     private LinearLayout llTotalCash;
-    private LinearLayout llMonthlyGoalsProgress;
-    private LinearLayout llMonthlyGoals;
+    private LinearLayout llSavedTodayProgress;
+    private LinearLayout llSavedToday;
     private LinearLayout llSpentTodayProgress;
     private LinearLayout llSpentToday;
 
@@ -83,18 +83,18 @@ public class DashboardFragment extends Fragment {
     private void setupViews(View v) {
         rlLiquidAsset = (RelativeLayout) v.findViewById(R.id.rlLiquidAsset);
         tvLiquidAsset = (TextView) v.findViewById(R.id.tvLiquidAsset);
-        tvMonthlyGoals = (TextView) v.findViewById(R.id.tvMonthlyGoals);
+        tvSavedToday = (TextView) v.findViewById(R.id.tvSavedToday);
         tvSpentToday = (TextView) v.findViewById(R.id.tvSpentToday);
 
         llTotalCash = (LinearLayout) v.findViewById(R.id.llTotalCash);
-        llMonthlyGoals = (LinearLayout) v.findViewById(R.id.llMonthlyGoals);
+        llSavedToday = (LinearLayout) v.findViewById(R.id.llSavedToday);
         llSpentToday = (LinearLayout) v.findViewById(R.id.llSpentToday);
         llTotalCashProgress = (LinearLayout) v.findViewById(R.id.llTotalCashProgress);
-        llMonthlyGoalsProgress = (LinearLayout) v.findViewById(R.id.llMonthlyGoalsProgress);
+        llSavedTodayProgress = (LinearLayout) v.findViewById(R.id.llSavedTodayProgress);
         llSpentTodayProgress = (LinearLayout) v.findViewById(R.id.llSpentTodayProgress);
 
         tvLiquidAsset.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
-        tvMonthlyGoals.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
+        tvSavedToday.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
         tvSpentToday.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
     }
 
@@ -103,9 +103,7 @@ public class DashboardFragment extends Fragment {
 
         refreshTotalCash();
         refreshSpentToday();
-
-        // TODO(jose): Calculate Monthly Goals
-        hideMonthlyGoalProgressBar();
+        refreshSavedToday();
     }
 
     private OnClickListener liquidAssetClickListener = new OnClickListener() {
@@ -164,7 +162,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void done(List<Transaction> results, ParseException e) {
                 if (e != null) {
-                    hideTotalCashProgressBar();
+                    hideSpentTodayProgressBar();
                     Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
                             Toast.LENGTH_LONG).show();
                     Log.d("DEBUG", e.getMessage());
@@ -174,7 +172,8 @@ public class DashboardFragment extends Fragment {
                         // Check Spents Today.
                         if (DateUtils.isToday(t.getTransactionDate().getTime())
                                 && t.isCredit()) {
-                            spentToday = spentToday.subtract(CurrencyUtils.newCurrency(t.getAmount()));
+                            spentToday = spentToday.subtract(CurrencyUtils.newCurrency(t
+                                    .getAmount()));
                         }
                     }
 
@@ -183,7 +182,7 @@ public class DashboardFragment extends Fragment {
                         tvSpentToday.setTextAppearance(getActivity(),
                                 R.style.DashboardUI_SpentToday);
                     }
-                    
+
                     // Set values into the view
                     tvSpentToday.setText(CurrencyUtils.getCurrencyValueFormatted(spentToday));
 
@@ -192,11 +191,55 @@ public class DashboardFragment extends Fragment {
             }
         });
     }
+    
+    private void refreshSavedToday() {
+        showMonthlyGoalProgressBar();
+
+        // Calculate Liquid Asset balance
+        ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
+        query.whereEqualTo(Transaction.USER_KEY, User.getCurrentUser());
+        query.whereNotEqualTo(Transaction.GOAL_KEY, null);
+        query.setLimit(500);
+        query.findInBackground(new FindCallback<Transaction>() {
+
+            @Override
+            public void done(List<Transaction> results, ParseException e) {
+                if (e != null) {
+                    hideMonthlyGoalProgressBar();
+                    Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
+                            Toast.LENGTH_LONG).show();
+                    Log.d("DEBUG", e.getMessage());
+                } else {
+                    BigDecimal savedToday = CurrencyUtils.newCurrency(0d);
+                    for (Transaction t : results) {
+                        // Check Goal Today.
+                        if (DateUtils.isToday(t.getTransactionDate().getTime())
+                                && t.isCredit()) {
+                            savedToday = savedToday.add(CurrencyUtils.newCurrency(t
+                                    .getAmount()));
+                        }
+                    }
+
+                    // Set values into the view
+                    tvSavedToday.setText(CurrencyUtils.getCurrencyValueFormatted(savedToday));
+
+                    hideMonthlyGoalProgressBar();
+                }
+            }
+        });
+    }
+
+    private void refreshGoalList() {
+        GoalsListFragment fragmentGoalList = (GoalsListFragment) getActivity()
+                .getSupportFragmentManager().findFragmentById(R.id.goalListFragment);
+        fragmentGoalList.updateGoalList();
+    }
 
     @Override
     public void onResume() {
         refreshTotalCash();
         refreshSpentToday();
+        refreshGoalList();
         super.onResume();
     }
 
@@ -211,13 +254,13 @@ public class DashboardFragment extends Fragment {
     }
 
     private void showMonthlyGoalProgressBar() {
-        llMonthlyGoals.setVisibility(View.GONE);
-        llMonthlyGoalsProgress.setVisibility(View.VISIBLE);
+        llSavedToday.setVisibility(View.GONE);
+        llSavedTodayProgress.setVisibility(View.VISIBLE);
     }
 
     private void hideMonthlyGoalProgressBar() {
-        llMonthlyGoals.setVisibility(View.VISIBLE);
-        llMonthlyGoalsProgress.setVisibility(View.GONE);
+        llSavedToday.setVisibility(View.VISIBLE);
+        llSavedTodayProgress.setVisibility(View.GONE);
     }
 
     private void showSpentTodayProgressBar() {

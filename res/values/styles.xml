@@ -20,6 +20,16 @@
         <item name="android:homeAsUpIndicator">@drawable/leftarrow_white_button</item>
     </style>
 
+    <!-- Custom SelectDate theme -->
+    <style name="Theme.SelectDate" parent="AppBaseTheme">
+        <item name="android:editTextStyle">@style/Widget.EditText.White</item>
+    </style>
+
+    <style name="Widget.EditText.White" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Custom styles -->
     <style name="DashboardBoxTitle" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
@@ -66,7 +76,7 @@
     <style name="DashboardUI" />
 
     <style name="DashboardUI.TotalCash" />
-    
+
     <style name="DashboardUI.TotalCash.Amount">
         <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
         <item name="android:textSize">40sp</item>
@@ -89,40 +99,40 @@
         <item name="android:textColor">@color/dashboard_aggregate_value</item>
         <item name="android:textSize">20sp</item>
     </style>
-    
+
     <style name="DashboardUI.SpentToday">
         <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
         <item name="android:textColor">@color/dashboard_spent_today_text</item>
         <item name="android:textSize">20sp</item>
     </style>
-    
+
     <style name="DashboardUI.GoalItem" />
-    
+
     <style name="DashboardUI.GoalItem.Name">
         <item name="android:textColor">@color/dashboard_goal_item_name_text</item>
         <item name="android:textSize">22sp</item>
     </style>
-    
+
     <style name="DashboardUI.GoalItem.Amount">
         <item name="android:textColor">@color/dashboard_goal_item_name_text</item>
         <item name="android:textSize">18sp</item>
         <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
     </style>
-    
+
     <style name="DashboardUI.GoalItem.DueDate">
         <item name="android:textColor">@color/dashboard_goal_item_due_date_text</item>
         <item name="android:textSize">11sp</item>
         <item name="android:drawableLeft">@drawable/img_time_gray</item>
         <item name="android:drawablePadding">4dp</item>
     </style>
-    
+
     <style name="DashboardUI.GoalItem.DueDateSoon">
         <item name="android:textColor">@color/dashboard_goal_item_due_date_soon_text</item>
         <item name="android:textSize">11sp</item>
         <item name="android:drawableLeft">@drawable/img_time_red</item>
         <item name="android:drawablePadding">4dp</item>
     </style>
-    
+
     <style name="DashboardUI.GoalItem.Milestones">
         <item name="android:textColor">@color/dashboard_goal_item_milestones_text</item>
         <item name="android:textSize">11sp</item>
@@ -169,7 +179,7 @@
     </style>
 
     <style name="AddTransactionUI.NameInput">
-        <item name="android:textSize">65sp</item>
+        <item name="android:textSize">50sp</item>
         <item name="android:textColor">@color/add_transaction_name_display_value</item>
         <item name="android:textColorHint">@color/add_transaction_name_hint_value</item>
         <item name="android:maxLines">1</item>
@@ -243,7 +253,7 @@
     <!-- View page indicator -->
     <style name="CustomCirclePageIndicator">
         <item name="android:background">@color/white</item>
-       	<item name="pageColor">@color/lightgray</item>
+        <item name="pageColor">@color/lightgray</item>
         <item name="fillColor">@color/app_green</item>
         <item name="strokeColor">@color/white</item>
         <item name="strokeWidth">1dp</item>

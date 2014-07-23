@@ -12,6 +12,7 @@ import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.GoalType;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
 import org.missionassetfund.apps.android.utils.ParseUtils;
 
@@ -20,9 +21,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -50,14 +48,9 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
 
     TextView tvTotalTargetPayment;
     TextView tvSavedToDate;
-    // TextView tvTargetDate;
-    // TextView tvTargetDateHuman;
 
     List<Transaction> goalPayments;
-    int paymentsMade;
     Double paymentsDone;
-    // ListView lvPastPayments;
-    // GoalPaymentsArrayAdapter paymentsAdapter;
 
     GoalDetailsVPAdapter ldVPAdapter;
     ViewPager vpLendingCircle;
@@ -67,24 +60,17 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_details);
 
-        rlLendingCircle = (RelativeLayout) findViewById(R.id.rlLendingCircle);
+        goalPayments = new ArrayList<Transaction>();
+        ldVPAdapter = new GoalDetailsVPAdapter(getSupportFragmentManager(),
+                getLendingCircleFriendsAdapter());
 
+        rlLendingCircle = (RelativeLayout) findViewById(R.id.rlLendingCircle);
         tvPaymentDue = (TextView) findViewById(R.id.tvPaymentDue);
-        // tvDueDate = (TextView) findViewById(R.id.tvDueDate);
         tvDueDateHuman = (TextView) findViewById(R.id.tvDueDateHuman);
         tvNumPayments = (TextView) findViewById(R.id.tvNumPayments);
         pbGoalPayment = (ProgressBar) findViewById(R.id.pbGoalPayment);
-
         tvTotalTargetPayment = (TextView) findViewById(R.id.tvTotalTargetPayment);
         tvSavedToDate = (TextView) findViewById(R.id.tvSavedToDate);
-
-        // tvTargetDate = (TextView) findViewById(R.id.tvTargetDate);
-        // tvTargetDateHuman = (TextView) findViewById(R.id.tvTargetDateHuman);
-        // lvPastPayments = (ListView) findViewById(R.id.lvPastPayments);
-        goalPayments = new ArrayList<Transaction>();
-
-        ldVPAdapter = new GoalDetailsVPAdapter(getSupportFragmentManager(),
-                getLendingCircleFriendsAdapter());
 
         vpLendingCircle = (ViewPager) findViewById(R.id.vpLendingCircle);
         vpLendingCircle.setAdapter(ldVPAdapter);
@@ -92,7 +78,6 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(vpLendingCircle);
 
-        // goal = (Goal) getIntent().getSerializableExtra(Goal.GOAL_KEY);
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
 
         // Goal was pinned when calling goal details activity.
@@ -106,116 +91,76 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
             public void done(Goal g, ParseException e) {
                 if (e == null) {
                     goal = g;
-                    setupPaymentsAdapter();
+                    getPaymentsForGoal();
                 } else {
-                    Toast.makeText(GoalDetailsActivity.this, "Error getting goal",
+                    Toast.makeText(GoalDetailsActivity.this, R.string.parse_error_querying,
                             Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    protected void setupPaymentsAdapter() {
-        ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
-        query.whereEqualTo("user", (User) User.getCurrentUser());
-        query.whereEqualTo("goal", goal);
-        query.addDescendingOrder("createdAt");
+    protected void getPaymentsForGoal() {
+        // TODO: later remove the global paymentDone in favor of the object currentTotal.
+        if (goal.getCurrentTotal() != null) {
+            paymentsDone = goal.getCurrentTotal();
+            populateViews();
+        } else {
+            ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
+            query.whereEqualTo("user", (User) User.getCurrentUser());
+            query.whereEqualTo("goal", goal);
+            query.addDescendingOrder("createdAt");
 
-        query.findInBackground(new FindCallback<Transaction>() {
+            query.findInBackground(new FindCallback<Transaction>() {
 
-            @Override
-            public void done(List<Transaction> txns, ParseException e) {
-                if (e == null) {
-                    goalPayments = txns;
-                    // paymentsAdapter = new
-                    // GoalPaymentsArrayAdapter(GoalDetailsActivity.this,
-                    // R.layout.item_past_payment, goalPayments,
-                    // goal.getNumPayments());
-                    // lvPastPayments.setAdapter(paymentsAdapter);
-                    populateViews();
+                @Override
+                public void done(List<Transaction> txns, ParseException e) {
+                    if (e == null) {
+                        goalPayments = txns;
+                        paymentsDone = getPaymentsDone();
+                        populateViews();
 
-                } else {
-                    Log.e("error", "error getting goal payments", e);
+                    } else {
+                        Log.e("error", "error getting goal payments", e);
+                    }
                 }
-            }
-        });
+            });
+
+        }
     }
 
     private void populateViews() {
-        // Once goal is available let's setup views
+        // Once goal and payments are available let's setup views
         if (goal.getType() != null && goal.getType() == GoalType.LENDING_CIRCLE) {
             rlLendingCircle.setVisibility(View.VISIBLE);
         }
 
-        tvTotalTargetPayment.setText(Double.toString(goal.getAmount()));
+        tvTotalTargetPayment.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getAmount()));
 
-        // tvTargetDate.setText(FormatterUtils.formatMonthDate(goal.getGoalDate()));
-        // tvTargetDateHuman.setText(FormatterUtils.getRelativeTimeHuman(goal.getGoalDate()));
-
-        int idealNumPayments = goal.getIdealNumPaymentsTillToday();
-        // Payment related fields will need all payment to be analyzed.
-        Double idealPaymentsTotal = (idealNumPayments + 1) * goal.getPaymentAmount();
-        paymentsDone = getPaymentsDone();
-        int paymentAmountInCents = (int) (goal.getPaymentAmount() * 100);
-        paymentsMade = (int) (paymentsDone * 100 / paymentAmountInCents);
-        Double paymentsDue = Math.max((idealPaymentsTotal - paymentsDone), 0);
-
-        tvPaymentDue.setText(FormatterUtils.formatAmount(paymentsDue));
-
-        // tvDueDate.setText(FormatterUtils.formatMonthDate(goal.getDueDate()));
         tvDueDateHuman.setText(FormatterUtils.getGoalDueDateCustomFormat(
                 GoalDetailsActivity.this, goal.getDueDate()));
 
-        tvNumPayments.setText(getString(R.string.label_goal_payments_made, paymentsMade,
+        tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(getPaymentsDue()));
+
+        tvNumPayments.setText(getString(R.string.label_goal_payments_made, getPaymentsMade(),
                 goal.getNumPayments()));
 
-        pbGoalPayment.setProgress(
-                (int) ((paymentsDone * pbGoalPayment.getMax()) / goal.getAmount()));
+        pbGoalPayment.setProgress(getGoalProgress());
 
         tvSavedToDate.setText(getString(R.string.label_saved_to_date,
-                FormatterUtils.formatAmount(paymentsDone)));
+                CurrencyUtils.getCurrencyValueFormatted(paymentsDone)));
+    }
 
+    private Double getPaymentsDue() {
+        int idealNumPayments = goal.getIdealNumPaymentsTillToday();
+        Double idealPaymentsTotal = (idealNumPayments + 1) * goal.getPaymentAmount();
+        return Math.max((idealPaymentsTotal - paymentsDone), 0);
     }
 
     public void onMakePayment(View v) {
-        // FragmentManager fm = getSupportFragmentManager();
-        // GoalPaymentFragment newGoalPaymentFragment =
-        // GoalPaymentFragment.newInstance(goal);
-        // newGoalPaymentFragment.show(fm, "fragment_new_goal");
         Intent addPaymentIntent = new Intent(this, AddGoalPaymentActivity.class);
         addPaymentIntent.putExtra(Goal.GOAL_KEY, goal.getObjectId());
         startActivityForResult(addPaymentIntent, ADD_PAYMENT_REQUEST_CODE);
-    }
-
-    private Double getPaymentsDone() {
-        Double paymentsDone = 0.0;
-        for (Transaction txn : goalPayments) {
-            paymentsDone += txn.getAmount();
-        }
-        return paymentsDone;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_goal_details, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_add_payments:
-                // FragmentManager fm = getSupportFragmentManager();
-                // GoalPaymentFragment newGoalPaymentFragment =
-                // GoalPaymentFragment.newInstance(goal);
-                // newGoalPaymentFragment.show(fm, "fragment_new_goal");
-                return true;
-            default:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -231,7 +176,6 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
                 public void done(Transaction txn, ParseException e) {
                     if (e == null) {
                         updatePayment(txn);
-                        txn.saveEventually();
                     } else {
                         Log.e("error", "error getting goal payments", e);
                     }
@@ -249,19 +193,32 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
 
     @Override
     public void updatePayment(Transaction txn) {
-        // paymentsAdapter.insert(txn, 0);
-        tvNumPayments.setText(getString(R.string.label_goal_payments_made, paymentsMade++,
-                goal.getNumPayments()));
+        paymentsDone = paymentsDone + txn.getAmount();
 
-        pbGoalPayment.setProgress(
-                (int) (((paymentsDone + txn.getAmount()) * pbGoalPayment.getMax())
-                / goal.getAmount()));
+        populateViews();
 
-        tvSavedToDate.setText(getString(R.string.label_saved_to_date,
-                paymentsDone + txn.getAmount()));
-
-        // Unpin transaction
+        // Save goal and unpin transaction
+        goal.increment(Goal.CURRENT_TOTAL_KEY, txn.getAmount());
+        goal.saveEventually();
         txn.unpinInBackground(ParseUtils.DELETE_CALLBACK);
+    }
+
+    private int getGoalProgress() {
+        return (int) ((paymentsDone * pbGoalPayment.getMax()) / goal.getAmount());
+    }
+
+    private int getPaymentsMade() {
+        int paymentAmountInCents = (int) (goal.getPaymentAmount() * 100);
+        int paymentsMade = (int) (paymentsDone * 100 / paymentAmountInCents);
+        return paymentsMade;
+    }
+
+    private Double getPaymentsDone() {
+        Double paymentsDone = 0.0;
+        for (Transaction txn : goalPayments) {
+            paymentsDone += txn.getAmount();
+        }
+        return paymentsDone;
     }
 
     private List<Fragment> getLendingCircleFriendsAdapter() {
