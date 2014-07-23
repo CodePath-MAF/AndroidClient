@@ -91,7 +91,7 @@
     <style name="DashboardUI.AggregateLabel">
         <item name="android:textColor">@color/dashboard_aggregate_label</item>
         <item name="android:textSize">13sp</item>
-        <item name="android:typeface">normal</item>
+        <item name="fontPath">fonts/OpenSans-Light.ttf</item>
     </style>
 
     <style name="DashboardUI.AggregateValue">
@@ -142,6 +142,24 @@
     
     <style name="TransactionUI" />
     
+     <style name="TransactionUI.SpentToday">
+        <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
+        <item name="android:textColor">@color/dashboard_spent_today_text</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    
+     <style name="TransactionUI.AggregateLabel">
+        <item name="android:textColor">@color/transactions_aggregate_label</item>
+        <item name="android:textSize">13sp</item>
+        <item name="fontPath">fonts/OpenSans-Light.ttf</item>
+    </style>
+
+    <style name="TransactionUI.AggregateValue">
+        <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
+        <item name="android:textColor">@color/transactions_aggregate_value</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    
     <style name="TransactionUI.TransactionItem" />
 
     <style name="TransactionUI.TransactionItem.Name">
@@ -151,6 +169,12 @@
 
     <style name="TransactionUI.TransactionItem.Amount">
         <item name="android:textColor">@color/transactions_item_name_text</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
+    </style>
+    
+    <style name="TransactionUI.TransactionItem.NegativeAmount">
+        <item name="android:textColor">@color/transactions_item_negative_amount_text</item>
         <item name="android:textSize">18sp</item>
         <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
     </style>

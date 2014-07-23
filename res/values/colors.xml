@@ -21,8 +21,12 @@
     <color name="dashboard_goal_item_milestones_text">#878787</color>
     
     <!-- Transactions -->
+    <color name="transactions_aggregate_label">#8D8D8D</color>
+    <color name="transactions_aggregate_value">#4A4A4A</color>
     <color name="transactions_item_name_text">#342F33</color>
     <color name="transactions_item_category_text">#979797</color>
+    <color name="transactions_item_negative_amount_text">#D0021B</color>
+    <color name="transactions_gray_line">#F3F3F3</color>
     
     <!-- Add Transaction -->
     <color name="add_transaction_input_item_display_name">#80FFFFFF</color>
