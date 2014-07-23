@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.TextView;
 
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
@@ -21,6 +22,7 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
     private static final int AVERAGE_DAILY_SPEND = 50;
     private TransactionGroup mTransactionGroup;
     private PieGraph pgTransactionsDetailChart;
+    private TextView tvDetailChartDate;
 
     public void setTransactionGroup(TransactionGroup transactionGroup) {
         this.mTransactionGroup = transactionGroup;
@@ -32,6 +34,7 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
                 container, false);
 
         pgTransactionsDetailChart = (PieGraph) view.findViewById(R.id.pgTransactionsDetailChart);
+        tvDetailChartDate = (TextView) view.findViewById(R.id.tvDetailChartDate);
         setupChart();
 
         return view;
@@ -45,6 +48,8 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
         if (mTransactionGroup == null) {
             return;
         }
+        
+        tvDetailChartDate.setText(mTransactionGroup.getTransactionDateFormatted());
 
         for (Transaction transaction: mTransactionGroup.getTransactions()) {
             if (transaction.isCredit()) {
