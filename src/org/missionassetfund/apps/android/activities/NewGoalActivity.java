@@ -181,6 +181,12 @@ public class NewGoalActivity extends BaseFragmentActivity implements OnInputForm
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
+    }
 
     @SuppressWarnings("rawtypes")
     private void showFragment(Class activeFragmentClass) {
