@@ -12,6 +12,7 @@ import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.GoalType;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
 import org.missionassetfund.apps.android.utils.ParseUtils;
 
@@ -20,9 +21,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -103,6 +101,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
     }
 
     protected void getPaymentsForGoal() {
+        // TODO: later remove the global paymentDone in favor of the object currentTotal.
         if (goal.getCurrentTotal() != null) {
             paymentsDone = goal.getCurrentTotal();
             populateViews();
@@ -136,12 +135,12 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
             rlLendingCircle.setVisibility(View.VISIBLE);
         }
 
-        tvTotalTargetPayment.setText(Double.toString(goal.getAmount()));
+        tvTotalTargetPayment.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getAmount()));
 
         tvDueDateHuman.setText(FormatterUtils.getGoalDueDateCustomFormat(
                 GoalDetailsActivity.this, goal.getDueDate()));
 
-        tvPaymentDue.setText(FormatterUtils.formatAmount(getPaymentsDue()));
+        tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(getPaymentsDue()));
 
         tvNumPayments.setText(getString(R.string.label_goal_payments_made, getPaymentsMade(),
                 goal.getNumPayments()));
@@ -149,8 +148,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         pbGoalPayment.setProgress(getGoalProgress());
 
         tvSavedToDate.setText(getString(R.string.label_saved_to_date,
-                FormatterUtils.formatAmount(paymentsDone)));
-
+                CurrencyUtils.getCurrencyValueFormatted(paymentsDone)));
     }
 
     private Double getPaymentsDue() {
@@ -200,7 +198,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         populateViews();
 
         // Save goal and unpin transaction
-        goal.setCurrentTotal(paymentsDone + txn.getAmount());
+        goal.increment(Goal.CURRENT_TOTAL_KEY, txn.getAmount());
         goal.saveEventually();
         txn.unpinInBackground(ParseUtils.DELETE_CALLBACK);
     }
