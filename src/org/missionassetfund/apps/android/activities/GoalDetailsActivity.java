@@ -92,6 +92,8 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
             public void done(Goal g, ParseException e) {
                 if (e == null) {
                     goal = g;
+                    // Setup Activity title base on the goal name
+                    setTitle(g.getName());
                     getPaymentsForGoal();
                 } else {
                     Toast.makeText(GoalDetailsActivity.this, R.string.parse_error_querying,
@@ -176,6 +178,12 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
     @Override

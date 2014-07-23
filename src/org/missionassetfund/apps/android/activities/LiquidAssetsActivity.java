@@ -31,6 +31,12 @@ public class LiquidAssetsActivity extends BaseFragmentActivity implements
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    @Override
     public void onBarClicked(TransactionGroup transactionGroup) {
         LiquidAssetsFragment liquidAssetsFragment = (LiquidAssetsFragment)
                 getSupportFragmentManager().findFragmentById(R.id.liquid_assets_fragment);
