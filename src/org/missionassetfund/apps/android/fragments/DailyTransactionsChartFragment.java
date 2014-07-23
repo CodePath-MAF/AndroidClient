@@ -1,9 +1,9 @@
 
 package org.missionassetfund.apps.android.fragments;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Currency;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,18 +11,17 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.TransactionGroup;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.echo.holographlibrary.Bar;
 import com.echo.holographlibrary.BarGraph;
-import com.echo.holographlibrary.ExtendedBar;
 import com.echo.holographlibrary.BarGraph.OnBarClickedListener;
+import com.echo.holographlibrary.ExtendedBar;
 
 public class DailyTransactionsChartFragment extends Fragment {
 
@@ -30,7 +29,7 @@ public class DailyTransactionsChartFragment extends Fragment {
     private List<TransactionGroup> mTransactionGroups;
     private BarGraph bgDailyTransactionsChart;
     private OnTransactionGroupClickedListener listener;
-    
+
     public interface OnTransactionGroupClickedListener {
         public void onBarClicked(TransactionGroup transactionGroup);
     }
@@ -46,7 +45,7 @@ public class DailyTransactionsChartFragment extends Fragment {
 
         bgDailyTransactionsChart = (BarGraph) view.findViewById(R.id.bgDailyTransactionsChart);
         bgDailyTransactionsChart.setOnBarClickedListener(new OnBarClickedListener() {
-            
+
             @Override
             public void onClick(int index) {
                 ExtendedBar bar = (ExtendedBar) bgDailyTransactionsChart.getBars().get(index);
@@ -56,15 +55,16 @@ public class DailyTransactionsChartFragment extends Fragment {
         setupChart();
         return view;
     }
-    
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (activity instanceof OnTransactionGroupClickedListener) {
             listener = (OnTransactionGroupClickedListener) activity;
         } else {
-            throw new ClassCastException(activity.toString()
-                    + " must implement DailyTransactionsChartFragment.OnTransactionGroupClickedListener");
+            throw new ClassCastException(
+                    activity.toString()
+                            + " must implement DailyTransactionsChartFragment.OnTransactionGroupClickedListener");
         }
     }
 
@@ -72,30 +72,52 @@ public class DailyTransactionsChartFragment extends Fragment {
         if (mTransactionGroups.isEmpty()) {
             return;
         }
-        
+
         ArrayList<Bar> points = new ArrayList<Bar>();
         ArrayList<TransactionGroup> reversedList = new ArrayList<TransactionGroup>(
                 mTransactionGroups);
-        Collections.reverse(reversedList);
+
+        // Pre-populate 7 day bars with 0 values
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE (MM/dd)", Locale.US);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -6);
+        for (int i = 0; i < 7; i++) {
+            Log.d("DEBUG", sdf.format(cal.getTime()));
+            ExtendedBar bar = new ExtendedBar();
+            bar.setColor(this.getResources().getColor(R.color.bar_chart_color));
+            bar.setLabelColor(this.getResources().getColor(R.color.bar_chart_label));
+            bar.setName(sdf.format(cal.getTime()));
+            bar.setValue(0f);
+            points.add(i, bar);
+            cal.add(Calendar.DATE, 1);
+        }
+
+        int pos = 6;
 
         for (TransactionGroup tg : reversedList) {
-            ExtendedBar bar = new ExtendedBar();
-            bar.setColor(this.getResources().getColor(R.color.liquid_assets_bar_chart));
-            bar.setLabelColor(Color.GRAY);
-            bar.setName(tg.getTransactionDateFormatted());
-            bar.setValue(AVERAGE_DAILY_SPEND);
-            bar.setGoalValue(tg.getSpentAmount().floatValue());
-            bar.setObjectHolder(tg);
-            bar.setValuePrefix(Currency.getInstance(Locale.US).getSymbol());
+            int i = pos;
+            for (; i > 0; i--) {
+                ExtendedBar bar = (ExtendedBar) points.get(i);
+                if (tg.getTransactionDateFormatted().equals(bar.getName())) {
+                    bar.setValue(tg.getSpentAmount().floatValue());
+                    bar.setObjectHolder(tg);
+                    points.set(i, bar);
+                    i--;
+                    break;
+                }
+            }
 
-            points.add(bar);
+            if (i > 0) {
+                pos = i;
+            } else {
+                break;
+            }
         }
 
         bgDailyTransactionsChart.setBars(points);
-        bgDailyTransactionsChart.setDuration(2000);
-        bgDailyTransactionsChart.setInterpolator(new AccelerateDecelerateInterpolator());
+        bgDailyTransactionsChart.setShowPopup(false);
+        bgDailyTransactionsChart.setShowAxisLabel(true);
         bgDailyTransactionsChart.setValueStringPrecision(2);
-        bgDailyTransactionsChart.animateToGoalValues();
     }
 
 }

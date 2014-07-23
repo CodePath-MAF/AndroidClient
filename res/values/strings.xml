@@ -115,6 +115,9 @@
     <string name="sample_due_date_human">DUE IN 2 DAYS</string>
     <string name="sample_new_transaction_name">Lunch</string>
     <string name="sample_milestones_left">4 MILESTONES LEFT</string>
+    <string name="sample_transaction_name">Dinner &amp; Drinks</string>
+    <string name="sample_transaction_category">ENTERTAINMENT</string>
+    <string name="sample_transaction_amount">($25.00)</string>
 
     <!-- Parse -->
     <string name="com_parse_ui_logo_content_description">Logo</string>

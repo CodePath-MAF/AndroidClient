@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlTransactionsListDetail"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/left_border"
-    android:padding="8dp"
-    android:id="@+id/rlTransactionsListDetail" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/left_border" >
 
-    <TextView
-        android:id="@+id/tvTransactionName"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="16sp"
-         />
-    
-    <TextView
-        android:id="@+id/tvTransactionCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTransactionName"
-        android:enabled="false"
-         />
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_toLeftOf="@+id/tvTransactionAmount"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tvTransactionName"
+            style="@style/TransactionUI.TransactionItem.Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@string/sample_transaction_name" />
+
+        <TextView
+            android:id="@+id/tvTransactionCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TransactionUI.TransactionItem.Category"
+            android:maxLines="1"
+            android:text="@string/sample_transaction_category" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvTransactionAmount"
+        style="@style/TransactionUI.TransactionItem.Amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:textStyle="bold" />
+        android:layout_marginRight="10dp"
+        android:text="@string/sample_transaction_amount" />
 
 </RelativeLayout>

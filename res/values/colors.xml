@@ -20,6 +20,14 @@
     <color name="dashboard_goal_item_due_date_soon_text">#D0021B</color>
     <color name="dashboard_goal_item_milestones_text">#878787</color>
     
+    <!-- Transactions -->
+    <color name="transactions_aggregate_label">#8D8D8D</color>
+    <color name="transactions_aggregate_value">#4A4A4A</color>
+    <color name="transactions_item_name_text">#342F33</color>
+    <color name="transactions_item_category_text">#979797</color>
+    <color name="transactions_item_negative_amount_text">#D0021B</color>
+    <color name="transactions_gray_line">#F3F3F3</color>
+    
     <!-- Add Transaction -->
     <color name="add_transaction_input_item_display_name">#80FFFFFF</color>
     <color name="add_transaction_input_item_display_value">@color/white</color>
@@ -50,7 +58,9 @@
     <color name="com_parse_ui_twitter_login_button_push">#2588B5</color>
     <color name="com_parse_ui_twitter_login_button_focus">#2788BE</color>
     
-    <!-- Liquid Assets -->
-    <color name="liquid_assets_bar_chart">#AC59D6</color>
+    <!-- Graph -->
+    <color name="bar_chart_color">#FF7979</color>
+    <color name="bar_chart_label">#8D8D8D</color>
+    
 
 </resources>

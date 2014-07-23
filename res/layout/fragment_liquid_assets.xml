@@ -43,6 +43,8 @@
             android:baselineAligned="false"
             android:divider="?android:dividerHorizontal"
             android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:showDividers="middle" >
 
             <LinearLayout
@@ -50,17 +52,20 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="8dp" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvLiquidAssets"
-                    style="@style/SmallText"
+                    style="@style/TransactionUI.AggregateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/label_liquid_assets" />
 
                 <TextView
                     android:id="@+id/tvLiquidAssetsAmount"
-                    style="@style/MediumAmount" />
+                    style="@style/TransactionUI.AggregateValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -68,17 +73,20 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="8dp" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvSpentThisWeek"
-                    style="@style/SmallText"
+                    style="@style/TransactionUI.AggregateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/label_spent_this_week" />
 
                 <TextView
                     android:id="@+id/tvSpentAmount"
-                    style="@style/MediumAmount" />
+                    style="@style/TransactionUI.AggregateValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -86,17 +94,20 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="8dp" >
+                android:orientation="vertical" >
 
                 <TextView
                     android:id="@+id/tvSpentToday"
-                    style="@style/SmallText"
+                    style="@style/TransactionUI.AggregateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/label_spent_today" />
 
                 <TextView
                     android:id="@+id/tvSpentTodayAmount"
-                    style="@style/MediumAmount" />
+                    style="@style/TransactionUI.AggregateValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
 
