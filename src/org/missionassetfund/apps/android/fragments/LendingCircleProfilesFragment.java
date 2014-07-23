@@ -66,8 +66,6 @@ public class LendingCircleProfilesFragment extends Fragment {
         ivProfile4.setImageResource(f4.getDpDrawableId());
         tvName4.setText(f4.getName());
 
-        ivProfile1.setImageResource(R.drawable.profile_2);
-
         setupListeners();
 
         return v;

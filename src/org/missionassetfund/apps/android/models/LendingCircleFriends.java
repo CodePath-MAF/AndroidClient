@@ -6,18 +6,18 @@ import java.util.ArrayList;
 import org.missionassetfund.apps.android.R;
 
 public class LendingCircleFriends {
-    private static final String NAME_1 = "A. B.";
-    private static final String NAME_2 = "C. D.";
-    private static final String NAME_3 = "E. F.";
-    private static final String NAME_4 = "G. H.";
-    private static final String NAME_5 = "I. J.";
-    private static final String NAME_6 = "K. L.";
-    private static final String NAME_7 = "M. N.";
-    private static final String NAME_8 = "O. P.";
-    private static final String NAME_9 = "Q. R.";
-    private static final String NAME_10 = "S. T.";
-    private static final String NAME_11 = "U. V.";
-    private static final String NAME_12 = "W. X.";
+    private static final String NAME_1 = "Sofia.R";
+    private static final String NAME_2 = "Mark.S";
+    private static final String NAME_3 = "Alyssa.T";
+    private static final String NAME_4 = "Rob.C";
+    private static final String NAME_5 = "Tom.G";
+    private static final String NAME_6 = "Jairo.A";
+    private static final String NAME_7 = "Eddie.F";
+    private static final String NAME_8 = "Guy.M";
+    private static final String NAME_9 = "Michael.H";
+    private static final String NAME_10 = "Jose.M";
+    private static final String NAME_11 = "Felipe.D";
+    private static final String NAME_12 = "Amit.B";
     public static ArrayList<LendingCircleFriend> FRIENDS = new ArrayList<LendingCircleFriend>();
 
     static {
