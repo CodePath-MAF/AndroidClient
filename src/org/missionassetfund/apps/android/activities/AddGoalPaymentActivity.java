@@ -100,6 +100,7 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
                 return true;
         }
         return super.onOptionsItemSelected(item);
