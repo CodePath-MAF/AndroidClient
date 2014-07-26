@@ -24,10 +24,17 @@ import android.widget.ImageButton;
 public class DateInputFragment extends Fragment {
 
     private OnInputFormListener onInputFormListener;
+    private OnDatePickerListener onDatePickerListener;
 
     private DatePicker dpDate;
     private ImageButton btnBack;
     private ImageButton btnNext;
+
+    public interface OnDatePickerListener {
+        public void setMinDate(DatePicker dpDate);
+
+        public void updateDatePicker(DatePicker dpDate);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,6 +85,11 @@ public class DateInputFragment extends Fragment {
             }
         });
 
+        if (onDatePickerListener != null) {
+            onDatePickerListener.setMinDate(dpDate);
+            onDatePickerListener.updateDatePicker(dpDate);
+        }
+
         return view;
     }
 
@@ -90,8 +102,21 @@ public class DateInputFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnInputFormListener");
         }
+
+        if (activity instanceof OnDatePickerListener) {
+            onDatePickerListener = (OnDatePickerListener) activity;
+        }
     }
-    
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        if (onDatePickerListener != null) {
+            onDatePickerListener.updateDatePicker(dpDate);
+        }
+    }
+
     public Date getDateSelected() {
         return (Date) dpDate.getTag();
     }

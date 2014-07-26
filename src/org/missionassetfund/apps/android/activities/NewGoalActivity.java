@@ -2,6 +2,7 @@
 package org.missionassetfund.apps.android.activities;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.missionassetfund.apps.android.R;
@@ -31,6 +32,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -40,7 +42,8 @@ import com.parse.ParseException;
 import com.parse.SaveCallback;
 
 public class NewGoalActivity extends BaseFragmentActivity implements OnInputFormListener,
-        NameInputFragment.OnCreateViewListener, AmountInputFragment.OnCreateViewListener {
+        NameInputFragment.OnCreateViewListener, AmountInputFragment.OnCreateViewListener,
+        DateInputFragment.OnDatePickerListener {
 
     private ListView lvSteps;
     private ArrayList<Input> inputs;
@@ -181,7 +184,7 @@ public class NewGoalActivity extends BaseFragmentActivity implements OnInputForm
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     @Override
     public void onBackPressed() {
         finish();
@@ -257,5 +260,30 @@ public class NewGoalActivity extends BaseFragmentActivity implements OnInputForm
     @Override
     public void setAmountCategoryVisibility(RadioGroup rgType) {
         rgType.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void updateDatePicker(DatePicker dpDate) {
+        // Get Frequency selected from fragment
+        FragmentManager mgr = getSupportFragmentManager();
+        FrequencyInputFragment frequencyFragment = (FrequencyInputFragment) mgr
+                .findFragmentByTag(FrequencyInputFragment.class.getName());
+        GoalPaymentInterval paymentInterval = (GoalPaymentInterval) frequencyFragment
+                .getFrequencySelected();
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, paymentInterval.toInt() + 1);
+
+        dpDate.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Override
+    public void setMinDate(DatePicker dpDate) {
+        // A goal can not be older than today.
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 1);
+
+        dpDate.setMinDate(cal.getTimeInMillis());
     }
 }
