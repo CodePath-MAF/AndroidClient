@@ -258,10 +258,6 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         return 0;
     }
 
-    // private Class<?> getNextFragmentClass(Input input) {
-    // return inputElements[input.getPos() + 1].getFragmentClass();
-    // }
-
     private Class<?> getPreviousFragmentClass(Input input) {
         return inputElements[input.getPos() - 1].getFragmentClass();
     }
