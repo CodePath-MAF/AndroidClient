@@ -48,7 +48,7 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         implements OnInputFormListener, NameInputFragment.OnCreateViewListener,
         CategoryInputFragment.OnCreateViewListener, AmountInputFragment.OnCreateViewListener {
 
-    Goal goal;
+    private Goal goal;
 
     private ListView lvSteps;
     private ArrayList<Input> inputs;
@@ -163,18 +163,12 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
 
         // TODO (amit) : code duplication.
-        // Goal was pinned when calling goal details activity.
-        // Querying form local datastore.
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
-        query.fromLocalDatastore();
-
         query.getInBackground(goalId, new GetCallback<Goal>() {
-
             @Override
             public void done(Goal g, ParseException e) {
                 if (e == null) {
                     goal = g;
-
                     Input input = inputElements[0];
                     input.setValue(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
                     inputs.add(input);
@@ -183,6 +177,8 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
                 } else {
                     Toast.makeText(AddGoalPaymentActivity.this, "Error getting goal",
                             Toast.LENGTH_LONG).show();
+                    setResult(RESULT_CANCELED);
+                    finish();
                 }
             }
         });
