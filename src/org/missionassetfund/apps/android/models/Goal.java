@@ -16,7 +16,6 @@ public class Goal extends ParseObject implements Serializable {
 
     public static final String USER_KEY = "user";
     public static final String NAME_KEY = "name";
-    public static final String DESCRIPTION_KEY = "description";
     public static final String TYPE_KEY = "type";
     public static final String STATUS_KEY = "status";
     public static final String PAYMENT_INTERVAL_KEY = "paymentInterval";
@@ -44,14 +43,6 @@ public class Goal extends ParseObject implements Serializable {
 
     public void setName(String name) {
         put(NAME_KEY, name);
-    }
-
-    public String getDescription() {
-        return getString(DESCRIPTION_KEY);
-    }
-
-    public void setDescription(String description) {
-        put(DESCRIPTION_KEY, description);
     }
 
     public GoalType getType() {
