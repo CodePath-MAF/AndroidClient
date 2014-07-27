@@ -76,12 +76,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity {
         mIndicator.setViewPager(vpLendingCircle);
 
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
-
-        // Goal was pinned when calling goal details activity.
-        // Querying form local datastore.
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
-        query.fromLocalDatastore();
-
         query.getInBackground(goalId, new GetCallback<Goal>() {
 
             @Override

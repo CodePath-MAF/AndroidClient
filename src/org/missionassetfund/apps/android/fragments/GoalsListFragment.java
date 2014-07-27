@@ -48,7 +48,6 @@ public class GoalsListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapter, View parent, int position, long rowId) {
                 Goal goal = (Goal) adapter.getItemAtPosition(position);
-                goal.pinInBackground(ParseUtils.PIN_CALLBACK);
                 Intent intent = new Intent(getActivity(), GoalDetailsActivity.class);
                 intent.putExtra(Goal.GOAL_KEY, goal.getObjectId());
                 getActivity().startActivity(intent);
