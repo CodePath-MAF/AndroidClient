@@ -1,9 +1,11 @@
 
 package org.missionassetfund.apps.android.models;
 
+import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
+@ParseClassName("Post")
 public class Post extends ParseObject {
     public static final String POST_KEY = "post";
     public static final String USER_KEY = "user";
