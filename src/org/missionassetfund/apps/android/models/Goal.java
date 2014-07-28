@@ -1,7 +1,9 @@
 
 package org.missionassetfund.apps.android.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
@@ -23,6 +25,11 @@ public class Goal extends ParseObject {
     public static final String NUM_PAYMENTS_KEY = "numPayments";
     public static final String GOAL_DATE_KEY = "goalDate";
     public static final String GOAL_START_DATE_KEY = "createdAt";
+    public static final String NUM_PAYMENTS_MADE_KEY = "numPaymentsMade";
+    public static final String PARENT_GOAL_KEY = "parentGoal";
+    public static final String USERS_KEY = "users";
+    public static final String CASH_OUT_DATE_KEY = "cashOutDate";
+    public static final String PAID_OUT_KEY = "paidOut";
 
     public Goal() {
     }
@@ -105,6 +112,46 @@ public class Goal extends ParseObject {
 
     public void setGoalDate(Date goalDate) {
         put(GOAL_DATE_KEY, goalDate);
+    }
+
+    public Integer getNumPaymentsMade() {
+        return (Integer) getNumber(NUM_PAYMENTS_MADE_KEY);
+    }
+
+    public void setNumPaymentsMade(Integer numPaymentsMade) {
+        put(NUM_PAYMENTS_MADE_KEY, numPaymentsMade);
+    }
+
+    public Goal getParentGoal() {
+        return (Goal) getParseObject(PARENT_GOAL_KEY);
+    }
+
+    public void setParentGoal(Goal parentGoal) {
+        put(PARENT_GOAL_KEY, parentGoal);
+    }
+
+    public List<User> getUsers() {
+        return getList(USERS_KEY);
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        put(USERS_KEY, users);
+    }
+
+    public Date getCashOutDate() {
+        return getDate(CASH_OUT_DATE_KEY);
+    }
+
+    public void setCashOutDate(Date cashOutDate) {
+        put(CASH_OUT_DATE_KEY, cashOutDate);
+    }
+
+    public boolean isPaidOut() {
+        return getBoolean(PAID_OUT_KEY);
+    }
+
+    public void setPaidOut(boolean paidOut) {
+        put(PAID_OUT_KEY, paidOut);
     }
 
     public Date getDueDate() {
