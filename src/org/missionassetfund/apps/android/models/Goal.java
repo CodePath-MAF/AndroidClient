@@ -1,7 +1,6 @@
 
 package org.missionassetfund.apps.android.models;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
@@ -10,8 +9,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Goal")
-public class Goal extends ParseObject implements Serializable {
-    private static final long serialVersionUID = 6160272793326362343L;
+public class Goal extends ParseObject {
     public static final String GOAL_KEY = "goal";
 
     public static final String USER_KEY = "user";
