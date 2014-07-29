@@ -162,7 +162,6 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
 
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
 
-        // TODO (amit) : code duplication.
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
         query.getInBackground(goalId, new GetCallback<Goal>() {
             @Override
