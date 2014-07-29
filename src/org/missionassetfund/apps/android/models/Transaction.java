@@ -2,7 +2,6 @@
 package org.missionassetfund.apps.android.models;
 
 import java.math.BigDecimal;
-import java.io.Serializable;
 import java.util.Date;
 
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
@@ -11,8 +10,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Transaction")
-public class Transaction extends ParseObject implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Transaction extends ParseObject {
 
     public static final String USER_KEY = "user";
     public static final String GOAL_KEY = "goal";
@@ -119,7 +117,7 @@ public class Transaction extends ParseObject implements Serializable {
     public boolean isCredit() {
         return this.getType().equals(TransactionType.CREDIT);
     }
-    
+
     public boolean isDebit() {
         return this.getType().equals(TransactionType.DEBIT);
     }
