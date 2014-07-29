@@ -7,11 +7,9 @@ import java.util.List;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalDetailsVPAdapter;
 import org.missionassetfund.apps.android.fragments.LendingCircleProfilesFragment;
-import org.missionassetfund.apps.android.interfaces.UpdatePaymentsListener;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.GoalType;
 import org.missionassetfund.apps.android.models.Transaction;
-import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
 import org.missionassetfund.apps.android.utils.ParseUtils;
@@ -20,7 +18,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -28,13 +25,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class GoalDetailsActivity extends BaseFragmentActivity implements UpdatePaymentsListener {
+public class GoalDetailsActivity extends BaseFragmentActivity {
 
     private static final int ADD_PAYMENT_REQUEST_CODE = 100;
 
@@ -51,7 +48,6 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
     TextView tvSavedToDate;
 
     List<Transaction> goalPayments;
-    Double paymentsDone;
 
     GoalDetailsVPAdapter ldVPAdapter;
     ViewPager vpLendingCircle;
@@ -80,12 +76,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         mIndicator.setViewPager(vpLendingCircle);
 
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
-
-        // Goal was pinned when calling goal details activity.
-        // Querying form local datastore.
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
-        query.fromLocalDatastore();
-
         query.getInBackground(goalId, new GetCallback<Goal>() {
 
             @Override
@@ -94,43 +85,13 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
                     goal = g;
                     // Setup Activity title base on the goal name
                     setTitle(g.getName());
-                    getPaymentsForGoal();
+                    populateViews();
                 } else {
                     Toast.makeText(GoalDetailsActivity.this, R.string.parse_error_querying,
                             Toast.LENGTH_LONG).show();
                 }
             }
         });
-    }
-
-    protected void getPaymentsForGoal() {
-        // TODO: later remove the global paymentDone in favor of the object
-        // currentTotal.
-        if (goal.getCurrentTotal() != null) {
-            paymentsDone = goal.getCurrentTotal();
-            populateViews();
-        } else {
-            ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
-            query.whereEqualTo("user", (User) User.getCurrentUser());
-            query.whereEqualTo("goal", goal);
-            query.addDescendingOrder("createdAt");
-
-            query.findInBackground(new FindCallback<Transaction>() {
-
-                @Override
-                public void done(List<Transaction> txns, ParseException e) {
-                    if (e == null) {
-                        goalPayments = txns;
-                        paymentsDone = getPaymentsDone();
-                        populateViews();
-
-                    } else {
-                        Log.e("error", "error getting goal payments", e);
-                    }
-                }
-            });
-
-        }
     }
 
     private void populateViews() {
@@ -152,13 +113,13 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         pbGoalPayment.setProgress(getGoalProgress());
 
         tvSavedToDate.setText(getString(R.string.label_saved_to_date,
-                CurrencyUtils.getCurrencyValueFormatted(paymentsDone)));
+                CurrencyUtils.getCurrencyValueFormatted(goal.getCurrentTotal())));
     }
 
     private Double getPaymentsDue() {
         int idealNumPayments = goal.getIdealNumPaymentsTillToday();
         Double idealPaymentsTotal = (idealNumPayments + 1) * goal.getPaymentAmount();
-        return Math.max((idealPaymentsTotal - paymentsDone), 0);
+        return Math.max((idealPaymentsTotal - goal.getCurrentTotal()), 0);
     }
 
     public void onMakePayment(View v) {
@@ -189,22 +150,18 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == ADD_PAYMENT_REQUEST_CODE) {
-            String txnId = data.getStringExtra(Transaction.NAME_KEY);
-            ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
-            query.fromLocalDatastore();
-
-            query.getInBackground(txnId, new GetCallback<Transaction>() {
+            // Refresh Goal Detail view
+            String objectId = data.getExtras().getString(Goal.GOAL_KEY);
+            goal = ParseObject.createWithoutData(Goal.class, objectId);
+            goal.fetchInBackground(new GetCallback<Goal>() {
 
                 @Override
-                public void done(Transaction txn, ParseException e) {
+                public void done(Goal g, ParseException e) {
                     if (e == null) {
-                        updatePayment(txn);
-                    } else {
-                        Log.e("error", "error getting goal payments", e);
+                        populateViews();
                     }
                 }
             });
-
         }
     }
 
@@ -214,34 +171,14 @@ public class GoalDetailsActivity extends BaseFragmentActivity implements UpdateP
         super.onDestroy();
     }
 
-    @Override
-    public void updatePayment(Transaction txn) {
-        paymentsDone = paymentsDone + txn.getAmount();
-
-        populateViews();
-
-        // Save goal and unpin transaction
-        goal.increment(Goal.CURRENT_TOTAL_KEY, txn.getAmount());
-        goal.saveEventually();
-        txn.unpinInBackground(ParseUtils.DELETE_CALLBACK);
-    }
-
     private int getGoalProgress() {
-        return (int) ((paymentsDone * pbGoalPayment.getMax()) / goal.getAmount());
+        return (int) ((goal.getCurrentTotal() * pbGoalPayment.getMax()) / goal.getAmount());
     }
 
     private int getPaymentsMade() {
         int paymentAmountInCents = (int) (goal.getPaymentAmount() * 100);
-        int paymentsMade = (int) (paymentsDone * 100 / paymentAmountInCents);
+        int paymentsMade = (int) (goal.getCurrentTotal() * 100 / paymentAmountInCents);
         return paymentsMade;
-    }
-
-    private Double getPaymentsDone() {
-        Double paymentsDone = 0.0;
-        for (Transaction txn : goalPayments) {
-            paymentsDone += txn.getAmount();
-        }
-        return paymentsDone;
     }
 
     private List<Fragment> getLendingCircleFriendsAdapter() {
