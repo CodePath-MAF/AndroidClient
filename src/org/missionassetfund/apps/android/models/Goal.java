@@ -30,6 +30,7 @@ public class Goal extends ParseObject {
     public static final String USERS_KEY = "users";
     public static final String CASH_OUT_DATE_KEY = "cashOutDate";
     public static final String PAID_OUT_KEY = "paidOut";
+    public static final String NEXT_PAYMENT_DATE_KEY = "nextPaymentDate";
 
     public Goal() {
     }
@@ -152,6 +153,10 @@ public class Goal extends ParseObject {
 
     public void setPaidOut(boolean paidOut) {
         put(PAID_OUT_KEY, paidOut);
+    }
+    
+    public Date getNextPaymentDate() {
+        return getDate(NEXT_PAYMENT_DATE_KEY);
     }
 
     public Date getDueDate() {
