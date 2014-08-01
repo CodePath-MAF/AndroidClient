@@ -1,4 +1,28 @@
-# AndroidClient
+# Goalie
+Goalie is a mobile application that enables [Mission Asset Fund](http://missionassetfund.org/) (MAF) [Lending Circle](http://missionassetfund.org/lending-circles/) participants to: 
+
+- Easily monitor their loan status, including payments in real-time.
+- Monitor and input savings and spendings.
+- Create short-term budget goals.
+- Receive notifications from MAF staff if there are any payment issues or program updates.
+
+## Walkthrough
+
+![Video Walkthrough](anim_maf.gif)
+
+### Screenshots
+
+![Dashboard](maf-dashboard.png)
+&nbsp;&nbsp;
+![Transactions](maf-transactions.png)
+&nbsp;&nbsp;
+![Transactions 2](maf-transactions-2.png)
+&nbsp;&nbsp;
+![Add Transactions](maf-add-transaction.png)
+&nbsp;&nbsp;
+![Lending Circle](maf-lending-circle.png)
+&nbsp;&nbsp;
+![Goal](maf-goals.png)
 
 ## Team
 
@@ -42,8 +66,14 @@ Below we have the list of third-party libraries used on the app:
 - [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android): UI wrapper for log in/sign up services
 - [HoloGraphLibrary](https://bitbucket.org/danielnadeau/holographlibrary/wiki/Home): allow beautiful graphs and charts to be easily incorporated into Android
 - [Calligraphy](https://github.com/chrisjenx/Calligraphy): custom fonts for Android
-
+- [Android ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator): Paging indicator widgets
 
 ## License
 
 All code is distributed under MIT license. See LICENSE file for more information.
+
+## Contributing
+
+Please fork this repository and contribute back using [pull requests](https://github.com/CodePath-MAF/AndroidClient/pulls).
+
+Any contributions, large or small, major features, bug fixes, additional language translations, unit/integration tests are welcomed and appreciated but will be thoroughly reviewed and discussed.
