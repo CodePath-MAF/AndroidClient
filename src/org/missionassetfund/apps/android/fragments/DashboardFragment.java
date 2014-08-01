@@ -1,22 +1,16 @@
 
 package org.missionassetfund.apps.android.fragments;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.activities.AddTransactionActivity;
 import org.missionassetfund.apps.android.activities.LiquidAssetsActivity;
-import org.missionassetfund.apps.android.models.Transaction;
-import org.missionassetfund.apps.android.models.User;
-import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,24 +18,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
+import com.echo.holographlibrary.Line;
+import com.echo.holographlibrary.LineGraph;
+import com.echo.holographlibrary.LinePoint;
 
 public class DashboardFragment extends Fragment {
     public static final int ADD_TRANSACTION_REQUEST_CODE = 1;
 
     private RelativeLayout rlLiquidAsset;
-    private TextView tvLiquidAsset;
     private ImageButton btnAddTransaction;
+    private LineGraph lgMonthlySpent;
 
-    private LinearLayout llTotalCashProgress;
-    private LinearLayout llTotalCash;
 
     public interface SwitchMainFragmentListener {
         void SwitchToFragment(Class<? extends Fragment> klass);
@@ -58,6 +48,8 @@ public class DashboardFragment extends Fragment {
         setHasOptionsMenu(true);
 
         getActivity().setTitle(R.string.dashboard_title);
+
+        // TODO(jose): Load data from Cloud Code
     }
 
     @Override
@@ -81,13 +73,9 @@ public class DashboardFragment extends Fragment {
 
     private void setupViews(View v) {
         rlLiquidAsset = (RelativeLayout) v.findViewById(R.id.rlLiquidAsset);
-        tvLiquidAsset = (TextView) v.findViewById(R.id.tvLiquidAsset);
         btnAddTransaction = (ImageButton) v.findViewById(R.id.btnAddTransaction);
+        lgMonthlySpent = (LineGraph) v.findViewById(R.id.lgMonthlySpent);
 
-        llTotalCash = (LinearLayout) v.findViewById(R.id.llTotalCash);
-        llTotalCashProgress = (LinearLayout) v.findViewById(R.id.llTotalCashProgress);
-
-        tvLiquidAsset.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
     }
 
     private void setupListeners() {
@@ -106,9 +94,29 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setupUserData() {
-        // TODO(jose): Do calculation using Parse Cloud Code
+        // Sample Line Chart for mock purposes
+        Line l = new Line();
+        LinePoint p = new LinePoint();
+        p.setX(0);
+        p.setY(5);
+        l.addPoint(p);
+        p = new LinePoint();
+        p.setX(4);
+        p.setY(8);
+        l.addPoint(p);
+        p = new LinePoint();
+        p.setX(8);
+        p.setY(4);
+        l.addPoint(p);
+        p = new LinePoint();
+        p.setX(12);
+        p.setY(5);
+        l.addPoint(p);
+        l.setColor(Color.BLACK);
 
-        refreshTotalCash();
+        lgMonthlySpent.addLine(l);
+        lgMonthlySpent.setRangeY(0, 12);
+        lgMonthlySpent.setLineToFill(0);
     }
 
     private OnClickListener liquidAssetClickListener = new OnClickListener() {
@@ -121,41 +129,6 @@ public class DashboardFragment extends Fragment {
         }
     };
 
-    private void refreshTotalCash() {
-        showTotalCashProgressBar();
-
-        // Calculate Liquid Asset balance
-        ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
-        query.whereEqualTo(Transaction.USER_KEY, User.getCurrentUser());
-        query.setLimit(500);
-        query.findInBackground(new FindCallback<Transaction>() {
-
-            @Override
-            public void done(List<Transaction> results, ParseException e) {
-                if (e != null) {
-                    hideTotalCashProgressBar();
-                    Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
-                            Toast.LENGTH_LONG).show();
-                    Log.d("DEBUG", e.getMessage());
-                } else {
-                    BigDecimal totalCash = CurrencyUtils.newCurrency(0d);
-                    for (Transaction t : results) {
-                        if (t.isDebit()) {
-                            totalCash = totalCash.add(CurrencyUtils.newCurrency(t.getAmount()));
-                        } else {
-                            totalCash = totalCash.subtract(CurrencyUtils.newCurrency(t.getAmount()));
-                        }
-                    }
-
-                    // Set values into the view
-                    tvLiquidAsset.setText(CurrencyUtils.getCurrencyValueFormatted(totalCash));
-
-                    hideTotalCashProgressBar();
-                }
-            }
-        });
-    }
-
     private void refreshGoalList() {
         GoalsListFragment fragmentGoalList = (GoalsListFragment) getActivity()
                 .getSupportFragmentManager().findFragmentById(R.id.goalListFragment);
@@ -164,27 +137,15 @@ public class DashboardFragment extends Fragment {
 
     @Override
     public void onResume() {
-        refreshTotalCash();
         refreshGoalList();
         super.onResume();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        refreshTotalCash();
         if (resultCode == FragmentActivity.RESULT_OK && requestCode == ADD_TRANSACTION_REQUEST_CODE) {
             Toast.makeText(getActivity(), getString(R.string.parse_success_transaction_save),
                     Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void showTotalCashProgressBar() {
-        llTotalCash.setVisibility(View.GONE);
-        llTotalCashProgress.setVisibility(View.VISIBLE);
-    }
-
-    private void hideTotalCashProgressBar() {
-        llTotalCash.setVisibility(View.VISIBLE);
-        llTotalCashProgress.setVisibility(View.GONE);
     }
 }

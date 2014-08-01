@@ -9,56 +9,25 @@
     <RelativeLayout
         android:id="@+id/rlLiquidAsset"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/app_green" >
+        android:layout_height="200dp">
 
-        <LinearLayout
-            android:id="@+id/llTotalCashProgress"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <ProgressBar
-                android:id="@+id/pbTotalCashLoading"
-                style="@android:attr/progressBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llTotalCash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.echo.holographlibrary.LineGraph
+            android:id="@+id/lgMonthlySpent"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone" >
+            android:layout_margin="16dp" />
 
-            <TextView
-                android:id="@+id/tvLiquidAsset"
-                style="@style/DashboardUI.TotalCash.Amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sample_remaining_amount" />
-
-            <TextView
-                android:id="@+id/tvLiquidAssetLabel"
-                style="@style/DashboardUI.TotalCash.Label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dashboard_total_cash_label" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/btnTransactions"
+        <TextView
+            android:id="@+id/tvGraphTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/btn_rightarrow_white" />
+            android:layout_alignTop="@+id/lgMonthlySpent"
+            android:layout_centerHorizontal="true"
+            style="@style/DashboardUI.GoalItem.Name"
+            android:text="Cash Spent" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -76,7 +45,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/add_new_transaction_button" />
-
     </LinearLayout>
 
     <fragment
