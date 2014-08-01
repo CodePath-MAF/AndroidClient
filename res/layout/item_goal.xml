@@ -1,63 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/dashboard_goal_item_background"
-    android:orientation="vertical" >
+    android:layout_height="match_parent"
+    android:padding="5dp" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_toLeftOf="@+id/tvPaymentDue"
+    <RelativeLayout
+        android:layout_width="170dp"
+        android:layout_height="fill_parent"
+        android:background="@drawable/bg_card_no_shadow"
         android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/tvMilestonesLeft"
-            style="@style/DashboardUI.GoalItem.Milestones"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="@string/sample_milestones_left" />
 
         <TextView
             android:id="@+id/tvName"
             style="@style/DashboardUI.GoalItem.Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
             android:maxLines="1"
             android:text="@string/sample_goal_name" />
+
+        <TextView
+            android:id="@+id/tvMilestonesLeft"
+            style="@style/DashboardUI.GoalItem.Milestones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:maxLines="1"
+            android:text="@string/sample_milestones_left" />
+
+        <TextView
+            android:id="@+id/tvPaymentDue"
+            style="@style/DashboardUI.GoalItem.Amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:text="@string/sample_total_payment" />
 
         <TextView
             android:id="@+id/tvDueDate"
             style="@style/DashboardUI.GoalItem.DueDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/tvPaymentDue"
+            android:layout_centerHorizontal="true"
             android:maxLines="1"
             android:text="@string/sample_due_date_human" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tvPaymentDue"
-        style="@style/DashboardUI.GoalItem.Amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/btnDetailView"
-        android:text="@string/sample_total_payment" />
-
-    <ImageView
-        android:id="@+id/btnDetailView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
-        android:src="@drawable/rightarrow_gray_button" />
-
-</RelativeLayout>
+</FrameLayout>

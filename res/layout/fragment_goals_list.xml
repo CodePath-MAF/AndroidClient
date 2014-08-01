@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.lucasr.twowayview.TwoWayView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lvGoals"
+    style="@style/TwoWayView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <ListView
-        android:id="@+id/lvGoals"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@color/white"
-        android:dividerHeight="2dp" />
-
-</LinearLayout>
+    android:drawSelectorOnTop="false"
+    android:layout_marginLeft="3dp"
+    android:background="@color/dashboard_goal_item_background"/>
