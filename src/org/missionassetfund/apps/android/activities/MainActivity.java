@@ -138,6 +138,7 @@ public class MainActivity extends BaseFragmentActivity implements SwitchMainFrag
                     .findFragmentById(R.id.goalListFragment);
             fragmentGoalList.updateGoalList();
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
