@@ -137,7 +137,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="org.missionassetfund.apps.android.receivers.PushNotificationReceiver"
+            android:name=".receivers.PushNotificationReceiver"
             android:exported="false" >
             <intent-filter>
                 <action android:name="org.missionassetfund.apps.android.ADD_TRANSACTION" />
@@ -147,9 +147,14 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="org.missionassetfund.apps.android.receivers.DismissNotificationReceiver"
+            android:name=".receivers.DismissNotificationReceiver"
             android:exported="false" >
         </receiver>
+
+        <activity
+            android:name="org.missionassetfund.apps.android.activities.LCDetailsActivity"
+            android:label="@string/title_activity_lcdetails" >
+        </activity>
     </application>
 
 </manifest>

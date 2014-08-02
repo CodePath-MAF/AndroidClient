@@ -67,6 +67,7 @@
     <string name="dashboard_goal_item_due_date_tomorrow">due in tomorrow</string>
     <string name="dashboard_goal_item_due_date_days">due in %1$d days</string>
     <string name="dashboard_goal_item_due_date">due %1$s</string>
+
     <plurals name="dashboard_milestones_left_human">
         <item quantity="zero">No payments left</item>
         <item quantity="one">%d payment left</item>
@@ -78,7 +79,7 @@
     <string name="initial_setup_transaction_name">Initial Setup</string>
     <string name="initial_setup_toast_successful_message">Account successfully setup.</string>
     <string name="initial_setup_category_bills_object_id">1KE7OZ8QUy</string>
-    
+
     <!-- Add Goal Payment -->
     <string name="add_goal_payment_transaction_name">\'%1$s\' goal payment</string>
 
@@ -118,7 +119,9 @@
     <string name="sample_transaction_name">Dinner &amp; Drinks</string>
     <string name="sample_transaction_category">ENTERTAINMENT</string>
     <string name="sample_transaction_amount">($25.00)</string>
-
+    <string name="sample_post_type">MESSAGE</string>
+    <string name="sample_post">How\'s it going?</string>
+    
     <!-- Parse -->
     <string name="com_parse_ui_logo_content_description">Logo</string>
     <string name="com_parse_ui_progress_dialog_text">Loading&#8230;</string>
@@ -176,5 +179,7 @@
     <string name="com_parse_ui_login_warning_password_reset_failed">"Parse password reset failed, exception: "</string>
     <string name="com_parse_ui_login_dispatch_user_logged_in">"User logged in, starting: "</string>
     <string name="com_parse_ui_login_dispatch_user_not_logged_in">User not logged in, starting ParseLoginActivity</string>
+    <string name="title_activity_lcdetails">LCDetailsActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

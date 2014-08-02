@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dashboard_goal_item_background"
+    android:orientation="vertical" >
+    
+        <ImageView
+        android:id="@+id/ivPosterProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/profile_1"
+        android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:id="@+id/tvPostType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ivPosterProfile"
+            android:text="@string/sample_post_type"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tvPostText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvPostType"
+            android:layout_alignLeft="@+id/tvPostType"
+            android:text="@string/sample_post"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <LinearLayout android:id="@+id/llComents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            
+        </LinearLayout>
+</RelativeLayout>

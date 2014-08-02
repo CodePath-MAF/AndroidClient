@@ -3,6 +3,7 @@ package org.missionassetfund.apps.android.fragments;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.activities.GoalDetailsActivity;
+import org.missionassetfund.apps.android.activities.LCDetailsActivity;
 import org.missionassetfund.apps.android.adapters.GoalAdapter;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.utils.ParseUtils;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class GoalsListFragment extends Fragment {
 
@@ -48,7 +50,21 @@ public class GoalsListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapter, View parent, int position, long rowId) {
                 Goal goal = (Goal) adapter.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(), GoalDetailsActivity.class);
+                // if (goal.getParentGoal() != null) {
+                // Toast.makeText(getActivity(), "Lending Circle!",
+                // Toast.LENGTH_LONG).show();
+                // }
+                // TODO check why parent not coming.
+                // For now hard code for testing
+                Intent intent = null;
+                if (goal.getName().equalsIgnoreCase("First Lending Circle")) {
+                    intent = new Intent(getActivity(),
+                            LCDetailsActivity.class);
+                } else {
+                    intent = new Intent(getActivity(),
+                            GoalDetailsActivity.class);
+                }
+
                 intent.putExtra(Goal.GOAL_KEY, goal.getObjectId());
                 getActivity().startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in,
