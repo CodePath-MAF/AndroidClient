@@ -1,4 +1,4 @@
-# Goalie
+# Goalie (Android)
 Goalie is a mobile application that enables [Mission Asset Fund](http://missionassetfund.org/) (MAF) [Lending Circle](http://missionassetfund.org/lending-circles/) participants to: 
 
 - Easily monitor their loan status, including payments in real-time.

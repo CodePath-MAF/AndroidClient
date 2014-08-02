@@ -34,7 +34,8 @@ public class ChartsViewPagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 fragment = new DailyTransactionsChartFragment();
-                ((DailyTransactionsChartFragment) fragment).setTransactionGroups(mTransactionGroups);
+                // FIXME
+//                ((DailyTransactionsChartFragment) fragment).setTransactionGroups(mTransactionGroups);
                 break;
             case 1:
                 fragment = new DailyTransactionsDetailChartFragment();

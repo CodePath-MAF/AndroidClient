@@ -1,40 +1,53 @@
 
 package org.missionassetfund.apps.android.fragments;
 
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart.Type;
+import org.achartengine.model.CategorySeries;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.renderer.SimpleSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.models.Category;
+import org.missionassetfund.apps.android.models.CategoryTotal;
+import org.missionassetfund.apps.android.models.Chart;
+import org.missionassetfund.apps.android.models.Dashboard;
 import org.missionassetfund.apps.android.models.TransactionGroup;
+import org.missionassetfund.apps.android.models.dao.CategoryDao;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
-import com.echo.holographlibrary.Bar;
-import com.echo.holographlibrary.BarGraph;
-import com.echo.holographlibrary.BarGraph.OnBarClickedListener;
-import com.echo.holographlibrary.ExtendedBar;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 public class DailyTransactionsChartFragment extends Fragment {
 
-    private List<TransactionGroup> mTransactionGroups;
-    private BarGraph bgDailyTransactionsChart;
+    private static final double X_VALUES_EDGE = 0.5;
+    private static final int MAX_CHART_VALUES = 7;
     private OnTransactionGroupClickedListener listener;
 
     public interface OnTransactionGroupClickedListener {
         public void onBarClicked(TransactionGroup transactionGroup);
-    }
-
-    public void setTransactionGroups(List<TransactionGroup> transactionGroups) {
-        this.mTransactionGroups = transactionGroups;
     }
 
     @Override
@@ -42,16 +55,43 @@ public class DailyTransactionsChartFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_daily_transactions_chart, container,
                 false);
 
-        bgDailyTransactionsChart = (BarGraph) view.findViewById(R.id.bgDailyTransactionsChart);
-        bgDailyTransactionsChart.setOnBarClickedListener(new OnBarClickedListener() {
+        final RelativeLayout rlStackedBarChart = (RelativeLayout) view
+                .findViewById(R.id.rlStackedBarChart);
 
-            @Override
-            public void onClick(int index) {
-                ExtendedBar bar = (ExtendedBar) bgDailyTransactionsChart.getBars().get(index);
-                listener.onBarClicked((TransactionGroup) bar.getObjectHolder());
-            }
-        });
-        setupChart();
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", ParseUser.getCurrentUser().getObjectId());
+        // FIXME
+        params.put("day", 1);
+        params.put("month", 8);
+        params.put("year", 2014);
+
+        ParseCloud.callFunctionInBackground("stackedBarChartDetailView", params,
+                new FunctionCallback<HashMap<String, Object>>() {
+
+                    @Override
+                    public void done(HashMap<String, Object> result, ParseException exception) {
+                        final ObjectMapper mapper = new ObjectMapper();
+                        mapper.setSerializationInclusion(Include.NON_NULL);
+                        
+                        final Dashboard dashboard = mapper.convertValue(result, Dashboard.class);
+                        final Chart chart = dashboard.getChart();
+                        
+                        Boolean hasData = chart.getHasData();
+
+                        if (!hasData) {
+                            return;
+                        }
+
+                        BigDecimal maxValue = chart.getMaxValue();
+                                
+                        List<List<CategoryTotal>> data = chart.getData();
+                        List<String> xLabels = chart.getxLabels();
+
+                        setupChart(view.getContext(), rlStackedBarChart,
+                                maxValue, data, xLabels);
+                    }
+                });
+
         return view;
     }
 
@@ -67,56 +107,118 @@ public class DailyTransactionsChartFragment extends Fragment {
         }
     }
 
-    private void setupChart() {
-        if (mTransactionGroups == null || mTransactionGroups.isEmpty()) {
-            return;
+    private void setupChart(Context context, RelativeLayout rlStackedBarChart, BigDecimal maxValue,
+            List<List<CategoryTotal>> data, List<String> xLabels) {
+        List<Category> categories = new CategoryDao().getAll();
+        List<double[]> values = new ArrayList<double[]>();
+
+        for (int i = 0; i < categories.size(); i++) {
+            values.add(new double[MAX_CHART_VALUES]);
         }
 
-        ArrayList<Bar> points = new ArrayList<Bar>();
-        ArrayList<TransactionGroup> reversedList = new ArrayList<TransactionGroup>(
-                mTransactionGroups);
+        for (int i = 0; i < categories.size(); i++) {
+            Category c = categories.get(i);
 
-        // Pre-populate 7 day bars with 0 values
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE (MM/dd)", Locale.US);
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -6);
-        for (int i = 0; i < 7; i++) {
-            Log.d("DEBUG", sdf.format(cal.getTime()));
-            ExtendedBar bar = new ExtendedBar();
-            bar.setColor(this.getResources().getColor(R.color.bar_chart_color));
-            bar.setLabelColor(this.getResources().getColor(R.color.bar_chart_label));
-            bar.setName(sdf.format(cal.getTime()));
-            bar.setValue(0f);
-            points.add(i, bar);
-            cal.add(Calendar.DATE, 1);
-        }
+            for (int j = 0; j < data.size(); j++) {
+                List<CategoryTotal> categoriesByDay = data.get(j);
 
-        int pos = 6;
+                for (CategoryTotal map : categoriesByDay) {
+                    String categoryName = map.getCategoryName();
 
-        for (TransactionGroup tg : reversedList) {
-            int i = pos;
-            for (; i > 0; i--) {
-                ExtendedBar bar = (ExtendedBar) points.get(i);
-                if (tg.getTransactionDateFormatted().equals(bar.getName())) {
-                    bar.setValue(tg.getSpentAmount().floatValue());
-                    bar.setObjectHolder(tg);
-                    points.set(i, bar);
-                    i--;
-                    break;
+                    if (categoryName.equals(c.getName())) {
+                        double[] v = values.get(i);
+                        BigDecimal total = map.getCategoryTotal();
+                        v[j] = total.doubleValue();
+                    }
                 }
-            }
 
-            if (i > 0) {
-                pos = i;
-            } else {
-                break;
             }
         }
 
-        bgDailyTransactionsChart.setBars(points);
-        bgDailyTransactionsChart.setShowPopup(false);
-        bgDailyTransactionsChart.setShowAxisLabel(true);
-        bgDailyTransactionsChart.setValueStringPrecision(2);
+        for (int i = 0; i < values.size(); i++) {
+            double[] previous = (i == 0) ? new double[MAX_CHART_VALUES] : values.get(i - 1);
+            double[] current = values.get(i);
+
+            for (int j = 0; j < current.length; j++) {
+                current[j] = current[j] + previous[j];
+            }
+        }
+
+        Collections.reverse(values);
+        Collections.reverse(categories);
+
+        String[] categoriesTitles = new String[categories.size()];
+        int[] categoriesColors = new int[categories.size()];
+
+        for (int i = 0; i < categories.size(); i++) {
+            Category category = categories.get(i);
+            categoriesColors[i] = Color.parseColor(category.getColor());
+            categoriesTitles[i] = category.getName();
+        }
+
+        String[] xTitles = xLabels.toArray(new String[xLabels.size()]);
+
+        XYMultipleSeriesRenderer renderer = buildBarRenderer(categoriesColors);
+        setChartSettings(renderer, X_VALUES_EDGE,
+                MAX_CHART_VALUES + X_VALUES_EDGE, 0, maxValue.floatValue(), Color.GRAY, Color.LTGRAY, xTitles);
+        
+        GraphicalView graphicalView = ChartFactory.getBarChartView(context,
+                buildBarDataset(categoriesTitles, values), renderer,
+                Type.STACKED);
+        
+        rlStackedBarChart.addView(graphicalView);
+    }
+
+    protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
+        XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+        int length = colors.length;
+        for (int i = 0; i < length; i++) {
+            SimpleSeriesRenderer r = new SimpleSeriesRenderer();
+            r.setColor(colors[i]);
+            renderer.addSeriesRenderer(r);
+        }
+        return renderer;
+    }
+
+    protected void setChartSettings(XYMultipleSeriesRenderer renderer, double xMin, double xMax,
+            double yMin, double yMax, int axesColor,
+            int labelsColor, String[] xTitles) {
+        renderer.setXAxisMin(xMin);
+        renderer.setXAxisMax(xMax);
+        renderer.setYAxisMin(yMin);
+        renderer.setYAxisMax(yMax);
+        renderer.setAxesColor(axesColor);
+        renderer.setLabelsColor(labelsColor);
+        renderer.setMarginsColor(Color.WHITE);
+        renderer.setShowLegend(false);
+        renderer.setXLabels(0);
+
+        for (int i = 0; i < xTitles.length; i++) {
+            renderer.addXTextLabel(i + 1, xTitles[i]);
+        }
+
+        renderer.setXLabelsAlign(Align.CENTER);
+        renderer.setPanEnabled(false, false);
+        renderer.setZoomRate(1.1f);
+        renderer.setBarSpacing(0.5f);
+        renderer.setLabelsTextSize(24);
+        renderer.setYLabels(0);
+        renderer.setShowCustomTextGrid(true);
+    }
+
+    protected XYMultipleSeriesDataset buildBarDataset(String[] titles, List<double[]> values) {
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        int length = titles.length;
+        for (int i = 0; i < length; i++) {
+            CategorySeries series = new CategorySeries(titles[i]);
+            double[] v = values.get(i);
+            int seriesLength = v.length;
+            for (int k = 0; k < seriesLength; k++) {
+                series.add(v[k]);
+            }
+            dataset.addSeries(series.toXYSeries());
+        }
+        return dataset;
     }
 
 }

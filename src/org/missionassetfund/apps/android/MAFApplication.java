@@ -8,6 +8,7 @@ import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.models.dao.CategoryDao;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import android.app.Application;
@@ -18,7 +19,7 @@ import com.parse.ParseObject;
 import com.parse.PushService;
 
 public class MAFApplication extends Application {
-
+    
     @Override
     public void onCreate() {
         super.onCreate();
@@ -44,5 +45,8 @@ public class MAFApplication extends Application {
         Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE);
         PushService.setDefaultPushCallback(this, MainActivity.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
+        
+        // Pin Categories locally
+        new CategoryDao().pin();
     }
 }
