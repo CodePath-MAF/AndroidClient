@@ -6,18 +6,26 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
+    <TextView
+        android:id="@+id/tvGraphTitle"
+        style="@style/DashboardUI.CashSpentChartTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/dashboard_spent_chart_title" />
+
     <RelativeLayout
-        android:id="@+id/rlLiquidAsset"
+        android:id="@+id/rlMonthlySpentChart"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/app_green" >
+        android:layout_height="180dp" >
 
         <LinearLayout
-            android:id="@+id/llTotalCashProgress"
+            android:id="@+id/llMonthlySpentChartProgress"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <ProgressBar
                 android:id="@+id/pbTotalCashLoading"
@@ -25,129 +33,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llTotalCash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvLiquidAsset"
-                style="@style/DashboardUI.TotalCash.Amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sample_remaining_amount" />
-
-            <TextView
-                android:id="@+id/tvLiquidAssetLabel"
-                style="@style/DashboardUI.TotalCash.Label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dashboard_total_cash_label" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/btnTransactions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/btn_rightarrow_white" />
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/llMetrics"
+        android:id="@+id/llAddTransaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/gray_border"
         android:divider="?android:dividerHorizontal"
         android:gravity="center"
         android:padding="10dp"
         android:showDividers="middle" >
 
-        <LinearLayout
-            android:id="@+id/llSavedTodayProgress"
+        <ImageButton
+            android:id="@+id/btnAddTransaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <ProgressBar
-                android:id="@+id/pbSavedTodayLoading"
-                style="@android:attr/progressBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llSavedToday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvSavedTodayLabel"
-                style="@style/DashboardUI.AggregateLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dashboard_saved_today_label" />
-
-            <TextView
-                android:id="@+id/tvSavedToday"
-                style="@style/DashboardUI.AggregateValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sample_spent_today" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llSpentTodayProgress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <ProgressBar
-                android:id="@+id/pbSpentTodayLoading"
-                style="@android:attr/progressBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llSpentToday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/tvSpentTodayLabel"
-                style="@style/DashboardUI.AggregateLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dashboard_spent_today_label" />
-
-            <TextView
-                android:id="@+id/tvSpentToday"
-                style="@style/DashboardUI.AggregateValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sample_spent_today" />
-        </LinearLayout>
+            android:background="@drawable/add_new_transaction_button"
+            android:contentDescription="@string/dashboard_add_transaction_btn_description" />
     </LinearLayout>
 
     <fragment

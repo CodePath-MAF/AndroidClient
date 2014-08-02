@@ -1,11 +1,11 @@
 
 package org.missionassetfund.apps.android.fragments;
 
+import org.lucasr.twowayview.TwoWayView;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.activities.GoalDetailsActivity;
 import org.missionassetfund.apps.android.adapters.GoalAdapter;
 import org.missionassetfund.apps.android.models.Goal;
-import org.missionassetfund.apps.android.utils.ParseUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
 public class GoalsListFragment extends Fragment {
 
-    private ListView lvGoals;
+    private TwoWayView lvGoals;
     private GoalAdapter goalAdapter;
 
     @Override
@@ -33,7 +32,7 @@ public class GoalsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_goals_list, container, false);
 
-        lvGoals = (ListView) v.findViewById(R.id.lvGoals);
+        lvGoals = (TwoWayView) v.findViewById(R.id.lvGoals);
         lvGoals.setAdapter(goalAdapter);
         goalAdapter.loadObjects();
 

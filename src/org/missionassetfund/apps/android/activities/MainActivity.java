@@ -9,8 +9,6 @@ import org.missionassetfund.apps.android.fragments.InitialSetupFragment;
 import org.missionassetfund.apps.android.fragments.InitialSetupFragment.OnInitialSetupListener;
 import org.missionassetfund.apps.android.models.User;
 
-import com.parse.ParseException;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +22,8 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import com.parse.ParseException;
 
 public class MainActivity extends BaseFragmentActivity implements SwitchMainFragmentListener,
         OnInitialSetupListener {
@@ -114,11 +114,6 @@ public class MainActivity extends BaseFragmentActivity implements SwitchMainFrag
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add_goal:
-                Intent newGoalIntent = new Intent(this, NewGoalActivity.class);
-                startActivityForResult(newGoalIntent, NEW_GOAL_REQUEST_CODE);
-                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
-                break;
             case R.id.action_edit_profile:
                 Intent intent = new Intent(this, EditProfileActivity.class);
                 startActivity(intent);
@@ -138,6 +133,7 @@ public class MainActivity extends BaseFragmentActivity implements SwitchMainFrag
                     .findFragmentById(R.id.goalListFragment);
             fragmentGoalList.updateGoalList();
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

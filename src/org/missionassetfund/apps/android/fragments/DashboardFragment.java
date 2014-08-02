@@ -2,19 +2,29 @@
 package org.missionassetfund.apps.android.fragments;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
+import org.achartengine.chart.PointStyle;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.activities.AddTransactionActivity;
 import org.missionassetfund.apps.android.activities.LiquidAssetsActivity;
-import org.missionassetfund.apps.android.models.Transaction;
-import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.models.CashSpentChart;
+import org.missionassetfund.apps.android.models.MainDashboard;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,27 +32,23 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 public class DashboardFragment extends Fragment {
-    private RelativeLayout rlLiquidAsset;
-    private TextView tvLiquidAsset;
-    private TextView tvSavedToday;
-    private TextView tvSpentToday;
+    public static final int ADD_TRANSACTION_REQUEST_CODE = 1;
 
-    private LinearLayout llTotalCashProgress;
-    private LinearLayout llTotalCash;
-    private LinearLayout llSavedTodayProgress;
-    private LinearLayout llSavedToday;
-    private LinearLayout llSpentTodayProgress;
-    private LinearLayout llSpentToday;
+    private ImageButton btnAddTransaction;
+    private RelativeLayout rlMonthlySpentChart;
+    private LinearLayout llMonthlySpentChartProgress;
 
     public interface SwitchMainFragmentListener {
         void SwitchToFragment(Class<? extends Fragment> klass);
@@ -67,9 +73,45 @@ public class DashboardFragment extends Fragment {
 
         setupViews(view);
 
-        rlLiquidAsset.setOnClickListener(liquidAssetClickListener);
+        setupListeners();
 
-        setupUserData();
+        showMonthlySpentChartProgressBar();
+
+        ParseCloud.callFunctionInBackground("dashboardView", new HashMap<String, Object>(),
+                new FunctionCallback<HashMap<String, Object>>() {
+
+                    @Override
+                    public void done(HashMap<String, Object> result, ParseException exception) {
+                        // TODO: Handle case of no data points to plot
+
+                        final ObjectMapper mapper = new ObjectMapper();
+                        mapper.setSerializationInclusion(Include.NON_NULL);
+
+                        Log.d("DEBUG", result.toString());
+
+                        final MainDashboard mainDashboardData = mapper.convertValue(result,
+                                MainDashboard.class);
+                        final CashSpentChart cashSpentChart = mainDashboardData.getCashSpentChart();
+
+                        BigDecimal totalCash = mainDashboardData.getTotalCash();
+
+                        // Update total cash on Action Bar
+                        getActivity().setTitle(
+                                getResources().getString(
+                                        R.string.dashboard_title_with_total_cash,
+                                        CurrencyUtils.getCurrencyValueFormatted(totalCash)));
+
+                        List<BigDecimal> data = cashSpentChart.getData();
+                        List<String> xLabels = cashSpentChart.getxLabels();
+
+                        Log.d("DEBUG", "Data points: " + data.toString());
+                        Log.d("DEBUG", "xLabels: " + xLabels.toString());
+                        Log.d("DEBUG", "# of goals: "
+                                + String.valueOf(mainDashboardData.getGoals().size()));
+
+                        setupChart(rlMonthlySpentChart, data, xLabels);
+                    }
+                });
 
         return view;
     }
@@ -81,29 +123,100 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setupViews(View v) {
-        rlLiquidAsset = (RelativeLayout) v.findViewById(R.id.rlLiquidAsset);
-        tvLiquidAsset = (TextView) v.findViewById(R.id.tvLiquidAsset);
-        tvSavedToday = (TextView) v.findViewById(R.id.tvSavedToday);
-        tvSpentToday = (TextView) v.findViewById(R.id.tvSpentToday);
-
-        llTotalCash = (LinearLayout) v.findViewById(R.id.llTotalCash);
-        llSavedToday = (LinearLayout) v.findViewById(R.id.llSavedToday);
-        llSpentToday = (LinearLayout) v.findViewById(R.id.llSpentToday);
-        llTotalCashProgress = (LinearLayout) v.findViewById(R.id.llTotalCashProgress);
-        llSavedTodayProgress = (LinearLayout) v.findViewById(R.id.llSavedTodayProgress);
-        llSpentTodayProgress = (LinearLayout) v.findViewById(R.id.llSpentTodayProgress);
-
-        tvLiquidAsset.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
-        tvSavedToday.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
-        tvSpentToday.setText(CurrencyUtils.getCurrencyValueFormatted(CurrencyUtils.ZERO));
+        rlMonthlySpentChart = (RelativeLayout) v.findViewById(R.id.rlMonthlySpentChart);
+        btnAddTransaction = (ImageButton) v.findViewById(R.id.btnAddTransaction);
+        llMonthlySpentChartProgress = (LinearLayout) v
+                .findViewById(R.id.llMonthlySpentChartProgress);
     }
 
-    private void setupUserData() {
-        // TODO(jose): Do calculation using Parse Cloud Code
+    private void setupListeners() {
+        btnAddTransaction.setOnClickListener(new OnClickListener() {
 
-        refreshTotalCash();
-        refreshSpentToday();
-        refreshSavedToday();
+            @Override
+            public void onClick(View v) {
+                Intent addTransactionIntent = new Intent(getActivity(),
+                        AddTransactionActivity.class);
+                startActivityForResult(addTransactionIntent, ADD_TRANSACTION_REQUEST_CODE);
+                getActivity().overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
+            }
+        });
+    }
+
+    private void setupChart(RelativeLayout rlMonthlySpent, List<BigDecimal> data,
+            List<String> xLabels) {
+
+        String[] xDates = xLabels.toArray(new String[xLabels.size()]);
+
+        // Creating an XYSeries for Expense
+        XYSeries expenseSeries = new XYSeries("Expense");
+
+        // Adding data to Expense Series
+        for (int i = 0; i < data.size(); i++) {
+            expenseSeries.add(i, data.get(i).doubleValue());
+        }
+
+        // Creating a dataset to hold each series
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        // Adding Expense Series to dataset
+        dataset.addSeries(expenseSeries);
+
+        // Creating XYSeriesRenderer to customize expenseSeries
+        XYSeriesRenderer expenseRenderer = new XYSeriesRenderer();
+        expenseRenderer.setColor(getResources().getColor(R.color.black));
+        // TODO: Add a custom PointStyle like the mocks
+        expenseRenderer.setPointStyle(PointStyle.CIRCLE);
+        expenseRenderer.setLineWidth(getResources().getDimension(R.dimen.spent_chart_line));
+        expenseRenderer.setPointStrokeWidth(getResources().getDimension(R.dimen.spent_chart_point));
+        expenseRenderer.setShowLegendItem(false);
+
+        // Creating a XYMultipleSeriesRenderer to customize the whole chart
+        XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
+        multiRenderer.setXLabels(0);
+        multiRenderer.setBackgroundColor(getResources().getColor(R.color.transparent));
+        multiRenderer.setMarginsColor(getResources().getColor(R.color.transparent));
+        multiRenderer.setPanEnabled(false, false);
+        multiRenderer.setShowGridY(false);
+        multiRenderer.setYAxisMin(0);
+        multiRenderer.setLabelsTextSize(getResources().getDimension(
+                R.dimen.spent_chart_labels_text_size));
+        multiRenderer.setClickEnabled(true);
+        multiRenderer.setMargins(new int[] {
+                getResources().getDimensionPixelOffset(R.dimen.spent_chart_margin_top),
+                getResources().getDimensionPixelOffset(R.dimen.spent_chart_margin_left),
+                getResources().getDimensionPixelOffset(R.dimen.spent_chart_margin_bottom),
+                getResources().getDimensionPixelOffset(R.dimen.spent_chart_margin_right)
+        });
+        multiRenderer.setYLabelsAlign(Align.RIGHT);
+        multiRenderer.setYLabelsPadding(getResources().getDimensionPixelOffset(
+                R.dimen.spent_chart_labels_padding));
+        multiRenderer.setXLabelsAlign(Align.CENTER);
+        multiRenderer.setXLabelsPadding(getResources().getDimensionPixelOffset(
+                R.dimen.spent_chart_labels_padding));
+
+        // Sample customization leaving as comment in case needed
+        // multiRenderer.setChartTitle("Cash spent");
+        // multiRenderer.setXTitle("Weeks");
+        // multiRenderer.setYTitle("$");
+
+        // Add custom label
+        for (int i = 0; i < xDates.length; i++) {
+            multiRenderer.addXTextLabel(i, xDates[i]);
+        }
+
+        // Adding expenseRenderer to multipleRenderer
+        multiRenderer.addSeriesRenderer(expenseRenderer);
+
+        // Creating graphicView to add to the RelativeLayout
+        GraphicalView graphicalView = ChartFactory.getLineChartView(getActivity(),
+                dataset, multiRenderer);
+
+        // Set OnClickListener
+        graphicalView.setOnClickListener(liquidAssetClickListener);
+
+        // Hide progress Bar
+        hideMonthlySpentChartProgressBar();
+
+        rlMonthlySpent.addView(graphicalView);
     }
 
     private OnClickListener liquidAssetClickListener = new OnClickListener() {
@@ -116,120 +229,6 @@ public class DashboardFragment extends Fragment {
         }
     };
 
-    private void refreshTotalCash() {
-        showTotalCashProgressBar();
-
-        // Calculate Liquid Asset balance
-        ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
-        query.whereEqualTo(Transaction.USER_KEY, User.getCurrentUser());
-        query.setLimit(500);
-        query.findInBackground(new FindCallback<Transaction>() {
-
-            @Override
-            public void done(List<Transaction> results, ParseException e) {
-                if (e != null) {
-                    hideTotalCashProgressBar();
-                    Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
-                            Toast.LENGTH_LONG).show();
-                    Log.d("DEBUG", e.getMessage());
-                } else {
-                    BigDecimal totalCash = CurrencyUtils.newCurrency(0d);
-                    for (Transaction t : results) {
-                        if (t.isDebit()) {
-                            totalCash = totalCash.add(CurrencyUtils.newCurrency(t.getAmount()));
-                        } else {
-                            totalCash = totalCash.subtract(CurrencyUtils.newCurrency(t.getAmount()));
-                        }
-                    }
-
-                    // Set values into the view
-                    tvLiquidAsset.setText(CurrencyUtils.getCurrencyValueFormatted(totalCash));
-
-                    hideTotalCashProgressBar();
-                }
-            }
-        });
-    }
-
-    private void refreshSpentToday() {
-        showSpentTodayProgressBar();
-
-        // Calculate Liquid Asset balance
-        ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
-        query.whereEqualTo(Transaction.USER_KEY, User.getCurrentUser());
-        query.setLimit(500);
-        query.findInBackground(new FindCallback<Transaction>() {
-
-            @Override
-            public void done(List<Transaction> results, ParseException e) {
-                if (e != null) {
-                    hideSpentTodayProgressBar();
-                    Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
-                            Toast.LENGTH_LONG).show();
-                    Log.d("DEBUG", e.getMessage());
-                } else {
-                    BigDecimal spentToday = CurrencyUtils.newCurrency(0d);
-                    for (Transaction t : results) {
-                        // Check Spents Today.
-                        if (DateUtils.isToday(t.getTransactionDate().getTime())
-                                && t.isCredit()) {
-                            spentToday = spentToday.subtract(CurrencyUtils.newCurrency(t
-                                    .getAmount()));
-                        }
-                    }
-
-                    // Customize spent today text view
-                    if (spentToday.compareTo(CurrencyUtils.newCurrency(0d)) == -1) {
-                        tvSpentToday.setTextAppearance(getActivity(),
-                                R.style.DashboardUI_SpentToday);
-                    }
-
-                    // Set values into the view
-                    tvSpentToday.setText(CurrencyUtils.getCurrencyValueFormatted(spentToday));
-
-                    hideSpentTodayProgressBar();
-                }
-            }
-        });
-    }
-
-    private void refreshSavedToday() {
-        showMonthlyGoalProgressBar();
-
-        // Calculate Liquid Asset balance
-        ParseQuery<Transaction> query = ParseQuery.getQuery(Transaction.class);
-        query.whereEqualTo(Transaction.USER_KEY, User.getCurrentUser());
-        query.whereNotEqualTo(Transaction.GOAL_KEY, null);
-        query.setLimit(500);
-        query.findInBackground(new FindCallback<Transaction>() {
-
-            @Override
-            public void done(List<Transaction> results, ParseException e) {
-                if (e != null) {
-                    hideMonthlyGoalProgressBar();
-                    Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
-                            Toast.LENGTH_LONG).show();
-                    Log.d("DEBUG", e.getMessage());
-                } else {
-                    BigDecimal savedToday = CurrencyUtils.newCurrency(0d);
-                    for (Transaction t : results) {
-                        // Check Goal Today.
-                        if (DateUtils.isToday(t.getTransactionDate().getTime())
-                                && t.isCredit()) {
-                            savedToday = savedToday.add(CurrencyUtils.newCurrency(t
-                                    .getAmount()));
-                        }
-                    }
-
-                    // Set values into the view
-                    tvSavedToday.setText(CurrencyUtils.getCurrencyValueFormatted(savedToday));
-
-                    hideMonthlyGoalProgressBar();
-                }
-            }
-        });
-    }
-
     private void refreshGoalList() {
         GoalsListFragment fragmentGoalList = (GoalsListFragment) getActivity()
                 .getSupportFragmentManager().findFragmentById(R.id.goalListFragment);
@@ -238,39 +237,24 @@ public class DashboardFragment extends Fragment {
 
     @Override
     public void onResume() {
-        refreshTotalCash();
-        refreshSpentToday();
         refreshGoalList();
         super.onResume();
     }
 
-    private void showTotalCashProgressBar() {
-        llTotalCash.setVisibility(View.GONE);
-        llTotalCashProgress.setVisibility(View.VISIBLE);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == FragmentActivity.RESULT_OK && requestCode == ADD_TRANSACTION_REQUEST_CODE) {
+            Toast.makeText(getActivity(), getString(R.string.parse_success_transaction_save),
+                    Toast.LENGTH_SHORT).show();
+            // TODO: refresh chart and cash
+        }
     }
 
-    private void hideTotalCashProgressBar() {
-        llTotalCash.setVisibility(View.VISIBLE);
-        llTotalCashProgress.setVisibility(View.GONE);
+    private void showMonthlySpentChartProgressBar() {
+        llMonthlySpentChartProgress.setVisibility(View.VISIBLE);
     }
 
-    private void showMonthlyGoalProgressBar() {
-        llSavedToday.setVisibility(View.GONE);
-        llSavedTodayProgress.setVisibility(View.VISIBLE);
-    }
-
-    private void hideMonthlyGoalProgressBar() {
-        llSavedToday.setVisibility(View.VISIBLE);
-        llSavedTodayProgress.setVisibility(View.GONE);
-    }
-
-    private void showSpentTodayProgressBar() {
-        llSpentToday.setVisibility(View.GONE);
-        llSpentTodayProgress.setVisibility(View.VISIBLE);
-    }
-
-    private void hideSpentTodayProgressBar() {
-        llSpentToday.setVisibility(View.VISIBLE);
-        llSpentTodayProgress.setVisibility(View.GONE);
+    private void hideMonthlySpentChartProgressBar() {
+        llMonthlySpentChartProgress.setVisibility(View.GONE);
     }
 }

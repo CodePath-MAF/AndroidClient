@@ -44,7 +44,8 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
         TextView tvName = (TextView) v.findViewById(R.id.tvName);
         TextView tvDueDate = (TextView) v.findViewById(R.id.tvDueDate);
         TextView tvPaymentDue = (TextView) v.findViewById(R.id.tvPaymentDue);
-        TextView tvMilestonesLeft = (TextView) v.findViewById(R.id.tvMilestonesLeft);
+         TextView tvMilestonesLeft = (TextView)
+         v.findViewById(R.id.tvMilestonesLeft);
 
         // reset view style
         tvDueDate.setTextAppearance(getContext(), R.style.DashboardUI_GoalItem_DueDate);

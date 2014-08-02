@@ -2,6 +2,7 @@
 <resources>
 
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="lightgray">#F3F3F3</color>
     <color name="darkgray">#575757</color>
     <color name="gray">#CCCCCC</color>
@@ -9,8 +10,10 @@
     <color name="navy_blue">#165b8c</color>
     <color name="app_green">#23c7a1</color>
     <color name="light_red">#E82C0C</color>
+    <color name="transparent">#00FFFFFF</color>
     
     <!-- Dashboard -->
+    <color name="dashboard_cash_spent_chart_title_text">#342F33</color>
     <color name="dashboard_aggregate_label">#8D8D8D</color>
     <color name="dashboard_aggregate_value">#4A4A4A</color>
     <color name="dashboard_spent_today_text">#D0021B</color>
