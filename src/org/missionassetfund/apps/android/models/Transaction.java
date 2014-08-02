@@ -7,10 +7,12 @@ import java.util.Date;
 
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Transaction")
+@JsonIgnoreProperties(value = { "objectId" }, ignoreUnknown = true)
 public class Transaction extends ParseObject implements Serializable {
     private static final long serialVersionUID = 1L;
 
