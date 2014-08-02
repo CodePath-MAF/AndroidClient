@@ -18,7 +18,6 @@ import org.missionassetfund.apps.android.models.Transaction.TransactionType;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.receivers.PushNotificationReceiver;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
-import org.missionassetfund.apps.android.utils.ParseUtils;
 
 import android.app.ActionBar;
 import android.app.NotificationManager;
@@ -28,6 +27,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -48,7 +48,7 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         implements OnInputFormListener, NameInputFragment.OnCreateViewListener,
         CategoryInputFragment.OnCreateViewListener, AmountInputFragment.OnCreateViewListener {
 
-    Goal goal;
+    private Goal goal;
 
     private ListView lvSteps;
     private ArrayList<Input> inputs;
@@ -162,19 +162,12 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
 
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
 
-        // TODO (amit) : code duplication.
-        // Goal was pinned when calling goal details activity.
-        // Querying form local datastore.
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
-        query.fromLocalDatastore();
-
         query.getInBackground(goalId, new GetCallback<Goal>() {
-
             @Override
             public void done(Goal g, ParseException e) {
                 if (e == null) {
                     goal = g;
-
                     Input input = inputElements[0];
                     input.setValue(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
                     inputs.add(input);
@@ -183,6 +176,8 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
                 } else {
                     Toast.makeText(AddGoalPaymentActivity.this, "Error getting goal",
                             Toast.LENGTH_LONG).show();
+                    setResult(RESULT_CANCELED);
+                    finish();
                 }
             }
         });
@@ -219,24 +214,25 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         transaction.setType(TransactionType.CREDIT);
         transaction.setCategory(txnCategory);
 
-        // Pinning to local database so GoalDetailsActivity could use it.
-        // TODO add a tag so that it can be unpinned.
-        transaction.pinInBackground(new SaveCallback() {
+        transaction.saveInBackground(new SaveCallback() {
 
             @Override
-            public void done(ParseException arg0) {
-                Intent txnData = new Intent();
-                txnData.putExtra(Transaction.NAME_KEY, transaction.getObjectId());
-                setResult(RESULT_OK, txnData);
-                finish();
-                overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
+            public void done(ParseException e) {
+                if (e != null) {
+                    Toast.makeText(getApplication(), getString(R.string.parse_error_saving),
+                            Toast.LENGTH_LONG).show();
+                    Log.d("DEBUG", e.getMessage());
+                } else {
+                    // Success
+                    Intent data = new Intent();
+                    data.putExtra(Goal.GOAL_KEY, goal.getObjectId());
+                    setResult(RESULT_OK, data);
+                    finish();
+                    overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
+                }
+
             }
         });
-
-        // Saving it here so that txn is saved when push notification calls this
-        // activity
-        transaction.saveInBackground(ParseUtils.SAVE_CALLBACK);
-
     }
 
     /**
@@ -261,10 +257,6 @@ public class AddGoalPaymentActivity extends BaseFragmentActivity
         }
         return 0;
     }
-
-    // private Class<?> getNextFragmentClass(Input input) {
-    // return inputElements[input.getPos() + 1].getFragmentClass();
-    // }
 
     private Class<?> getPreviousFragmentClass(Input input) {
         return inputElements[input.getPos() - 1].getFragmentClass();

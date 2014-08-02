@@ -3,7 +3,9 @@ package org.missionassetfund.apps.android;
 
 import org.missionassetfund.apps.android.activities.MainActivity;
 import org.missionassetfund.apps.android.models.Category;
+import org.missionassetfund.apps.android.models.Comment;
 import org.missionassetfund.apps.android.models.Goal;
+import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.Transaction;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.models.dao.CategoryDao;
@@ -31,6 +33,8 @@ public class MAFApplication extends Application {
         ParseObject.registerSubclass(Transaction.class);
         ParseObject.registerSubclass(Goal.class);
         ParseObject.registerSubclass(Category.class);
+        ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Comment.class);
 
         // Enable local datastore
         Parse.enableLocalDatastore(this);
