@@ -12,7 +12,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Goal")
-@JsonIgnoreProperties(value = { "objectId" }, ignoreUnknown = true)
+@JsonIgnoreProperties(value = { "objectId", "parentGoal" }, ignoreUnknown = true)
 public class Goal extends ParseObject {
     public static final String GOAL_KEY = "goal";
 
