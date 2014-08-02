@@ -6,10 +6,12 @@ import java.util.Date;
 
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Transaction")
+@JsonIgnoreProperties(value = { "objectId" }, ignoreUnknown = true)
 public class Transaction extends ParseObject {
 
     public static final String USER_KEY = "user";

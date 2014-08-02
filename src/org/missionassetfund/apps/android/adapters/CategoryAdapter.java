@@ -3,6 +3,7 @@ package org.missionassetfund.apps.android.adapters;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Category;
+import org.missionassetfund.apps.android.models.dao.CategoryDao;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,8 +22,7 @@ public class CategoryAdapter extends ParseQueryAdapter<Category> implements Spin
 
             @Override
             public ParseQuery<Category> create() {
-                ParseQuery<Category> query = ParseQuery.getQuery(Category.class);
-                return query;
+                return new CategoryDao().getLocalQuery();
             }
         });
     }

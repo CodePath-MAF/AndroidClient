@@ -1,10 +1,12 @@
 
 package org.missionassetfund.apps.android.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.parse.ParseClassName;
 import com.parse.ParseUser;
 
 @ParseClassName("_User")
+@JsonIgnoreProperties(value = { "objectId" }, ignoreUnknown = true)
 public class User extends ParseUser {
     public static final String NAME_KEY = "name";
     public static final String PHONE_NUMBER_KEY = "phoneNumber";

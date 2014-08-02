@@ -1,10 +1,12 @@
 
 package org.missionassetfund.apps.android.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Category")
+@JsonIgnoreProperties(value = { "objectId" }, ignoreUnknown = true)
 public class Category extends ParseObject {
     public static final String NAME_KEY = "name";
     public static final String COLOR_KEY = "color";
