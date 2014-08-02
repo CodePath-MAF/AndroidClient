@@ -6,12 +6,5 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/title_edit_profile"/>
-    
-    <item 
-        android:id="@+id/action_add_goal"
-        android:icon="@drawable/add_button"
-        android:orderInCategory="200"
-        android:showAsAction="always"
-        android:title="@string/title_add_goal"/>
 
 </menu>

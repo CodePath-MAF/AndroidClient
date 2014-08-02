@@ -59,10 +59,8 @@
 
     <!-- Dashboard strings -->
     <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_title_with_total_cash">Dashboard (%1$s Total Cash)</string>
     <string name="dashboard_total_cash_label">TOTAL CASH</string>
-    <string name="dashboard_monthly_goals_label">MONTHLY GOALS</string>
-    <string name="dashboard_saved_today_label">SAVED TODAY</string>
-    <string name="dashboard_spent_today_label">SPENT TODAY</string>
     <string name="dashboard_goal_item_due_date_today">due in today</string>
     <string name="dashboard_goal_item_due_date_tomorrow">due in tomorrow</string>
     <string name="dashboard_goal_item_due_date_days">due in %1$d days</string>
@@ -72,6 +70,9 @@
         <item quantity="one">%d payment left</item>
         <item quantity="other">%d payments left</item>
     </plurals>
+    <string name="dashboard_spent_chart_title">Cash Spent</string>
+    <string name="dashboard_add_transaction_btn_description">Add a new transaction</string>
+    
 
     <!-- Initial Setup -->
     <string name="initial_setup_title">Enter Current Cash balance</string>

@@ -7,10 +7,12 @@ import java.util.List;
 
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Goal")
+@JsonIgnoreProperties(value = { "objectId" }, ignoreUnknown = true)
 public class Goal extends ParseObject {
     public static final String GOAL_KEY = "goal";
 

@@ -6,28 +6,33 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
+    <TextView
+        android:id="@+id/tvGraphTitle"
+        style="@style/DashboardUI.CashSpentChartTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/dashboard_spent_chart_title" />
+
     <RelativeLayout
-        android:id="@+id/rlLiquidAsset"
+        android:id="@+id/rlMonthlySpentChart"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="180dp" >
 
-        <com.echo.holographlibrary.LineGraph
-            android:id="@+id/lgMonthlySpent"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="16dp" />
+        <LinearLayout
+            android:id="@+id/llMonthlySpentChartProgress"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
 
-        <TextView
-            android:id="@+id/tvGraphTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/lgMonthlySpent"
-            android:layout_centerHorizontal="true"
-            style="@style/DashboardUI.GoalItem.Name"
-            android:text="Cash Spent" />
-
+            <ProgressBar
+                android:id="@+id/pbTotalCashLoading"
+                style="@android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
@@ -35,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/gray_border"
         android:divider="?android:dividerHorizontal"
         android:gravity="center"
         android:padding="10dp"
@@ -44,7 +50,8 @@
             android:id="@+id/btnAddTransaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/add_new_transaction_button" />
+            android:background="@drawable/add_new_transaction_button"
+            android:contentDescription="@string/dashboard_add_transaction_btn_description" />
     </LinearLayout>
 
     <fragment
