@@ -1,25 +1,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
+
+    <FrameLayout
+        android:id="@+id/circleOfLC"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentTop="true" >
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        android:layout_below="@+id/circleOfLC" >
 
         <ImageView
             android:id="@+id/ivProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/profile_1"
-            android:contentDescription="@string/app_name" />
-
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/profile_1" />
 
         <TextView
             android:id="@+id/tvNextPaymentLabel"
@@ -30,26 +37,41 @@
         <TextView
             android:id="@+id/tvDueDateHuman"
             style="@style/SmallText"
-            android:layout_toRightOf="@id/ivProfile"
             android:layout_below="@id/tvNextPaymentLabel"
+            android:layout_toRightOf="@id/ivProfile"
             android:drawableLeft="@drawable/img_time_gray"
             android:text="@string/sample_due_date_human_goal_details" />
-        
-        
+
         <TextView
             android:id="@+id/tvPaymentDue"
             style="@style/LargeAmount"
             android:layout_alignParentRight="true"
             android:text="@string/sample_total_payment" />
-        
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/llGoalPosts"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/relativeLayout1" >
-    </ListView>
+
+        <ListView
+            android:id="@+id/llGoalPosts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </ListView>
+
+        <com.faizmalkani.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabbutton"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:onClick="fabClicked"
+            app:drawable="@drawable/profile_12"
+            app:color="#FFDF4D38" />
+    </FrameLayout>
 
 </RelativeLayout>
