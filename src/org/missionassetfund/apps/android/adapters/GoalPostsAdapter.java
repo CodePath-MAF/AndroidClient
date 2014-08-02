@@ -20,19 +20,18 @@ import android.widget.TextView;
 
 public class GoalPostsAdapter extends ArrayAdapter<Post> {
 
-    int layoutResId;
+    public GoalPostsAdapter(Context context, List<Post> posts) {
+        super(context, R.layout.item_lc_post, posts);
 
-    public GoalPostsAdapter(Context context, int resId, List<Post> posts) {
-        super(context, resId, posts);
-        layoutResId = resId;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Post post = getItem(position);
 
         // if (convertView == null) {
-        convertView = LayoutInflater.from(getContext()).inflate(layoutResId, parent,
+        convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_lc_post, parent,
                 false);
         // }
 
@@ -40,15 +39,19 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
         tvPostText.setText(post.getContent());
 
         LinearLayout llComments = (LinearLayout) convertView.findViewById(R.id.llComents);
+        llComments.removeAllViews();
 
         List<Comment> comments = (List<Comment>) post.get("comments");
-        for (Comment comment : comments) {
-            View commentView = LayoutInflater.from(getContext()).inflate(R.layout.item_lc_comment,
-                    parent,
-                    false);
-            TextView tvCommentText = (TextView) commentView.findViewById(R.id.tvCommentText);
-            tvCommentText.setText(comment.getContent());
-            llComments.addView(commentView);
+        if (comments != null) {
+            for (Comment comment : comments) {
+                View commentView = LayoutInflater.from(getContext()).inflate(
+                        R.layout.item_lc_comment, parent, false);
+                TextView tvCommentText = (TextView)
+                        commentView.findViewById(R.id.tvCommentText);
+                tvCommentText.setText(comment.getContent());
+                llComments.addView(commentView);
+            }
+
         }
 
         View newCommentView = LayoutInflater.from(getContext()).inflate(

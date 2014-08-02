@@ -56,7 +56,8 @@
     <string name="label_saved_to_date"> %1$s SAVED TO DATE</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
+    <string name="label_post"> post </string>
+    
     <!-- Dashboard strings -->
     <string name="dashboard_title">Dashboard</string>
     <string name="dashboard_total_cash_label">TOTAL CASH</string>

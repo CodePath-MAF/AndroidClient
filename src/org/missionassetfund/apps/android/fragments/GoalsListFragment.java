@@ -6,7 +6,6 @@ import org.missionassetfund.apps.android.activities.GoalDetailsActivity;
 import org.missionassetfund.apps.android.activities.LCDetailsActivity;
 import org.missionassetfund.apps.android.adapters.GoalAdapter;
 import org.missionassetfund.apps.android.models.Goal;
-import org.missionassetfund.apps.android.utils.ParseUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class GoalsListFragment extends Fragment {
 
