@@ -19,6 +19,7 @@ import org.missionassetfund.apps.android.models.CashSpentChart;
 import org.missionassetfund.apps.android.models.MainDashboard;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint.Align;
@@ -99,9 +100,11 @@ public class DashboardFragment extends Fragment {
                             BigDecimal totalCash = mainDashboardData.getTotalCash();
 
                             // Update total cash on Action Bar
-                            getActivity().setTitle(
+                            ActionBar actionBar = getActivity().getActionBar();
+
+                            actionBar.setSubtitle(
                                     getResources().getString(
-                                            R.string.dashboard_title_with_total_cash,
+                                            R.string.dashboard_subtitle_cash_available,
                                             CurrencyUtils.getCurrencyValueFormatted(totalCash)));
 
                             List<BigDecimal> data = cashSpentChart.getData();
