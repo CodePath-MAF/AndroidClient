@@ -4,50 +4,39 @@ package org.missionassetfund.apps.android.fragments;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
-import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.BarChart.Type;
-import org.achartengine.model.CategorySeries;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.renderer.SimpleSeriesRenderer;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.model.SeriesSelection;
+import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Category;
 import org.missionassetfund.apps.android.models.CategoryTotal;
 import org.missionassetfund.apps.android.models.Chart;
-import org.missionassetfund.apps.android.models.Dashboard;
-import org.missionassetfund.apps.android.models.TransactionGroup;
 import org.missionassetfund.apps.android.models.dao.CategoryDao;
+import org.missionassetfund.apps.android.views.StackedBarChart;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parse.FunctionCallback;
-import com.parse.ParseCloud;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 public class DailyTransactionsChartFragment extends Fragment {
 
     private static final double X_VALUES_EDGE = 0.5;
     private static final int MAX_CHART_VALUES = 7;
-    private OnTransactionGroupClickedListener listener;
+    private OnTransactionsBarClickedListener listener;
+    private Chart mChart;
+    private GraphicalView mGraphicalView;
 
-    public interface OnTransactionGroupClickedListener {
-        public void onBarClicked(TransactionGroup transactionGroup);
+    public interface OnTransactionsBarClickedListener {
+        public void onBarClicked(int barIndex);
     }
 
     @Override
@@ -58,39 +47,19 @@ public class DailyTransactionsChartFragment extends Fragment {
         final RelativeLayout rlStackedBarChart = (RelativeLayout) view
                 .findViewById(R.id.rlStackedBarChart);
 
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", ParseUser.getCurrentUser().getObjectId());
-        // FIXME
-        params.put("day", 1);
-        params.put("month", 8);
-        params.put("year", 2014);
+        Boolean hasData = mChart.getHasData();
 
-        ParseCloud.callFunctionInBackground("stackedBarChartDetailView", params,
-                new FunctionCallback<HashMap<String, Object>>() {
+        if (!hasData) {
+            return view;
+        }
 
-                    @Override
-                    public void done(HashMap<String, Object> result, ParseException exception) {
-                        final ObjectMapper mapper = new ObjectMapper();
-                        mapper.setSerializationInclusion(Include.NON_NULL);
-                        
-                        final Dashboard dashboard = mapper.convertValue(result, Dashboard.class);
-                        final Chart chart = dashboard.getChart();
-                        
-                        Boolean hasData = chart.getHasData();
+        BigDecimal maxValue = mChart.getMaxValue();
 
-                        if (!hasData) {
-                            return;
-                        }
+        List<List<CategoryTotal>> data = mChart.getData();
+        List<String> xLabels = mChart.getxLabels();
 
-                        BigDecimal maxValue = chart.getMaxValue();
-                                
-                        List<List<CategoryTotal>> data = chart.getData();
-                        List<String> xLabels = chart.getxLabels();
-
-                        setupChart(view.getContext(), rlStackedBarChart,
-                                maxValue, data, xLabels);
-                    }
-                });
+        setupChart(view.getContext(), rlStackedBarChart,
+                maxValue, data, xLabels);
 
         return view;
     }
@@ -98,8 +67,8 @@ public class DailyTransactionsChartFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof OnTransactionGroupClickedListener) {
-            listener = (OnTransactionGroupClickedListener) activity;
+        if (activity instanceof OnTransactionsBarClickedListener) {
+            listener = (OnTransactionsBarClickedListener) activity;
         } else {
             throw new ClassCastException(
                     activity.toString()
@@ -158,67 +127,26 @@ public class DailyTransactionsChartFragment extends Fragment {
 
         String[] xTitles = xLabels.toArray(new String[xLabels.size()]);
 
-        XYMultipleSeriesRenderer renderer = buildBarRenderer(categoriesColors);
-        setChartSettings(renderer, X_VALUES_EDGE,
-                MAX_CHART_VALUES + X_VALUES_EDGE, 0, maxValue.floatValue(), Color.GRAY, Color.LTGRAY, xTitles);
-        
-        GraphicalView graphicalView = ChartFactory.getBarChartView(context,
-                buildBarDataset(categoriesTitles, values), renderer,
-                Type.STACKED);
-        
-        rlStackedBarChart.addView(graphicalView);
+        StackedBarChart barChart = new StackedBarChart(categoriesColors, X_VALUES_EDGE, MAX_CHART_VALUES, 
+                maxValue.floatValue(), xTitles, Orientation.HORIZONTAL, 50f);
+        mGraphicalView = barChart.getChartView(context, categoriesTitles, values); 
+
+        mGraphicalView.setOnClickListener(chartClickListener);
+
+        rlStackedBarChart.addView(mGraphicalView);
     }
 
-    protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
-        XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-        int length = colors.length;
-        for (int i = 0; i < length; i++) {
-            SimpleSeriesRenderer r = new SimpleSeriesRenderer();
-            r.setColor(colors[i]);
-            renderer.addSeriesRenderer(r);
+    public void setChart(Chart chart) {
+        this.mChart = chart;
+    }
+
+    private OnClickListener chartClickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            SeriesSelection seriesSelection = mGraphicalView.getCurrentSeriesAndPoint();
+            listener.onBarClicked(seriesSelection == null ? -1 : seriesSelection.getPointIndex());
         }
-        return renderer;
-    }
-
-    protected void setChartSettings(XYMultipleSeriesRenderer renderer, double xMin, double xMax,
-            double yMin, double yMax, int axesColor,
-            int labelsColor, String[] xTitles) {
-        renderer.setXAxisMin(xMin);
-        renderer.setXAxisMax(xMax);
-        renderer.setYAxisMin(yMin);
-        renderer.setYAxisMax(yMax);
-        renderer.setAxesColor(axesColor);
-        renderer.setLabelsColor(labelsColor);
-        renderer.setMarginsColor(Color.WHITE);
-        renderer.setShowLegend(false);
-        renderer.setXLabels(0);
-
-        for (int i = 0; i < xTitles.length; i++) {
-            renderer.addXTextLabel(i + 1, xTitles[i]);
-        }
-
-        renderer.setXLabelsAlign(Align.CENTER);
-        renderer.setPanEnabled(false, false);
-        renderer.setZoomRate(1.1f);
-        renderer.setBarSpacing(0.5f);
-        renderer.setLabelsTextSize(24);
-        renderer.setYLabels(0);
-        renderer.setShowCustomTextGrid(true);
-    }
-
-    protected XYMultipleSeriesDataset buildBarDataset(String[] titles, List<double[]> values) {
-        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        int length = titles.length;
-        for (int i = 0; i < length; i++) {
-            CategorySeries series = new CategorySeries(titles[i]);
-            double[] v = values.get(i);
-            int seriesLength = v.length;
-            for (int k = 0; k < seriesLength; k++) {
-                series.add(v[k]);
-            }
-            dataset.addSeries(series.toXYSeries());
-        }
-        return dataset;
-    }
+    };
 
 }

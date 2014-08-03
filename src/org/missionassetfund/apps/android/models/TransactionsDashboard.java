@@ -2,7 +2,7 @@ package org.missionassetfund.apps.android.models;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 @JsonRootName("result")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Dashboard {
+public class TransactionsDashboard {
     
     private BigDecimal spentThisWeek;
     private BigDecimal spentToday;
@@ -18,7 +18,7 @@ public class Dashboard {
     private List<String> dates;
     
     @JsonProperty("transactionsByDate")
-    private Map<String, List<Transaction>> transactionsByDate;
+    private TreeMap<String, List<Transaction>> transactionsByDate;
     
     @JsonProperty("stackedBarChart")
     private Chart chart;
@@ -63,11 +63,11 @@ public class Dashboard {
         this.chart = chart;
     }
 
-    public Map<String, List<Transaction>> getTransactionsByDate() {
+    public TreeMap<String, List<Transaction>> getTransactionsByDate() {
         return transactionsByDate;
     }
 
-    public void setTransactionsByDate(Map<String, List<Transaction>> transactionsByDate) {
+    public void setTransactionsByDate(TreeMap<String, List<Transaction>> transactionsByDate) {
         this.transactionsByDate = transactionsByDate;
     }
 

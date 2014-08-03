@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.missionassetfund.apps.android.fragments.DailyTransactionsChartFragment;
 import org.missionassetfund.apps.android.fragments.DailyTransactionsDetailChartFragment;
-import org.missionassetfund.apps.android.models.TransactionGroup;
+import org.missionassetfund.apps.android.models.CategoryTotal;
+import org.missionassetfund.apps.android.models.Chart;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,19 +13,24 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class ChartsViewPagerAdapter extends FragmentStatePagerAdapter {
     
-    private List<TransactionGroup> mTransactionGroups;
-    private TransactionGroup mTransactionGroup;
-
+    private Chart mChart;
+    private List<CategoryTotal> mCategoryTotals;
+    private String mTopChartLabel;
+    
     public ChartsViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
-
-    public void setTransactionGroups(List<TransactionGroup> transactionGroups) {
-        this.mTransactionGroups = transactionGroups;
+    
+    public void setChart(Chart chart) {
+        this.mChart = chart;
     }
     
-    public void setTransactionGroup(TransactionGroup transactionGroup) {
-        this.mTransactionGroup = transactionGroup;
+    public void setCategoryTotals(List<CategoryTotal> mCategoryTotals) {
+        this.mCategoryTotals = mCategoryTotals;
+    }
+    
+    public void setTopChartLabel(String topChartLabel) {
+        this.mTopChartLabel = topChartLabel;
     }
 
     @Override
@@ -34,12 +40,12 @@ public class ChartsViewPagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 fragment = new DailyTransactionsChartFragment();
-                // FIXME
-//                ((DailyTransactionsChartFragment) fragment).setTransactionGroups(mTransactionGroups);
+                ((DailyTransactionsChartFragment) fragment).setChart(mChart);
                 break;
             case 1:
                 fragment = new DailyTransactionsDetailChartFragment();
-                ((DailyTransactionsDetailChartFragment) fragment).setTransactionGroup(mTransactionGroup);
+                ((DailyTransactionsDetailChartFragment) fragment).setCategoryTotals(mCategoryTotals);
+                ((DailyTransactionsDetailChartFragment) fragment).setTopChartLabel(mTopChartLabel);
                 break;
             default:
                 break;

@@ -11,8 +11,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <com.echo.holographlibrary.PieGraph
-        android:id="@+id/pgTransactionsDetailChart"
+    <RelativeLayout
+        android:id="@+id/rlTransactionsDetailChart"
         android:layout_width="wrap_content"
         android:layout_height="110dp"
         android:layout_below="@+id/tvDetailChartDate"
