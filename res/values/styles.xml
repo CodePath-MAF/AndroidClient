@@ -146,7 +146,13 @@
 
     <style name="DashboardUI.GoalItem.Milestones">
         <item name="android:textColor">@color/dashboard_goal_item_milestones_text</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    
+    <style name="DashboardUI.GoalItem.PercentageComplete">
+        <item name="android:textColor">@color/dashboard_goal_item_name_text</item>
+        <item name="android:textSize">45sp</item>
+        <item name="fontPath">fonts/OpenSans-Light.ttf</item>
     </style>
 
     <!-- Transactions UI -->

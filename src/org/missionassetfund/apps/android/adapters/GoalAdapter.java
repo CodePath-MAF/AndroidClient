@@ -1,6 +1,7 @@
 
 package org.missionassetfund.apps.android.adapters;
 
+import java.text.NumberFormat;
 import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
@@ -11,6 +12,7 @@ import org.missionassetfund.apps.android.utils.FormatterUtils;
 import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -44,8 +46,7 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
         TextView tvName = (TextView) v.findViewById(R.id.tvName);
         TextView tvDueDate = (TextView) v.findViewById(R.id.tvDueDate);
         TextView tvPaymentDue = (TextView) v.findViewById(R.id.tvPaymentDue);
-         TextView tvMilestonesLeft = (TextView)
-         v.findViewById(R.id.tvMilestonesLeft);
+        TextView tvPctComplete = (TextView) v.findViewById(R.id.tvPctComplete);
 
         // reset view style
         tvDueDate.setTextAppearance(getContext(), R.style.DashboardUI_GoalItem_DueDate);
@@ -78,14 +79,19 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
 
         tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
 
-        int paymentsMade = (int) (goal.getCurrentTotal() / goal.getPaymentAmount());
-        int paymentsLeft = goal.getNumPayments() - paymentsMade;
+        NumberFormat percentFormat = NumberFormat.getPercentInstance();
+        percentFormat.setMaximumFractionDigits(1);
+        String percentageComplete = "";
+        if (goal.getNumPaymentsMade() != null) {
+            percentageComplete = percentFormat.format((float) goal.getNumPaymentsMade()
+                    / goal.getNumPayments());
+        } else {
+            percentageComplete = percentFormat.format(0f);
+        }
 
-        tvMilestonesLeft.setText(getContext()
-                .getResources()
-                .getQuantityString(R.plurals.dashboard_milestones_left_human, paymentsLeft,
-                        paymentsLeft)
-                .toUpperCase(Locale.US));
+        Log.d("DEBUG", percentageComplete);
+
+        tvPctComplete.setText(percentageComplete);
 
         return v;
     }
