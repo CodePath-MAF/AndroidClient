@@ -31,25 +31,38 @@
             android:maxLines="1"
             android:text="@string/sample_milestones_left" />
 
-        <TextView
-            android:id="@+id/tvPaymentDue"
-            style="@style/DashboardUI.GoalItem.Amount"
-            android:layout_width="wrap_content"
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/dashboard_gray_line"
+            android:layout_above="@+id/llGoalAmount" />
+
+        <LinearLayout
+            android:id="@+id/llGoalAmount"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:text="@string/sample_total_payment" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/tvDueDate"
-            style="@style/DashboardUI.GoalItem.DueDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/tvPaymentDue"
-            android:layout_centerHorizontal="true"
-            android:maxLines="1"
-            android:text="@string/sample_due_date_human" />
+            <TextView
+                android:id="@+id/tvDueDate"
+                style="@style/DashboardUI.GoalItem.DueDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:maxLines="1"
+                android:text="@string/sample_due_date_human" />
+
+            <TextView
+                android:id="@+id/tvPaymentDue"
+                style="@style/DashboardUI.GoalItem.Amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_total_payment" />
+        </LinearLayout>
     </RelativeLayout>
 
 </FrameLayout>

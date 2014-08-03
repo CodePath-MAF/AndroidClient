@@ -24,6 +24,7 @@
     <color name="dashboard_goal_item_due_date_text">#878787</color>
     <color name="dashboard_goal_item_due_date_soon_text">#D0021B</color>
     <color name="dashboard_goal_item_milestones_text">#878787</color>
+    <color name="dashboard_gray_line">#F3F3F3</color>
     
     <!-- Transactions -->
     <color name="transactions_aggregate_label">#8D8D8D</color>
