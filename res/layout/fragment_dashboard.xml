@@ -50,7 +50,7 @@
             android:id="@+id/btnAddTransaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/add_new_transaction_button"
+            android:background="@drawable/add_transaction_button"
             android:contentDescription="@string/dashboard_add_transaction_btn_description" />
     </LinearLayout>
 
