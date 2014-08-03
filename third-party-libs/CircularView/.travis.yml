@@ -1,0 +1,18 @@
+language: java
+
+jdk: oraclejdk7
+
+before_install:
+  - chmod +x gradlew
+  - export TERM=dumb
+  - sudo apt-get install -qq libstdc++6:i386 lib32z1
+  - export COMPONENTS=build-tools-20,android-19,extra-android-m2repository
+  - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-1/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS
+  - source ~/.android-sdk-installer/env
+
+after_success:
+  - bash initiate-publish.sh
+
+env:
+  global:
+    secure: PwTRTcoTXxyhaplFzvQMHUm5nFh7Ch7gdY50J2zV9SbVesrQaBSpmpVVXp0F/9itww8sSS3FziLfGhzs30PjSUFkQus9gIRGroSAC5bjtj6zhQUBsOoMo2ShOTsPu52svalJIov5eBvibo54vmEZDyaXh3EXYhX6BpNQraxJbhw=

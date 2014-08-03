@@ -1,0 +1,22 @@
+apply plugin: 'android-library'
+
+android {
+    compileSdkVersion project.ext['compileSdkVersion']
+    buildToolsVersion project.ext['buildToolsVersion']
+
+    defaultConfig {
+        minSdkVersion project.ext['minSdkVersion']
+        targetSdkVersion project.ext['targetSdkVersion']
+        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionName "${project.VERSION_NAME}"
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+apply from: '../mvn_push.gradle'
