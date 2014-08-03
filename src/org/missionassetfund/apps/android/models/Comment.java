@@ -1,10 +1,12 @@
 
 package org.missionassetfund.apps.android.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Comment")
+@JsonIgnoreProperties(value = { "objectId" }, ignoreUnknown = true)
 public class Comment extends ParseObject {
     public static final String COMMENT_KEY = "comment";
     public static final String USER_KEY = "user";

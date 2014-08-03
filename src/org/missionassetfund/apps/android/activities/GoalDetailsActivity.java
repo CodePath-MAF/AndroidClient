@@ -105,7 +105,7 @@ public class GoalDetailsActivity extends BaseFragmentActivity {
         tvDueDateHuman.setText(FormatterUtils.getGoalDueDateCustomFormat(
                 GoalDetailsActivity.this, goal.getDueDate()));
 
-        tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(getPaymentsDue()));
+        tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentsDue()));
 
         tvNumPayments.setText(getString(R.string.label_goal_payments_made, getPaymentsMade(),
                 goal.getNumPayments()));
@@ -114,12 +114,6 @@ public class GoalDetailsActivity extends BaseFragmentActivity {
 
         tvSavedToDate.setText(getString(R.string.label_saved_to_date,
                 CurrencyUtils.getCurrencyValueFormatted(goal.getCurrentTotal())));
-    }
-
-    private Double getPaymentsDue() {
-        int idealNumPayments = goal.getIdealNumPaymentsTillToday();
-        Double idealPaymentsTotal = (idealNumPayments + 1) * goal.getPaymentAmount();
-        return Math.max((idealPaymentsTotal - goal.getCurrentTotal()), 0);
     }
 
     public void onMakePayment(View v) {

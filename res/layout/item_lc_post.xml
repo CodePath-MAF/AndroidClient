@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dashboard_goal_item_background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rlPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/ivPosterProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/profile_1" />
+
+        <TextView
+            android:id="@+id/tvPostType"
+            style="@style/SmallText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ivPosterProfile"
+            android:text="@string/sample_post_type" />
+
+        <TextView
+            android:id="@+id/tvPostText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvPostType"
+            android:layout_below="@id/tvPostType"
+            android:text="@string/sample_post"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tvPaymentDue"
+            style="@style/MediumAmount"
+            android:layout_alignParentRight="true"
+            android:text="@string/sample_total_payment"
+            android:textColor="@color/app_green"
+            android:visibility="gone" />
+        
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llComents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlPost"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</RelativeLayout>
