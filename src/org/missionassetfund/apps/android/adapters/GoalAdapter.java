@@ -48,11 +48,8 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
         TextView tvDueDate = (TextView) v.findViewById(R.id.tvDueDate);
         TextView tvPaymentDue = (TextView) v.findViewById(R.id.tvPaymentDue);
         TextView tvPctComplete = (TextView) v.findViewById(R.id.tvPctComplete);
-
-        // circular progress bar
         CircularProgressBar cpbGoalProgress = (CircularProgressBar) v
                 .findViewById(R.id.cpbGoalProgress);
-        cpbGoalProgress.setProgress(42);
 
         // reset view style
         tvDueDate.setTextAppearance(getContext(), R.style.DashboardUI_GoalItem_DueDate);
@@ -85,17 +82,35 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
 
         tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
 
+        float goalPctComplete = 0f;
         NumberFormat percentFormat = NumberFormat.getPercentInstance();
         percentFormat.setMaximumFractionDigits(1);
         String percentageComplete = "";
         if (goal.getNumPaymentsMade() != null) {
-            percentageComplete = percentFormat.format((float) goal.getNumPaymentsMade()
-                    / goal.getNumPayments());
+            goalPctComplete = (float) goal.getNumPaymentsMade() / goal.getNumPayments();
+            percentageComplete = percentFormat.format(goalPctComplete);
         } else {
             percentageComplete = percentFormat.format(0f);
         }
 
         Log.d("DEBUG", percentageComplete);
+
+        // circular progress bar with simple animation
+        cpbGoalProgress.animateProgressTo(0, (int) (goalPctComplete * 100),
+                new CircularProgressBar.ProgressAnimationListener() {
+
+                    @Override
+                    public void onAnimationStart() {
+                    }
+
+                    @Override
+                    public void onAnimationProgress(int progress) {
+                    }
+
+                    @Override
+                    public void onAnimationFinish() {
+                    }
+                });
 
         tvPctComplete.setText(percentageComplete);
 
