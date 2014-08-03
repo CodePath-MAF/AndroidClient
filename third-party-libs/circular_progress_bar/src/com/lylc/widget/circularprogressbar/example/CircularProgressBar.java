@@ -170,11 +170,15 @@ public class CircularProgressBar extends ProgressBar{
 				yPos += titleHeight/2;
 			}
 			canvas.drawText(mTitle, xPos, yPos, mTitlePaint); 
-
-			yPos += titleHeight;
-			xPos = (int)(getMeasuredWidth()/2 - mSubtitlePaint.measureText(mSubTitle) / 2);
-
-			canvas.drawText(mSubTitle, xPos, yPos, mSubtitlePaint);
+			
+			String[] subtitles = mSubTitle.split("\n");
+			
+			for (int i = 0; i < subtitles.length; i++) {
+			    yPos += titleHeight;
+			    xPos = (int)(getMeasuredWidth()/2 - mSubtitlePaint.measureText(subtitles[i]) / 2);
+			    
+			    canvas.drawText(subtitles[i], xPos, yPos, mSubtitlePaint);
+            }
 		}		
 
 		super.onDraw(canvas);
