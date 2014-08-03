@@ -62,8 +62,8 @@ public class NewGoalActivity extends BaseFragmentActivity implements OnInputForm
 
         // setup input steps
         inputElements = new Input[] {
-                new Input("Amount", "0", 0, AmountInputFragment.class),
-                new Input("Name", "Travel Fund", 1, NameInputFragment.class),
+                new Input("Goal Amount", "0", 0, AmountInputFragment.class),
+                new Input("Goal Name", "Travel Fund", 1, NameInputFragment.class),
                 new Input("Frequency", "Monthly", 2, FrequencyInputFragment.class),
                 new Input("Date", "Today", 3, DateInputFragment.class),
                 new Input("Add New Goal", "", 4, DoneFragment.class)
