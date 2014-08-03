@@ -38,6 +38,7 @@ import com.parse.ParseUser;
 
 public class LCDetailsActivity extends FragmentActivity implements SavePostListener,
         SaveCommentListener {
+    @SuppressWarnings("unused")
     private static final String TAG = "LCDetails";
 
     User currentUser;
