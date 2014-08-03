@@ -67,6 +67,7 @@
     <string name="dashboard_goal_item_due_date_tomorrow">due in tomorrow</string>
     <string name="dashboard_goal_item_due_date_days">due in %1$d days</string>
     <string name="dashboard_goal_item_due_date">due %1$s</string>
+    <string name="dashboard_goal_item_complete_label">COMPLETE</string>
 
     <plurals name="dashboard_milestones_left_human">
         <item quantity="zero">No payments left</item>
@@ -124,6 +125,7 @@
     <string name="sample_transaction_amount">($25.00)</string>
     <string name="sample_post_type">MESSAGE</string>
     <string name="sample_post">How\'s it going?</string>
+    <string name="sample_goal_percentage_complete">50%</string>
     
     <!-- Parse -->
     <string name="com_parse_ui_logo_content_description">Logo</string>

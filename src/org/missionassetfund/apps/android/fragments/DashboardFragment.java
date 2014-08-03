@@ -177,6 +177,9 @@ public class DashboardFragment extends Fragment {
         multiRenderer.setPanEnabled(false, false);
         multiRenderer.setShowGridY(false);
         multiRenderer.setYAxisMin(0);
+        multiRenderer.setYLabelsColor(0,
+                getResources().getColor(R.color.dashboard_cash_spent_chart_ylabel_text));
+        multiRenderer.setXLabelsColor(getResources().getColor(R.color.dashboard_cash_spent_chart_xlabel_text));
         multiRenderer.setLabelsTextSize(getResources().getDimension(
                 R.dimen.spent_chart_labels_text_size));
         multiRenderer.setClickEnabled(true);

@@ -21,35 +21,64 @@
             android:maxLines="1"
             android:text="@string/sample_goal_name" />
 
-        <TextView
-            android:id="@+id/tvMilestonesLeft"
-            style="@style/DashboardUI.GoalItem.Milestones"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:maxLines="1"
-            android:text="@string/sample_milestones_left" />
+        <View
+            android:id="@+id/view1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/llGoalAmount"
+            android:background="@color/dashboard_gray_line" />
 
-        <TextView
-            android:id="@+id/tvPaymentDue"
-            style="@style/DashboardUI.GoalItem.Amount"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/llGoalAmount"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:text="@string/sample_total_payment" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/tvDueDate"
-            style="@style/DashboardUI.GoalItem.DueDate"
+            <TextView
+                android:id="@+id/tvDueDate"
+                style="@style/DashboardUI.GoalItem.DueDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:paddingTop="8dp"
+                android:text="@string/sample_due_date_human" />
+
+            <TextView
+                android:id="@+id/tvPaymentDue"
+                style="@style/DashboardUI.GoalItem.Amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_total_payment" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tvPaymentDue"
-            android:layout_centerHorizontal="true"
-            android:maxLines="1"
-            android:text="@string/sample_due_date_human" />
+            android:layout_above="@+id/llGoalAmount"
+            android:layout_below="@+id/tvName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/tvPctComplete"
+                style="@style/DashboardUI.GoalItem.PercentageComplete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_goal_percentage_complete" />
+
+            <TextView
+                android:id="@+id/tvComplete"
+                style="@style/DashboardUI.GoalItem.Milestones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dashboard_goal_item_complete_label" />
+        </LinearLayout>
     </RelativeLayout>
 
 </FrameLayout>

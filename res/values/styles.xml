@@ -82,7 +82,7 @@
     
     <style name="DashboardUI.CashSpentChartTitle">
         <item name="android:textColor">@color/dashboard_cash_spent_chart_title_text</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:padding">10dp</item>
     </style>
 
@@ -121,32 +121,38 @@
 
     <style name="DashboardUI.GoalItem.Name">
         <item name="android:textColor">@color/dashboard_goal_item_name_text</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="DashboardUI.GoalItem.Amount">
         <item name="android:textColor">@color/dashboard_goal_item_name_text</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
     </style>
 
     <style name="DashboardUI.GoalItem.DueDate">
         <item name="android:textColor">@color/dashboard_goal_item_due_date_text</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:drawableLeft">@drawable/img_time_gray</item>
         <item name="android:drawablePadding">4dp</item>
     </style>
 
     <style name="DashboardUI.GoalItem.DueDateSoon">
         <item name="android:textColor">@color/dashboard_goal_item_due_date_soon_text</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:drawableLeft">@drawable/img_time_red</item>
         <item name="android:drawablePadding">4dp</item>
     </style>
 
     <style name="DashboardUI.GoalItem.Milestones">
         <item name="android:textColor">@color/dashboard_goal_item_milestones_text</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    
+    <style name="DashboardUI.GoalItem.PercentageComplete">
+        <item name="android:textColor">@color/dashboard_goal_item_name_text</item>
+        <item name="android:textSize">45sp</item>
+        <item name="fontPath">fonts/OpenSans-Light.ttf</item>
     </style>
 
     <!-- Transactions UI -->
