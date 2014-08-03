@@ -208,8 +208,12 @@ public class LiquidAssetsFragment extends Fragment {
 
     public void goToNextChart(int barIndex) {
         List<CategoryTotal> categoryTotals = mChart.getData().get(barIndex);
+        String label = mChart.getxLabels().get(barIndex);
+        
         mChartsViewPageAdapter.setCategoryTotals(categoryTotals);
+        mChartsViewPageAdapter.setTopChartLabel(label);
         mChartsViewPageAdapter.notifyDataSetChanged();
+        
         vpCharts.setCurrentItem(1, true);
     }
 

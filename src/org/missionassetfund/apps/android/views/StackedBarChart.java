@@ -10,27 +10,27 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 
-public class BarChart {
+public class StackedBarChart {
 
     private XYMultipleSeriesRenderer renderer;
 
-    public BarChart(int[] colors, double xValuesEdge, float maxChartValues, float maxValue,
-            String[] xTitles) {
+    public StackedBarChart(int[] colors, double xValuesEdge, float maxChartValues, float maxValue,
+            String[] xTitles, Orientation orientantion, float barWidth) {
         renderer = buildBarRenderer(colors);
         setChartSettings(renderer, xValuesEdge, maxChartValues + xValuesEdge, 0, maxValue,
-                Color.GRAY, Color.LTGRAY, xTitles);
+                Color.GRAY, Color.LTGRAY, xTitles, orientantion, barWidth);
 
     }
 
-    public GraphicalView getChartView(Context context, String[] titles, List<double[]> values,
-            Type barType) {
+    public GraphicalView getChartView(Context context, String[] titles, List<double[]> values) {
         return ChartFactory.getBarChartView(context, buildBarDataset(titles, values), renderer,
-                barType);
+                Type.STACKED);
     }
 
     protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
@@ -46,7 +46,7 @@ public class BarChart {
 
     protected void setChartSettings(XYMultipleSeriesRenderer renderer, double xMin, double xMax,
             double yMin, double yMax, int axesColor,
-            int labelsColor, String[] xTitles) {
+            int labelsColor, String[] xTitles, Orientation orientation, float width) {
         renderer.setXAxisMin(xMin);
         renderer.setXAxisMax(xMax);
         renderer.setYAxisMin(yMin);
@@ -57,8 +57,10 @@ public class BarChart {
         renderer.setShowLegend(false);
         renderer.setXLabels(0);
 
-        for (int i = 0; i < xTitles.length; i++) {
-            renderer.addXTextLabel(i + 1, xTitles[i]);
+        if (xTitles != null) {
+            for (int i = 0; i < xTitles.length; i++) {
+                renderer.addXTextLabel(i + 1, xTitles[i]);
+            }
         }
 
         renderer.setXLabelsAlign(Align.CENTER);
@@ -69,6 +71,8 @@ public class BarChart {
         renderer.setYLabels(0);
         renderer.setShowCustomTextGrid(true);
         renderer.setClickEnabled(true);
+        renderer.setOrientation(orientation);
+        renderer.setBarWidth(width);
     }
 
     protected XYMultipleSeriesDataset buildBarDataset(String[] titles, List<double[]> values) {

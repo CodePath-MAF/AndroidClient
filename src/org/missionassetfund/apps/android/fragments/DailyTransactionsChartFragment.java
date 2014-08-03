@@ -7,14 +7,14 @@ import java.util.Collections;
 import java.util.List;
 
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.SeriesSelection;
+import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Category;
 import org.missionassetfund.apps.android.models.CategoryTotal;
 import org.missionassetfund.apps.android.models.Chart;
 import org.missionassetfund.apps.android.models.dao.CategoryDao;
-import org.missionassetfund.apps.android.views.BarChart;
+import org.missionassetfund.apps.android.views.StackedBarChart;
 
 import android.app.Activity;
 import android.content.Context;
@@ -127,8 +127,9 @@ public class DailyTransactionsChartFragment extends Fragment {
 
         String[] xTitles = xLabels.toArray(new String[xLabels.size()]);
 
-        BarChart barChart = new BarChart(categoriesColors, X_VALUES_EDGE, MAX_CHART_VALUES, maxValue.floatValue(), xTitles);
-        mGraphicalView = barChart.getChartView(context, categoriesTitles, values, Type.STACKED); 
+        StackedBarChart barChart = new StackedBarChart(categoriesColors, X_VALUES_EDGE, MAX_CHART_VALUES, 
+                maxValue.floatValue(), xTitles, Orientation.HORIZONTAL, 50f);
+        mGraphicalView = barChart.getChartView(context, categoriesTitles, values); 
 
         mGraphicalView.setOnClickListener(chartClickListener);
 
@@ -144,7 +145,7 @@ public class DailyTransactionsChartFragment extends Fragment {
         @Override
         public void onClick(View v) {
             SeriesSelection seriesSelection = mGraphicalView.getCurrentSeriesAndPoint();
-            listener.onBarClicked(seriesSelection.getPointIndex());
+            listener.onBarClicked(seriesSelection == null ? -1 : seriesSelection.getPointIndex());
         }
     };
 

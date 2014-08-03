@@ -15,6 +15,7 @@ public class ChartsViewPagerAdapter extends FragmentStatePagerAdapter {
     
     private Chart mChart;
     private List<CategoryTotal> mCategoryTotals;
+    private String mTopChartLabel;
     
     public ChartsViewPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -26,6 +27,10 @@ public class ChartsViewPagerAdapter extends FragmentStatePagerAdapter {
     
     public void setCategoryTotals(List<CategoryTotal> mCategoryTotals) {
         this.mCategoryTotals = mCategoryTotals;
+    }
+    
+    public void setTopChartLabel(String topChartLabel) {
+        this.mTopChartLabel = topChartLabel;
     }
 
     @Override
@@ -40,6 +45,7 @@ public class ChartsViewPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 fragment = new DailyTransactionsDetailChartFragment();
                 ((DailyTransactionsDetailChartFragment) fragment).setCategoryTotals(mCategoryTotals);
+                ((DailyTransactionsDetailChartFragment) fragment).setTopChartLabel(mTopChartLabel);
                 break;
             default:
                 break;

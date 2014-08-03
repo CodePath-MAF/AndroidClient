@@ -37,6 +37,10 @@ public class LiquidAssetsActivity extends BaseFragmentActivity implements
 
     @Override
     public void onBarClicked(int barIndex) {
+        if (barIndex == -1) {
+            return;
+        }
+        
         LiquidAssetsFragment liquidAssetsFragment = (LiquidAssetsFragment)
                 getSupportFragmentManager().findFragmentById(R.id.liquid_assets_fragment);
 
