@@ -3,7 +3,7 @@ package org.missionassetfund.apps.android.models;
 
 public enum GoalType {
     LENDING_CIRCLE(1, "Lending Circle"),
-    GENERAL(2, "Genral");
+    GENERAL(2, "General");
 
     private int typeValue;
     private String prettyName;
