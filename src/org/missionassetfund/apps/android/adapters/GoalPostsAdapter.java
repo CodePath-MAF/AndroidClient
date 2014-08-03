@@ -15,6 +15,7 @@ import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,9 +79,8 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
         ivPosterProfile.setImageResource(getImageResourceForUser(post.getUser()));
 
         // Post type
-        TextView tvPostType = (TextView) convertView.findViewById(R.id.tvPostType);
-        tvPostType.setText(getPostTypeText(post));
-        tvPostType.setBackgroundColor(getBackgroundColorForPostType(post));
+        ImageView ivPostType = (ImageView) convertView.findViewById(R.id.ivPostType);
+        ivPostType.setImageResource(getImageForPostType(post));
 
         // Post content
         TextView tvPostText = (TextView) convertView.findViewById(R.id.tvPostText);
@@ -136,36 +136,31 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
 
     }
 
-    private int getBackgroundColorForPostType(Post post) {
+    private int getImageForPostType(Post post) {
+        // TODO: move this to Post Object later
         if (post.getType() != null) {
             PostType type = post.getType();
             switch (type) {
                 case EVENT:
-                    break;
+                    return R.drawable.img_newpost_event;
                 case MESSAGE:
-                    break;
+                    return R.drawable.img_newpost_message;
                 case QUESTION:
-                    break;
+                    return R.drawable.img_newpost_question;
                 case REMINDER:
-                    break;
+                    return R.drawable.img_newpost_post;
                 default:
-                    break;
+                    return R.drawable.img_newpost_message;
             }
+        } else {
+            return R.drawable.img_newpost_message;
         }
-        return R.color.com_facebook_blue; // TODO create proper color
-    }
-
-    private CharSequence getPostTypeText(Post post) {
-        if (post.getType() != null) {
-            return post.getType().toString();
-        }
-
-        return PostType.MESSAGE.toString();
     }
 
     private int getImageResourceForUser(User user) {
         if (user.getProfileImageId() != 0) {
-            return LendingCircleFriends.get(user.getProfileImageId()).getDpDrawableId();
+            Log.d("DEBUG", "Profile Image ID: " + user.getProfileImageId());
+            return LendingCircleFriends.get(user.getProfileImageId() - 1).getDpDrawableId();
         }
         return R.drawable.profile_11;
     }
