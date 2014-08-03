@@ -14,8 +14,6 @@ import org.missionassetfund.apps.android.models.Comment;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.User;
-import org.missionassetfund.apps.android.utils.CurrencyUtils;
-import org.missionassetfund.apps.android.utils.FormatterUtils;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -26,7 +24,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;

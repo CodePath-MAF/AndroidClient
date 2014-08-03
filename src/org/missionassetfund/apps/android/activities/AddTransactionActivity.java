@@ -65,8 +65,8 @@ public class AddTransactionActivity extends BaseFragmentActivity
 
         // setup input steps
         inputElements = new Input[] {
-                new Input("Amount", "0", 0, AmountInputFragment.class),
-                new Input("Name", "Lunch", 1, NameInputFragment.class),
+                new Input("Transaction Amount", "0", 0, AmountInputFragment.class),
+                new Input("Transaction Name", "Lunch", 1, NameInputFragment.class),
                 new Input("Category", "Food", 2, CategoryInputFragment.class),
                 new Input("Date", "Today", 3, DateInputFragment.class),
                 new Input("Done", "", 4, DoneFragment.class)

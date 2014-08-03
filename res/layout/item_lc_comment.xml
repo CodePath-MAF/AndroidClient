@@ -2,24 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dashboard_goal_item_background"
+    android:background="@color/lc_goal_comments_bg"
     android:orientation="vertical" >
-    
-        <ImageView
+
+    <ImageView
         android:id="@+id/ivCommenterProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="20dp"
-        android:src="@drawable/profile_1"
-        android:contentDescription="@string/app_name" />
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="15dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/profile_1" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/ivCommenterProfile"
+        android:layout_alignTop="@+id/ivCommenterProfile"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/tvCommenterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/ivCommenterProfile"
             android:text="@string/sample_post_type"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -27,9 +36,8 @@
             android:id="@+id/tvCommentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvCommenterName"
-            android:layout_alignLeft="@+id/tvCommenterName"
             android:text="@string/sample_post"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
 
 </RelativeLayout>
