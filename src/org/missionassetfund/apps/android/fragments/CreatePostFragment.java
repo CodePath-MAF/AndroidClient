@@ -13,11 +13,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 public class CreatePostFragment extends DialogFragment {
 
     private EditText etPost;
-    private Button btnPost;
+    private ImageButton btnPost;
 
     public CreatePostFragment() {
         // Empty constructor required for DialogFragment
@@ -36,7 +37,7 @@ public class CreatePostFragment extends DialogFragment {
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_post, container);
         etPost = (EditText) view.findViewById(R.id.etPost);
-        btnPost = (Button) view.findViewById(R.id.btnPost);
+        btnPost = (ImageButton) view.findViewById(R.id.btnPost);
         // String title = getArguments().getString("title", "Your Tweet");
         // getDialog().setTitle(title);
         // Show soft keyboard automatically

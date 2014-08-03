@@ -21,11 +21,11 @@
 
         <TextView
             android:id="@+id/tvPostType"
+            style="@style/SmallText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/ivPosterProfile"
-            android:text="@string/sample_post_type"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/sample_post_type" />
 
         <TextView
             android:id="@+id/tvPostText"
@@ -35,6 +35,15 @@
             android:layout_below="@id/tvPostType"
             android:text="@string/sample_post"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tvPaymentDue"
+            style="@style/MediumAmount"
+            android:layout_alignParentRight="true"
+            android:text="@string/sample_total_payment"
+            android:textColor="@color/app_green"
+            android:visibility="gone" />
+        
     </RelativeLayout>
 
     <LinearLayout

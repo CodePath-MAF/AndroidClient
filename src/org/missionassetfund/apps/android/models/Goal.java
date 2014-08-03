@@ -12,7 +12,9 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Goal")
-@JsonIgnoreProperties(value = { "objectId", "parentGoal" }, ignoreUnknown = true)
+@JsonIgnoreProperties(value = {
+        "objectId", "parentGoal"
+}, ignoreUnknown = true)
 public class Goal extends ParseObject {
     public static final String GOAL_KEY = "goal";
 
@@ -156,7 +158,7 @@ public class Goal extends ParseObject {
     public void setPaidOut(boolean paidOut) {
         put(PAID_OUT_KEY, paidOut);
     }
-    
+
     public Date getNextPaymentDate() {
         return getDate(NEXT_PAYMENT_DATE_KEY);
     }
@@ -171,6 +173,13 @@ public class Goal extends ParseObject {
         int daysSinceGoalCreation = MAFDateUtils.getDaysSince(getCreatedAt());
         int idealNumPayments = daysSinceGoalCreation / getPaymentInterval().toInt();
         return idealNumPayments;
+    }
+
+    // TODO This needs to be tested
+    public Double getPaymentsDue() {
+        int idealNumPayments = getIdealNumPaymentsTillToday();
+        Double idealPaymentsTotal = (idealNumPayments + 1) * getPaymentAmount();
+        return Math.max((idealPaymentsTotal - getCurrentTotal()), 0);
     }
 
 }

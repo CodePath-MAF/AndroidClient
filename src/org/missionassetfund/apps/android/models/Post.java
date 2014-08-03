@@ -7,13 +7,16 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 @ParseClassName("Post")
-@JsonIgnoreProperties(value = { "objectId" }, ignoreUnknown = true)
+@JsonIgnoreProperties(value = {
+        "objectId"
+}, ignoreUnknown = true)
 public class Post extends ParseObject {
     public static final String POST_KEY = "post";
     public static final String USER_KEY = "user";
     public static final String GOAL_KEY = "goal";
     public static final String CONTENT_KEY = "content";
     public static final String PHOTO_KEY = "photo";
+    public static final String TYPE_KEY = "type";
 
     public Post() {
     }
@@ -49,4 +52,13 @@ public class Post extends ParseObject {
     public void setPhotoFile(ParseFile file) {
         put("photo", file);
     }
+
+    public PostType getType() {
+        return PostType.getTypeFromInt(getInt(TYPE_KEY));
+    }
+
+    public void setType(PostType postType) {
+        put(TYPE_KEY, postType.toInt());
+    }
+
 }

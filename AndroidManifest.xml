@@ -153,6 +153,7 @@
 
         <activity
             android:name="org.missionassetfund.apps.android.activities.LCDetailsActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_lcdetails" >
         </activity>
     </application>

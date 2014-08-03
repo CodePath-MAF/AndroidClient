@@ -9,51 +9,15 @@
         android:id="@+id/circleOfLC"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:visibility="gone">
     </FrameLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/circleOfLC" >
-
-        <ImageView
-            android:id="@+id/ivProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/profile_1" />
-
-        <TextView
-            android:id="@+id/tvNextPaymentLabel"
-            style="@style/SmallText"
-            android:layout_toRightOf="@id/ivProfile"
-            android:text="@string/next_payment_label" />
-
-        <TextView
-            android:id="@+id/tvDueDateHuman"
-            style="@style/SmallText"
-            android:layout_below="@id/tvNextPaymentLabel"
-            android:layout_toRightOf="@id/ivProfile"
-            android:drawableLeft="@drawable/img_time_gray"
-            android:text="@string/sample_due_date_human_goal_details" />
-
-        <TextView
-            android:id="@+id/tvPaymentDue"
-            style="@style/LargeAmount"
-            android:layout_alignParentRight="true"
-            android:text="@string/sample_total_payment" />
-    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/relativeLayout1" >
+        android:layout_below="@+id/circleOfLC">
 
         <ListView
             android:id="@+id/llGoalPosts"
@@ -69,7 +33,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
             android:onClick="onCreatePost"
-            app:drawable="@drawable/profile_12"
+            app:drawable="@drawable/btn_newpost"
             app:color="#FFDF4D38" />
     </FrameLayout>
 

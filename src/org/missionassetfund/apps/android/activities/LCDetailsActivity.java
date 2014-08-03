@@ -8,11 +8,14 @@ import java.util.List;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalPostsAdapter;
 import org.missionassetfund.apps.android.fragments.CreatePostFragment;
+import org.missionassetfund.apps.android.interfaces.SaveCommentListener;
 import org.missionassetfund.apps.android.interfaces.SavePostListener;
 import org.missionassetfund.apps.android.models.Comment;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
+import org.missionassetfund.apps.android.utils.FormatterUtils;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -36,8 +39,11 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-public class LCDetailsActivity extends FragmentActivity implements SavePostListener {
+public class LCDetailsActivity extends FragmentActivity implements SavePostListener,
+        SaveCommentListener {
     private static final String TAG = "LCDetails";
+
+    User currentUser;
 
     FrameLayout circleOfLC;
     List<User> usersOfLC;
@@ -47,9 +53,6 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
     private GoalPostsAdapter aposts;
     ListView llGoalPosts;
 
-    TextView tvPaymentDue;
-    TextView tvDueDateHuman;
-
     FloatingActionButton btnCreatePost;
 
     @Override
@@ -57,17 +60,14 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lc_details);
 
+        currentUser = (User) User.getCurrentUser();
+
         circleOfLC = (FrameLayout) findViewById(R.id.circleOfLC);
         setUpCircle();
 
         posts = new ArrayList<Post>();
-        aposts = new GoalPostsAdapter(this, posts);
 
         llGoalPosts = (ListView) findViewById(R.id.llGoalPosts);
-        llGoalPosts.setAdapter(aposts);
-
-        tvPaymentDue = (TextView) findViewById(R.id.tvPaymentDue);
-        tvDueDateHuman = (TextView) findViewById(R.id.tvDueDateHuman);
 
         btnCreatePost = (FloatingActionButton) findViewById(R.id.btnCreatePost);
         btnCreatePost.listenTo(llGoalPosts);
@@ -85,6 +85,9 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     setTitle(g.getName());
                     // call parseCloud to get all data elements for lending
                     // circle view
+                    aposts = new GoalPostsAdapter(LCDetailsActivity.this, goal, posts);
+                    llGoalPosts.setAdapter(aposts);
+
                     getLCDetailsData();
                 } else {
                     Toast.makeText(LCDetailsActivity.this, R.string.parse_error_querying,
@@ -177,6 +180,7 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("userId", ParseUser.getCurrentUser().getObjectId());
 
+        // parent goal id
         params.put("goalId", goal.getParentGoal().getObjectId());
         params.put("content", inputText);
         // params.put("type", inputText);
@@ -187,13 +191,49 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
                     @Override
                     public void done(HashMap<String, Object> result, ParseException exception) {
-                        final ObjectMapper mapper = new ObjectMapper();
-                        mapper.setSerializationInclusion(Include.NON_NULL);
+                        if (exception == null) {
+                            final ObjectMapper mapper = new ObjectMapper();
+                            mapper.setSerializationInclusion(Include.NON_NULL);
+                            Log.d("debug", result.toString());
+                            // add it to adapter
+                            boolean success = (Boolean) result.get("success");
+                            if (success) {
+                                Post post = (Post) result.get("post");
+                                aposts.insert(post, 0);
+                            }
+                        }
+                    }
+                });
+    }
 
-                        // final LCDetail lcDetail = mapper.convertValue(result,
-                        // LCDetail.class);
-                        Log.d("debug", result.toString());
+    @Override
+    public void onSaveComment(String postId, String inputText) {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", ParseUser.getCurrentUser().getObjectId());
 
+        params.put("postId", postId);
+        params.put("content", inputText);
+        // params.put("type", inputText);
+        // params.put("toUserId", goal.getObjectId());
+
+        ParseCloud.callFunctionInBackground("createComment", params,
+                new FunctionCallback<HashMap<String, Object>>() {
+
+                    @Override
+                    public void done(HashMap<String, Object> result, ParseException exception) {
+                        if (exception == null) {
+                            final ObjectMapper mapper = new ObjectMapper();
+                            mapper.setSerializationInclusion(Include.NON_NULL);
+                            Log.d("debug", result.toString());
+                            // add it to adapter
+                            boolean success = (Boolean) result.get("success");
+                            if (success) {
+                                Post post = (Post) result.get("comment");
+                                post.setUser(currentUser);
+                                aposts.remove(post);
+                                aposts.insert(post, 0);
+                            }
+                        }
                     }
                 });
 

@@ -17,13 +17,14 @@
         <requestFocus />
     </EditText>
 
-    <Button
+    <ImageButton
         android:id="@+id/btnPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etPost"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="17dp"
-        android:text="@string/label_post" />
+        android:background="@drawable/btn_newpost_highlighted"
+        android:contentDescription="@string/app_name" />
 
 </RelativeLayout>

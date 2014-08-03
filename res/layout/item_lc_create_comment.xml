@@ -12,16 +12,18 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:src="@drawable/profile_1"
+        android:layout_marginLeft="20dp"
         android:contentDescription="@string/app_name" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/etComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/ivPosterProfile"
             android:layout_centerHorizontal="true"
             android:ems="10"
-            android:inputType="text" >
+            android:inputType="text"
+            android:imeOptions="actionSend" >
         </EditText>
 
 </RelativeLayout>
