@@ -189,12 +189,22 @@ public class LiquidAssetsFragment extends Fragment {
         mChartsViewPageAdapter = new ChartsViewPagerAdapter(getActivity()
                 .getSupportFragmentManager());
         mChartsViewPageAdapter.setChart(chart);
-        // FIXME
-        // if (!mTransactionsGroupChart.isEmpty()) {
-        // mChartsViewPageAdapter.setTransactionGroup(mTransactionsGroupChart.get(0));
-        // }
-        //
+        setupFirstBarAvailable();
+
         vpCharts.setAdapter(mChartsViewPageAdapter);
+    }
+
+    private void setupFirstBarAvailable() {
+        for (int i = 0; i < 7; i++) {
+            List<CategoryTotal> categoryTotals = mChart.getData().get(i);
+            
+            if (categoryTotals.size() > 0) {
+                String label = mChart.getxLabels().get(i);
+
+                mChartsViewPageAdapter.setCategoryTotals(categoryTotals);
+                mChartsViewPageAdapter.setTopChartLabel(label);
+            }
+        }
     }
 
     @Override
