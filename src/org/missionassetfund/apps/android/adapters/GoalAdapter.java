@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -47,6 +48,11 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
         TextView tvDueDate = (TextView) v.findViewById(R.id.tvDueDate);
         TextView tvPaymentDue = (TextView) v.findViewById(R.id.tvPaymentDue);
         TextView tvPctComplete = (TextView) v.findViewById(R.id.tvPctComplete);
+
+        // circular progress bar
+        CircularProgressBar cpbGoalProgress = (CircularProgressBar) v
+                .findViewById(R.id.cpbGoalProgress);
+        cpbGoalProgress.setProgress(42);
 
         // reset view style
         tvDueDate.setTextAppearance(getContext(), R.style.DashboardUI_GoalItem_DueDate);
