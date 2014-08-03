@@ -123,7 +123,10 @@ public class CircularProgressBar extends ProgressBar{
 		if(t!=null)
 			mSubTitle = t;
 
-		mStrokeWidth = a.getInt(R.styleable.CircularProgressBar_strokeWidthCircular, STROKE_WIDTH);
+		mStrokeWidth = a.getInt(R.styleable.CircularProgressBar_circleStrokeWidth, STROKE_WIDTH);
+		
+		float titleTextSize = a.getFloat(R.styleable.CircularProgressBar_titleTextSize, 60);
+        float subtitleTextSize = a.getFloat(R.styleable.CircularProgressBar_subtitleTextSize, 20);
 
 		a.recycle();
 
@@ -136,13 +139,13 @@ public class CircularProgressBar extends ProgressBar{
 		mBackgroundColorPaint.setStyle(Paint.Style.STROKE);
 		mBackgroundColorPaint.setStrokeWidth(mStrokeWidth);
 
-		mTitlePaint.setTextSize(60); 
+		mTitlePaint.setTextSize(titleTextSize); 
 		mTitlePaint.setStyle(Style.FILL);
 		mTitlePaint.setAntiAlias(true);
 		mTitlePaint.setTypeface(Typeface.create("Roboto-Thin", Typeface.NORMAL));
 		mTitlePaint.setShadowLayer(0.1f, 0, 1, Color.GRAY);
 
-		mSubtitlePaint.setTextSize(20); 
+		mSubtitlePaint.setTextSize(subtitleTextSize); 
 		mSubtitlePaint.setStyle(Style.FILL);
 		mSubtitlePaint.setAntiAlias(true);
 		mSubtitlePaint.setTypeface(Typeface.create("Roboto-Thin", Typeface.BOLD));
