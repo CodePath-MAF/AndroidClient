@@ -22,6 +22,7 @@
 package com.parse.ui;
 
 import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.models.User;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
@@ -38,6 +39,8 @@ import android.view.Window;
 
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
+import com.parse.ParseUser;
 
 /**
  * Encapsulates the Parse login flow. The user can log in by username/password,
@@ -163,6 +166,12 @@ public class ParseLoginActivity extends FragmentActivity implements
     // This default implementation returns to the parent activity with
     // RESULT_OK.
     // You can change this implementation if you want a different behavior.
+    
+    // Binding user and app installation
+    ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+    installation.put("user", User.getCurrentUser());
+    installation.saveInBackground();
+    
     setResult(RESULT_OK);
     finish();
   }
