@@ -82,34 +82,43 @@ public class DashboardFragment extends Fragment {
 
                     @Override
                     public void done(HashMap<String, Object> result, ParseException exception) {
-                        // TODO: Handle case of no data points to plot
 
-                        final ObjectMapper mapper = new ObjectMapper();
-                        mapper.setSerializationInclusion(Include.NON_NULL);
+                        if (exception == null) {
+                            // TODO: Handle case of no data points to plot
 
-                        Log.d("DEBUG", result.toString());
+                            final ObjectMapper mapper = new ObjectMapper();
+                            mapper.setSerializationInclusion(Include.NON_NULL);
 
-                        final MainDashboard mainDashboardData = mapper.convertValue(result,
-                                MainDashboard.class);
-                        final CashSpentChart cashSpentChart = mainDashboardData.getCashSpentChart();
+                            Log.d("DEBUG", result.toString());
 
-                        BigDecimal totalCash = mainDashboardData.getTotalCash();
+                            final MainDashboard mainDashboardData = mapper.convertValue(result,
+                                    MainDashboard.class);
+                            final CashSpentChart cashSpentChart = mainDashboardData
+                                    .getCashSpentChart();
 
-                        // Update total cash on Action Bar
-                        getActivity().setTitle(
-                                getResources().getString(
-                                        R.string.dashboard_title_with_total_cash,
-                                        CurrencyUtils.getCurrencyValueFormatted(totalCash)));
+                            BigDecimal totalCash = mainDashboardData.getTotalCash();
 
-                        List<BigDecimal> data = cashSpentChart.getData();
-                        List<String> xLabels = cashSpentChart.getxLabels();
+                            // Update total cash on Action Bar
+                            getActivity().setTitle(
+                                    getResources().getString(
+                                            R.string.dashboard_title_with_total_cash,
+                                            CurrencyUtils.getCurrencyValueFormatted(totalCash)));
 
-                        Log.d("DEBUG", "Data points: " + data.toString());
-                        Log.d("DEBUG", "xLabels: " + xLabels.toString());
-                        Log.d("DEBUG", "# of goals: "
-                                + String.valueOf(mainDashboardData.getGoals().size()));
+                            List<BigDecimal> data = cashSpentChart.getData();
+                            List<String> xLabels = cashSpentChart.getxLabels();
 
-                        setupChart(rlMonthlySpentChart, data, xLabels);
+                            Log.d("DEBUG", "Data points: " + data.toString());
+                            Log.d("DEBUG", "xLabels: " + xLabels.toString());
+                            Log.d("DEBUG", "# of goals: "
+                                    + String.valueOf(mainDashboardData.getGoals().size()));
+
+                            setupChart(rlMonthlySpentChart, data, xLabels);
+                        } else {
+                            // TODO: better handle if parse throws and exception
+                            Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
+                                    Toast.LENGTH_LONG).show();
+                        }
+
                     }
                 });
 
@@ -179,7 +188,8 @@ public class DashboardFragment extends Fragment {
         multiRenderer.setYAxisMin(0);
         multiRenderer.setYLabelsColor(0,
                 getResources().getColor(R.color.dashboard_cash_spent_chart_ylabel_text));
-        multiRenderer.setXLabelsColor(getResources().getColor(R.color.dashboard_cash_spent_chart_xlabel_text));
+        multiRenderer.setXLabelsColor(getResources().getColor(
+                R.color.dashboard_cash_spent_chart_xlabel_text));
         multiRenderer.setLabelsTextSize(getResources().getDimension(
                 R.dimen.spent_chart_labels_text_size));
         multiRenderer.setClickEnabled(true);
