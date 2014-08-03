@@ -2,15 +2,14 @@
 package org.missionassetfund.apps.android.activities;
 
 import org.missionassetfund.apps.android.R;
-import org.missionassetfund.apps.android.fragments.DailyTransactionsChartFragment.OnTransactionGroupClickedListener;
+import org.missionassetfund.apps.android.fragments.DailyTransactionsChartFragment.OnTransactionsBarClickedListener;
 import org.missionassetfund.apps.android.fragments.LiquidAssetsFragment;
-import org.missionassetfund.apps.android.models.TransactionGroup;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 public class LiquidAssetsActivity extends BaseFragmentActivity implements
-        OnTransactionGroupClickedListener {
+        OnTransactionsBarClickedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +36,12 @@ public class LiquidAssetsActivity extends BaseFragmentActivity implements
     }
 
     @Override
-    public void onBarClicked(TransactionGroup transactionGroup) {
+    public void onBarClicked(int barIndex) {
         LiquidAssetsFragment liquidAssetsFragment = (LiquidAssetsFragment)
                 getSupportFragmentManager().findFragmentById(R.id.liquid_assets_fragment);
 
         if (liquidAssetsFragment != null) {
-            liquidAssetsFragment.goToNextChart(transactionGroup);
+            liquidAssetsFragment.goToNextChart(barIndex);
         }
     }
 }

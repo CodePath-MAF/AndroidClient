@@ -1,7 +1,10 @@
 package org.missionassetfund.apps.android.adapters;
 
+import java.util.List;
+
 import org.missionassetfund.apps.android.fragments.DailyTransactionsChartFragment;
 import org.missionassetfund.apps.android.fragments.DailyTransactionsDetailChartFragment;
+import org.missionassetfund.apps.android.models.CategoryTotal;
 import org.missionassetfund.apps.android.models.Chart;
 
 import android.support.v4.app.Fragment;
@@ -11,17 +14,18 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 public class ChartsViewPagerAdapter extends FragmentStatePagerAdapter {
     
     private Chart mChart;
+    private List<CategoryTotal> mCategoryTotals;
     
     public ChartsViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
     
-    public Chart getChart() {
-        return mChart;
-    }
-
     public void setChart(Chart chart) {
         this.mChart = chart;
+    }
+    
+    public void setCategoryTotals(List<CategoryTotal> mCategoryTotals) {
+        this.mCategoryTotals = mCategoryTotals;
     }
 
     @Override
@@ -35,8 +39,7 @@ public class ChartsViewPagerAdapter extends FragmentStatePagerAdapter {
                 break;
             case 1:
                 fragment = new DailyTransactionsDetailChartFragment();
-                // FIXME
-//                ((DailyTransactionsDetailChartFragment) fragment).setTransactionGroup(mTransactionGroup);
+                ((DailyTransactionsDetailChartFragment) fragment).setCategoryTotals(mCategoryTotals);
                 break;
             default:
                 break;

@@ -10,6 +10,7 @@ import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.CategorySeries;
+import org.achartengine.model.SeriesSelection;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -17,7 +18,6 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Category;
 import org.missionassetfund.apps.android.models.CategoryTotal;
 import org.missionassetfund.apps.android.models.Chart;
-import org.missionassetfund.apps.android.models.TransactionGroup;
 import org.missionassetfund.apps.android.models.dao.CategoryDao;
 
 import android.app.Activity;
@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -35,12 +36,12 @@ public class DailyTransactionsChartFragment extends Fragment {
 
     private static final double X_VALUES_EDGE = 0.5;
     private static final int MAX_CHART_VALUES = 7;
-    // FIXME
-    private OnTransactionGroupClickedListener listener;
+    private OnTransactionsBarClickedListener listener;
     private Chart mChart;
+    private GraphicalView mGraphicalView;
 
-    public interface OnTransactionGroupClickedListener {
-        public void onBarClicked(TransactionGroup transactionGroup);
+    public interface OnTransactionsBarClickedListener {
+        public void onBarClicked(int barIndex);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class DailyTransactionsChartFragment extends Fragment {
 
         final RelativeLayout rlStackedBarChart = (RelativeLayout) view
                 .findViewById(R.id.rlStackedBarChart);
-                        
+
         Boolean hasData = mChart.getHasData();
 
         if (!hasData) {
@@ -58,7 +59,7 @@ public class DailyTransactionsChartFragment extends Fragment {
         }
 
         BigDecimal maxValue = mChart.getMaxValue();
-                
+
         List<List<CategoryTotal>> data = mChart.getData();
         List<String> xLabels = mChart.getxLabels();
 
@@ -71,8 +72,8 @@ public class DailyTransactionsChartFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof OnTransactionGroupClickedListener) {
-            listener = (OnTransactionGroupClickedListener) activity;
+        if (activity instanceof OnTransactionsBarClickedListener) {
+            listener = (OnTransactionsBarClickedListener) activity;
         } else {
             throw new ClassCastException(
                     activity.toString()
@@ -133,13 +134,16 @@ public class DailyTransactionsChartFragment extends Fragment {
 
         XYMultipleSeriesRenderer renderer = buildBarRenderer(categoriesColors);
         setChartSettings(renderer, X_VALUES_EDGE,
-                MAX_CHART_VALUES + X_VALUES_EDGE, 0, maxValue.floatValue(), Color.GRAY, Color.LTGRAY, xTitles);
-        
-        GraphicalView graphicalView = ChartFactory.getBarChartView(context,
+                MAX_CHART_VALUES + X_VALUES_EDGE, 0, maxValue.floatValue(), Color.GRAY,
+                Color.LTGRAY, xTitles);
+
+        mGraphicalView = ChartFactory.getBarChartView(context,
                 buildBarDataset(categoriesTitles, values), renderer,
                 Type.STACKED);
-        
-        rlStackedBarChart.addView(graphicalView);
+
+        mGraphicalView.setOnClickListener(chartClickListener);
+
+        rlStackedBarChart.addView(mGraphicalView);
     }
 
     protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
@@ -177,6 +181,7 @@ public class DailyTransactionsChartFragment extends Fragment {
         renderer.setLabelsTextSize(24);
         renderer.setYLabels(0);
         renderer.setShowCustomTextGrid(true);
+        renderer.setClickEnabled(true);
     }
 
     protected XYMultipleSeriesDataset buildBarDataset(String[] titles, List<double[]> values) {
@@ -197,5 +202,14 @@ public class DailyTransactionsChartFragment extends Fragment {
     public void setChart(Chart chart) {
         this.mChart = chart;
     }
+
+    private OnClickListener chartClickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            SeriesSelection seriesSelection = mGraphicalView.getCurrentSeriesAndPoint();
+            listener.onBarClicked(seriesSelection.getPointIndex());
+        }
+    };
 
 }

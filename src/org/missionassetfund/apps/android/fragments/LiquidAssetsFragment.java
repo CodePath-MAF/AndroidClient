@@ -4,13 +4,14 @@ package org.missionassetfund.apps.android.fragments;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.activities.AddTransactionActivity;
 import org.missionassetfund.apps.android.adapters.ChartsViewPagerAdapter;
 import org.missionassetfund.apps.android.adapters.TransactionsExpandableListAdapter;
+import org.missionassetfund.apps.android.models.CategoryTotal;
 import org.missionassetfund.apps.android.models.Chart;
-import org.missionassetfund.apps.android.models.TransactionGroup;
 import org.missionassetfund.apps.android.models.TransactionsDashboard;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
@@ -57,6 +58,7 @@ public class LiquidAssetsFragment extends Fragment {
     private TransactionsExpandableListAdapter mTransactionsAdapter;
     private ViewPager vpCharts;
     private ChartsViewPagerAdapter mChartsViewPageAdapter;
+    private Chart mChart;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,9 +107,9 @@ public class LiquidAssetsFragment extends Fragment {
 
                         final TransactionsDashboard dashboard = mapper.convertValue(result,
                                 TransactionsDashboard.class);
-                        final Chart chart = dashboard.getChart();
+                        mChart = dashboard.getChart();
 
-                        Boolean hasData = chart.getHasData();
+                        Boolean hasData = mChart.getHasData();
 
                         if (!hasData) {
                             return;
@@ -204,11 +206,11 @@ public class LiquidAssetsFragment extends Fragment {
         }
     }
 
-    // FIXME
-    public void goToNextChart(TransactionGroup transactionGroup) {
-//        mChartsViewPageAdapter.setTransactionGroup(transactionGroup);
-//        mChartsViewPageAdapter.notifyDataSetChanged();
-//        vpCharts.setCurrentItem(1, true);
+    public void goToNextChart(int barIndex) {
+        List<CategoryTotal> categoryTotals = mChart.getData().get(barIndex);
+        mChartsViewPageAdapter.setCategoryTotals(categoryTotals);
+        mChartsViewPageAdapter.notifyDataSetChanged();
+        vpCharts.setCurrentItem(1, true);
     }
 
 }
