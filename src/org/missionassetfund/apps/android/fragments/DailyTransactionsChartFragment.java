@@ -4,7 +4,6 @@ package org.missionassetfund.apps.android.fragments;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
@@ -18,7 +17,6 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Category;
 import org.missionassetfund.apps.android.models.CategoryTotal;
 import org.missionassetfund.apps.android.models.Chart;
-import org.missionassetfund.apps.android.models.Dashboard;
 import org.missionassetfund.apps.android.models.TransactionGroup;
 import org.missionassetfund.apps.android.models.dao.CategoryDao;
 
@@ -33,18 +31,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parse.FunctionCallback;
-import com.parse.ParseCloud;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-
 public class DailyTransactionsChartFragment extends Fragment {
 
     private static final double X_VALUES_EDGE = 0.5;
     private static final int MAX_CHART_VALUES = 7;
+    // FIXME
     private OnTransactionGroupClickedListener listener;
+    private Chart mChart;
 
     public interface OnTransactionGroupClickedListener {
         public void onBarClicked(TransactionGroup transactionGroup);
@@ -57,40 +50,20 @@ public class DailyTransactionsChartFragment extends Fragment {
 
         final RelativeLayout rlStackedBarChart = (RelativeLayout) view
                 .findViewById(R.id.rlStackedBarChart);
-
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", ParseUser.getCurrentUser().getObjectId());
-        // FIXME
-        params.put("day", 1);
-        params.put("month", 8);
-        params.put("year", 2014);
-
-        ParseCloud.callFunctionInBackground("stackedBarChartDetailView", params,
-                new FunctionCallback<HashMap<String, Object>>() {
-
-                    @Override
-                    public void done(HashMap<String, Object> result, ParseException exception) {
-                        final ObjectMapper mapper = new ObjectMapper();
-                        mapper.setSerializationInclusion(Include.NON_NULL);
                         
-                        final Dashboard dashboard = mapper.convertValue(result, Dashboard.class);
-                        final Chart chart = dashboard.getChart();
-                        
-                        Boolean hasData = chart.getHasData();
+        Boolean hasData = mChart.getHasData();
 
-                        if (!hasData) {
-                            return;
-                        }
+        if (!hasData) {
+            return view;
+        }
 
-                        BigDecimal maxValue = chart.getMaxValue();
-                                
-                        List<List<CategoryTotal>> data = chart.getData();
-                        List<String> xLabels = chart.getxLabels();
+        BigDecimal maxValue = mChart.getMaxValue();
+                
+        List<List<CategoryTotal>> data = mChart.getData();
+        List<String> xLabels = mChart.getxLabels();
 
-                        setupChart(view.getContext(), rlStackedBarChart,
-                                maxValue, data, xLabels);
-                    }
-                });
+        setupChart(view.getContext(), rlStackedBarChart,
+                maxValue, data, xLabels);
 
         return view;
     }
@@ -219,6 +192,10 @@ public class DailyTransactionsChartFragment extends Fragment {
             dataset.addSeries(series.toXYSeries());
         }
         return dataset;
+    }
+
+    public void setChart(Chart chart) {
+        this.mChart = chart;
     }
 
 }

@@ -2,25 +2,23 @@
 package org.missionassetfund.apps.android.fragments;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.HashMap;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.activities.AddTransactionActivity;
 import org.missionassetfund.apps.android.adapters.ChartsViewPagerAdapter;
 import org.missionassetfund.apps.android.adapters.TransactionsExpandableListAdapter;
-import org.missionassetfund.apps.android.models.Transaction;
+import org.missionassetfund.apps.android.models.Chart;
 import org.missionassetfund.apps.android.models.TransactionGroup;
-import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.models.TransactionsDashboard;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
-import org.missionassetfund.apps.android.utils.MAFDateUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,8 +32,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.ParseQuery;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 public class LiquidAssetsFragment extends Fragment {
 
@@ -48,8 +50,6 @@ public class LiquidAssetsFragment extends Fragment {
     private TextView tvEmptyTransactions;
     private ProgressBar pbLoadingLiquidAssets;
     private RelativeLayout rlLiquidAssets;
-    private List<TransactionGroup> mTransactionsGroup;
-    private List<TransactionGroup> mTransactionsGroupChart;
     private BigDecimal mSpentToday;
     private BigDecimal mSpentThisWeek;
     private BigDecimal mLiquidAssets;
@@ -81,93 +81,64 @@ public class LiquidAssetsFragment extends Fragment {
         rlLiquidAssets.setVisibility(View.INVISIBLE);
         pbLoadingLiquidAssets.setVisibility(View.VISIBLE);
 
-        ParseQuery<Transaction> query = ParseQuery.getQuery("Transaction");
-        query.whereEqualTo("user", User.getCurrentUser());
-        query.orderByDescending("transactionDate");
-        query.include("category");
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", ParseUser.getCurrentUser().getObjectId());
 
-        query.findInBackground(new FindCallback<Transaction>() {
-            @Override
-            public void done(List<Transaction> transactions, com.parse.ParseException exception) {
-                if (exception != null) {
-                    Log.d("LiquidAssetsFragment", "error on querying transactions", exception);
-                    return;
-                }
+        Calendar today = Calendar.getInstance();
+        params.put("day", today.get(Calendar.DAY_OF_MONTH));
+        params.put("month", today.get(Calendar.MONTH) + 1); // Thanks Java...
+        params.put("year", today.get(Calendar.YEAR));
 
-                setupTransactions(transactions);
-                setupSummary();
-                setupChart();
+        ParseCloud.callFunctionInBackground("stackedBarChartDetailView", params,
+                new FunctionCallback<HashMap<String, Object>>() {
 
-                mTransactionsAdapter = new TransactionsExpandableListAdapter(mTransactionsGroup,
-                        getActivity());
+                    @Override
+                    public void done(HashMap<String, Object> result, ParseException exception) {
+                        if (exception != null) {
+                            Log.d("LiquidAssetsFragment", "error on querying transactions",
+                                    exception);
+                            return;
+                        }
 
-                elvTransactions.setAdapter(mTransactionsAdapter);
-                elvTransactions.setEmptyView(tvEmptyTransactions);
-                elvTransactions.setGroupIndicator(null);
+                        final ObjectMapper mapper = new ObjectMapper();
+                        mapper.setSerializationInclusion(Include.NON_NULL);
 
-                for (int i = 0; i < mTransactionsAdapter.getGroupCount(); i++) {
-                    elvTransactions.expandGroup(i);
-                }
+                        final TransactionsDashboard dashboard = mapper.convertValue(result,
+                                TransactionsDashboard.class);
+                        final Chart chart = dashboard.getChart();
 
-                pbLoadingLiquidAssets.setVisibility(View.INVISIBLE);
+                        Boolean hasData = chart.getHasData();
 
-                if (isSummaryEmpty()) {
-                    tvEmptyLiquidAssets.setVisibility(View.VISIBLE);
-                } else {
-                    rlLiquidAssets.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-    }
+                        if (!hasData) {
+                            return;
+                        }
 
-    private void setupTransactions(List<Transaction> transactions) {
-        mTransactionsGroup = new ArrayList<TransactionGroup>();
-        mTransactionsGroupChart = new ArrayList<TransactionGroup>();
-        mSpentToday = CurrencyUtils.ZERO;
-        mSpentThisWeek = CurrencyUtils.ZERO;
-        mLiquidAssets = CurrencyUtils.ZERO;
+                        setupSummary(dashboard);
+                        setupChart(dashboard.getChart());
 
-        TransactionGroup tg = null;
-        TransactionGroup tgChart = null;
-        int index = -1;
-        int indexChart = -1;
+                        mTransactionsAdapter = new
+                                TransactionsExpandableListAdapter(
+                                        dashboard.getTransactionsByDate(),
+                                        getActivity());
 
-        for (Transaction t : transactions) {
-            // Set transactions for ListView
-            tg = new TransactionGroup(t.getTransactionDate(), new ArrayList<Transaction>());
-            tgChart = new TransactionGroup(t.getTransactionDate(), new ArrayList<Transaction>());
-            index = mTransactionsGroup.indexOf(tg);
-            indexChart = mTransactionsGroupChart.indexOf(tg);
+                        elvTransactions.setAdapter(mTransactionsAdapter);
+                        elvTransactions.setEmptyView(tvEmptyTransactions);
+                        elvTransactions.setGroupIndicator(null);
 
-            if (index == -1) {
-                tg.getTransactions().add(t);
-                mTransactionsGroup.add(tg);
-            } else {
-                mTransactionsGroup.get(index).getTransactions().add(t);
-            }
+                        for (int i = 0; i <
+                        mTransactionsAdapter.getGroupCount(); i++) {
+                            elvTransactions.expandGroup(i);
+                        }
 
-            if (indexChart == -1 && t.isCredit()) {
-                tgChart.getTransactions().add(t);
-                mTransactionsGroupChart.add(tgChart);
-            } else if (t.isCredit()) {
-                mTransactionsGroupChart.get(indexChart).getTransactions().add(t);
-            }
+                        pbLoadingLiquidAssets.setVisibility(View.INVISIBLE);
 
-            if (t.isCredit()) {
-                if (DateUtils.isToday(t.getTransactionDate().getTime())) {
-                    mSpentToday = mSpentToday.add(BigDecimal.valueOf(t.getAmount()));
-                }
-
-                if (MAFDateUtils.isSameWeek(t.getTransactionDate())) {
-                    mSpentThisWeek = mSpentThisWeek.add(BigDecimal.valueOf(t.getAmount()));
-                }
-
-                mLiquidAssets = mLiquidAssets.subtract(BigDecimal.valueOf(t.getAmount()));
-            } else if (t.isDebit()) {
-                mLiquidAssets = mLiquidAssets.add(BigDecimal.valueOf(t.getAmount()));
-            }
-        }
-
+                        if (isSummaryEmpty()) {
+                            tvEmptyLiquidAssets.setVisibility(View.VISIBLE);
+                        } else {
+                            rlLiquidAssets.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -196,7 +167,11 @@ public class LiquidAssetsFragment extends Fragment {
         }
     }
 
-    private void setupSummary() {
+    private void setupSummary(TransactionsDashboard dashboard) {
+        mSpentToday = dashboard.getSpentToday();
+        mSpentThisWeek = dashboard.getSpentThisWeek();
+        mLiquidAssets = dashboard.getTotalCash();
+
         tvLiquidAssetsAmount.setText(CurrencyUtils.getCurrencyValueFormatted(mLiquidAssets));
         tvSpentAmount.setText(CurrencyUtils.getCurrencyValueFormattedAsNegative(mSpentThisWeek));
         tvSpentTodayAmount.setText(CurrencyUtils.getCurrencyValueFormattedAsNegative(mSpentToday));
@@ -208,15 +183,15 @@ public class LiquidAssetsFragment extends Fragment {
                 && mSpentToday.equals(CurrencyUtils.ZERO);
     }
 
-    private void setupChart() {
+    private void setupChart(Chart chart) {
         mChartsViewPageAdapter = new ChartsViewPagerAdapter(getActivity()
                 .getSupportFragmentManager());
-        mChartsViewPageAdapter.setTransactionGroups(mTransactionsGroupChart);
-
-        if (!mTransactionsGroupChart.isEmpty()) {
-            mChartsViewPageAdapter.setTransactionGroup(mTransactionsGroupChart.get(0));
-        }
-
+        mChartsViewPageAdapter.setChart(chart);
+        // FIXME
+        // if (!mTransactionsGroupChart.isEmpty()) {
+        // mChartsViewPageAdapter.setTransactionGroup(mTransactionsGroupChart.get(0));
+        // }
+        //
         vpCharts.setAdapter(mChartsViewPageAdapter);
     }
 
@@ -227,13 +202,13 @@ public class LiquidAssetsFragment extends Fragment {
             Toast.makeText(getActivity(), getString(R.string.parse_success_transaction_save),
                     Toast.LENGTH_SHORT).show();
         }
-
     }
 
+    // FIXME
     public void goToNextChart(TransactionGroup transactionGroup) {
-        mChartsViewPageAdapter.setTransactionGroup(transactionGroup);
-        mChartsViewPageAdapter.notifyDataSetChanged();
-        vpCharts.setCurrentItem(1, true);
+//        mChartsViewPageAdapter.setTransactionGroup(transactionGroup);
+//        mChartsViewPageAdapter.notifyDataSetChanged();
+//        vpCharts.setCurrentItem(1, true);
     }
 
 }
