@@ -17,7 +17,7 @@
     <RelativeLayout
         android:id="@+id/rlMonthlySpentChart"
         android:layout_width="match_parent"
-        android:layout_height="180dp" >
+        android:layout_height="160dp" >
 
         <LinearLayout
             android:id="@+id/llMonthlySpentChartProgress"
@@ -43,7 +43,7 @@
         android:background="@drawable/gray_border"
         android:divider="?android:dividerHorizontal"
         android:gravity="center"
-        android:padding="10dp"
+        android:padding="16dp"
         android:showDividers="middle" >
 
         <ImageButton
