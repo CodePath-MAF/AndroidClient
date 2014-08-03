@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Goal;
+import org.missionassetfund.apps.android.models.GoalType;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
@@ -15,6 +16,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
@@ -50,6 +52,7 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
         TextView tvPctComplete = (TextView) v.findViewById(R.id.tvPctComplete);
         CircularProgressBar cpbGoalProgress = (CircularProgressBar) v
                 .findViewById(R.id.cpbGoalProgress);
+        ImageView ivGoalIcon = (ImageView) v.findViewById(R.id.ivGoalIcon);
 
         // reset view style
         tvDueDate.setTextAppearance(getContext(), R.style.DashboardUI_GoalItem_DueDate);
@@ -84,7 +87,7 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
 
         float goalPctComplete = 0f;
         NumberFormat percentFormat = NumberFormat.getPercentInstance();
-        percentFormat.setMaximumFractionDigits(1);
+        percentFormat.setMaximumFractionDigits(0);
         String percentageComplete = "";
         if (goal.getNumPaymentsMade() != null) {
             goalPctComplete = (float) goal.getNumPaymentsMade() / goal.getNumPayments();
@@ -96,6 +99,17 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
         Log.d("DEBUG", percentageComplete);
 
         // circular progress bar with simple animation
+        if (goal.getType() == GoalType.LENDING_CIRCLE) {
+            ivGoalIcon.setImageResource(R.drawable.img_lendingcircle_goal_icon);
+            cpbGoalProgress.setProgressColor(getContext().getResources().getColor(
+                    R.color.dashboard_lending_circle_progress_bar));
+        } else {
+            // general visuals for other goals
+            ivGoalIcon.setImageResource(R.drawable.img_vacation_goal_icon);
+            cpbGoalProgress.setProgressColor(getContext().getResources().getColor(
+                    R.color.dashboard_goal_progress_bar));
+        }
+
         cpbGoalProgress.animateProgressTo(0, (int) (goalPctComplete * 100),
                 new CircularProgressBar.ProgressAnimationListener() {
 

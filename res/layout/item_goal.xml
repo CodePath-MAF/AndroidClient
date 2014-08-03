@@ -19,6 +19,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14dp"
+            android:layout_marginBottom="5dp"
             android:maxLines="1"
             android:text="@string/sample_goal_name" />
 
@@ -51,6 +52,9 @@
                 android:layout_above="@+id/llGoalProgress"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:maxHeight="35dp"
+                android:layout_marginBottom="10dp"
                 android:src="@drawable/img_lendingcircle_goal_icon" />
 
             <LinearLayout
