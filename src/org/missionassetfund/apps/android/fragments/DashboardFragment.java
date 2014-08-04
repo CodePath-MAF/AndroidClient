@@ -50,6 +50,7 @@ public class DashboardFragment extends Fragment {
     private ImageButton btnAddTransaction;
     private RelativeLayout rlMonthlySpentChart;
     private LinearLayout llMonthlySpentChartProgress;
+    private GraphicalView graphicalView;
 
     public interface SwitchMainFragmentListener {
         void SwitchToFragment(Class<? extends Fragment> klass);
@@ -224,16 +225,19 @@ public class DashboardFragment extends Fragment {
         // Adding expenseRenderer to multipleRenderer
         multiRenderer.addSeriesRenderer(expenseRenderer);
 
-        // Creating graphicView to add to the RelativeLayout
-        GraphicalView graphicalView = ChartFactory.getLineChartView(getActivity(),
-                dataset, multiRenderer);
+        if (graphicalView != null) {
+            rlMonthlySpent.removeView(graphicalView);
+        }
 
+        // Creating graphicView to add to the RelativeLayout
+        graphicalView = ChartFactory.getLineChartView(getActivity(),
+                dataset, multiRenderer);
         // Set OnClickListener
         graphicalView.setOnClickListener(liquidAssetClickListener);
 
         // Hide progress Bar
         hideMonthlySpentChartProgressBar();
-
+        
         rlMonthlySpent.addView(graphicalView);
     }
 
@@ -294,7 +298,7 @@ public class DashboardFragment extends Fragment {
                                     + String.valueOf(mainDashboardData.getGoals().size()));
 
                             setupChart(rlMonthlySpentChart, data, xLabels);
-                            
+
                         } else {
                             // TODO: better handle if parse throws and exception
                             Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
