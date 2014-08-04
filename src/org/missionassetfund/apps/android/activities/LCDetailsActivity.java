@@ -248,7 +248,6 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
     public void onSetupData(PeopleCircleFragment fragment) {
         if (goal != null && mLendingCircleDetail != null) {
             fragment.setGoalAmount(CurrencyUtils.newCurrency(goal.getAmount()));
-            fragment.setGoalPaymentAmount(CurrencyUtils.newCurrency(goal.getPaymentAmount()));
             fragment.setGoalCurrentTotal(CurrencyUtils.newCurrency(goal.getCurrentTotal()));
             fragment.setCashOutSchedule(mLendingCircleDetail.getCashOutSchedule());
         }

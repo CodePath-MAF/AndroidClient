@@ -27,7 +27,6 @@ public class PeopleCircleFragment extends Fragment {
     private CircularProgressBar cpbGoalDetail;
     private CircularView cvProfile;
     private BigDecimal mGoalAmount;
-    private BigDecimal mGoalPaymentAmount;
     private BigDecimal mGoalCurrentTotal;
     private List<CashOutSchedule> mCashOutSchedule;
 
@@ -39,10 +38,6 @@ public class PeopleCircleFragment extends Fragment {
 
     public void setGoalAmount(BigDecimal goalAmount) {
         this.mGoalAmount = goalAmount;
-    }
-
-    public void setGoalPaymentAmount(BigDecimal goalPaymentAmount) {
-        this.mGoalPaymentAmount = goalPaymentAmount;
     }
 
     public void setGoalCurrentTotal(BigDecimal goalCurrentTotal) {
