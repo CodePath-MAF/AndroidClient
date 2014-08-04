@@ -310,12 +310,12 @@
     
     <style name="LendingCircleUI.Contributed">
         <item name="android:textColor">@color/dashboard_goal_item_milestones_text</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="LendingCircleUI.GoalAmount">
         <item name="android:textColor">@color/dashboard_goal_item_name_text</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">25sp</item>
         <item name="fontPath">fonts/OpenSans-Light.ttf</item>
     </style>
 

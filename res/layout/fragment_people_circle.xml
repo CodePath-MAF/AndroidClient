@@ -10,8 +10,8 @@
     <com.lylc.widget.circularprogressbar.example.CircularProgressBar
         android:id="@+id/cpbGoalDetail"
         style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
