@@ -31,7 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class DailyTransactionsDetailChartFragment extends Fragment {
-    
+
     private static final double X_VALUES_EDGE = 0.5;
     private static final int MAX_CHART_VALUES = 1;
 
@@ -44,11 +44,11 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
     private GraphicalView mGraphicalView;
     private Map<Category, BigDecimal> mTransactionsPercentageByCategory;
     private BigDecimal mMaxValue;
-    
+
     public void setCategoryTotals(List<CategoryTotal> categoryTotals) {
         this.mCategoryTotals = categoryTotals;
     }
-    
+
     public void setTopChartLabel(String topChartLabel) {
         this.mTopChartLabel = topChartLabel;
     }
@@ -58,10 +58,11 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_daily_transactions_detail_chart,
                 container, false);
 
-        rlTransactionsDetailChart = (RelativeLayout) view.findViewById(R.id.rlTransactionsDetailChart);
+        rlTransactionsDetailChart = (RelativeLayout) view
+                .findViewById(R.id.rlTransactionsDetailChart);
         tvDetailChartDate = (TextView) view.findViewById(R.id.tvDetailChartDate);
         gvDetailChartLabel = (GridView) view.findViewById(R.id.gvDetailChartLabel);
-        
+
         if (mCategoryTotals != null && !mCategoryTotals.isEmpty()) {
             setupChart(view.getContext());
         }
@@ -71,55 +72,71 @@ public class DailyTransactionsDetailChartFragment extends Fragment {
 
     private void setupChart(Context context) {
         tvDetailChartDate.setText(mTopChartLabel);
-        
+
         this.setupTransactionsPercentageByCategory(mCategoryTotals);
-        mCategoryPercentageByDayAdapter = new CategoryPercentageByDayAdapter(this.getActivity(), mTransactionsPercentageByCategory);
+        mCategoryPercentageByDayAdapter = new CategoryPercentageByDayAdapter(this.getActivity(),
+                mTransactionsPercentageByCategory);
         gvDetailChartLabel.setNumColumns(mTransactionsPercentageByCategory.size());
         gvDetailChartLabel.setAdapter(mCategoryPercentageByDayAdapter);
-        
+
         int[] colors = new int[mCategoryTotals.size()];
         float maxValue = mMaxValue.floatValue();
         String[] xTitles = null;
 
         List<double[]> values = new ArrayList<double[]>();
         String[] titles = new String[mCategoryTotals.size()];
-        
+
         for (int i = 0; i < mCategoryTotals.size(); i++) {
             CategoryTotal c = mCategoryTotals.get(i);
 
             double current = c.getCategoryTotal().doubleValue();
-            double previous = (i == 0) ? 0 :  values.get(i - 1)[0];
-            
+            double previous = (i == 0) ? 0 : values.get(i - 1)[0];
+
             colors[i] = Color.parseColor(c.getCategoryColor());
             titles[i] = c.getCategoryName();
-            values.add(new double[] { current + previous });
+            values.add(new double[] {
+                current + previous
+            });
         }
-        
+
         Collections.reverse(values);
         ArrayUtils.reverse(colors);
+
+        int[] margins = new int[] {
+                getResources().getDimensionPixelOffset(R.dimen.transaction_chart_margin_top),
+                getResources().getDimensionPixelOffset(R.dimen.transaction_chart_margin_left),
+                getResources().getDimensionPixelOffset(R.dimen.transaction_chart_margin_bottom),
+                getResources().getDimensionPixelOffset(R.dimen.transaction_chart_margin_right)
+        };
         
-        StackedBarChart barChart = new StackedBarChart(colors, X_VALUES_EDGE, MAX_CHART_VALUES, maxValue, 
-                xTitles, Orientation.VERTICAL, 300f);
+        float labelsTextSize = getResources().getDimension(
+                R.dimen.transaction_chart_labels_text_size);
+        
+        int xLabelColor = getResources().getColor(R.color.dashboard_cash_spent_chart_xlabel_text);
+
+        StackedBarChart barChart = new StackedBarChart(colors, X_VALUES_EDGE, MAX_CHART_VALUES,
+                maxValue, xTitles, Orientation.VERTICAL, 300f, margins, labelsTextSize, xLabelColor);
         mGraphicalView = barChart.getChartView(context, titles, values);
         rlTransactionsDetailChart.addView(mGraphicalView);
     }
-    
+
     private void setupTransactionsPercentageByCategory(List<CategoryTotal> categoryTotals) {
         mTransactionsPercentageByCategory = new HashMap<Category, BigDecimal>();
         mMaxValue = CurrencyUtils.ZERO;
-        
+
         for (CategoryTotal categoryTotal : categoryTotals) {
             mMaxValue = mMaxValue.add(categoryTotal.getCategoryTotal());
         }
-        
+
         for (CategoryTotal categoryTotal : categoryTotals) {
-            BigDecimal percentage = categoryTotal.getCategoryTotal().divide(mMaxValue, 4, RoundingMode.DOWN);
+            BigDecimal percentage = categoryTotal.getCategoryTotal().divide(mMaxValue, 4,
+                    RoundingMode.DOWN);
 
             Category key = new Category();
             key.setName(categoryTotal.getCategoryName());
             key.setColor(categoryTotal.getCategoryColor());
-            
-            mTransactionsPercentageByCategory.put(key , percentage);
+
+            mTransactionsPercentageByCategory.put(key, percentage);
         }
     }
 

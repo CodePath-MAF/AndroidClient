@@ -18,6 +18,18 @@
     <dimen name="spent_chart_margin_left">60dp</dimen>
     <dimen name="spent_chart_margin_right">40dp</dimen>
     <dimen name="spent_chart_margin_bottom">5dp</dimen>
+    
+    <!-- Transaction chart -->
+    <dimen name="transaction_chart_text_size">16sp</dimen>
+    <dimen name="transaction_chart_axis_title_text_size">14sp</dimen>
+    <dimen name="transaction_chart_labels_text_size">14sp</dimen>
+    <dimen name="transaction_chart_labels_padding">10dp</dimen>
+    <dimen name="transaction_chart_legend_text_size">16sp</dimen>
+    <dimen name="transaction_chart_legend_height">40dp</dimen>
+    <dimen name="transaction_chart_margin_top">30dp</dimen>
+    <dimen name="transaction_chart_margin_left">20dp</dimen>
+    <dimen name="transaction_chart_margin_right">20dp</dimen>
+    <dimen name="transaction_chart_margin_bottom">20dp</dimen>
 
     <!-- Parse -->
     <dimen name="com_parse_ui_horizontal_margin">16dp</dimen>

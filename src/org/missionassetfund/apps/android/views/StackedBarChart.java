@@ -21,10 +21,12 @@ public class StackedBarChart {
     private XYMultipleSeriesRenderer renderer;
 
     public StackedBarChart(int[] colors, double xValuesEdge, float maxChartValues, float maxValue,
-            String[] xTitles, Orientation orientantion, float barWidth) {
+            String[] xTitles, Orientation orientantion, float barWidth, int[] margins,
+            float labelsTextSize, int xLabelColor) {
         renderer = buildBarRenderer(colors);
         setChartSettings(renderer, xValuesEdge, maxChartValues + xValuesEdge, 0, maxValue,
-                Color.GRAY, Color.LTGRAY, xTitles, orientantion, barWidth);
+                Color.GRAY, Color.LTGRAY, xTitles, orientantion, barWidth, margins, labelsTextSize,
+                xLabelColor);
 
     }
 
@@ -45,8 +47,9 @@ public class StackedBarChart {
     }
 
     protected void setChartSettings(XYMultipleSeriesRenderer renderer, double xMin, double xMax,
-            double yMin, double yMax, int axesColor,
-            int labelsColor, String[] xTitles, Orientation orientation, float width) {
+            double yMin, double yMax, int axesColor, int labelsColor, String[] xTitles,
+            Orientation orientation, float width, int[] margins, float labelsTextSize,
+            int xLabelColor) {
         renderer.setXAxisMin(xMin);
         renderer.setXAxisMax(xMax);
         renderer.setYAxisMin(yMin);
@@ -69,10 +72,14 @@ public class StackedBarChart {
         renderer.setBarSpacing(0.5f);
         renderer.setLabelsTextSize(24);
         renderer.setYLabels(0);
-        renderer.setShowCustomTextGrid(true);
+        renderer.setShowCustomTextGrid(false);
         renderer.setClickEnabled(true);
         renderer.setOrientation(orientation);
         renderer.setBarWidth(width);
+        renderer.setMargins(margins);
+        renderer.setShowAxes(false);
+        renderer.setLabelsTextSize(labelsTextSize);
+        renderer.setXLabelsColor(xLabelColor);
     }
 
     protected XYMultipleSeriesDataset buildBarDataset(String[] titles, List<double[]> values) {
