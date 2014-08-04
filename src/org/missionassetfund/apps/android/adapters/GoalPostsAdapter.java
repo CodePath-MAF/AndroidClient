@@ -8,7 +8,6 @@ import org.missionassetfund.apps.android.activities.LCDetailsActivity;
 import org.missionassetfund.apps.android.interfaces.SaveCommentListener;
 import org.missionassetfund.apps.android.models.Comment;
 import org.missionassetfund.apps.android.models.Goal;
-import org.missionassetfund.apps.android.models.LendingCircleFriends;
 import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.PostType;
 import org.missionassetfund.apps.android.models.User;
@@ -17,7 +16,6 @@ import org.missionassetfund.apps.android.utils.ModelUtils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +24,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -81,6 +78,14 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
         // Profile Image
         ImageView ivPosterProfile = (ImageView) convertView.findViewById(R.id.ivPosterProfile);
         ivPosterProfile.setImageResource(ModelUtils.getImageResourceForUser(post.getUser()));
+
+        // Has comments?
+        TextView tvNumberOfComments = (TextView) convertView.findViewById(R.id.tvNumberOfComments);
+        List<Comment> comments = (List<Comment>) post.get("comments");
+        if (comments != null && comments.size() > 0) {
+            tvNumberOfComments.setText(String.valueOf(comments.size()));
+            tvNumberOfComments.setVisibility(View.VISIBLE);
+        }
 
         // Post type
         ImageView ivPostType = (ImageView) convertView.findViewById(R.id.ivPostType);
