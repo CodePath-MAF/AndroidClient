@@ -13,6 +13,7 @@ import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.PostType;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
+import org.missionassetfund.apps.android.utils.ModelUtils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -79,11 +80,11 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
     private void populatePostViews(Post post, View convertView) {
         // Profile Image
         ImageView ivPosterProfile = (ImageView) convertView.findViewById(R.id.ivPosterProfile);
-        ivPosterProfile.setImageResource(getImageResourceForUser(post.getUser()));
+        ivPosterProfile.setImageResource(ModelUtils.getImageResourceForUser(post.getUser()));
 
         // Post type
         ImageView ivPostType = (ImageView) convertView.findViewById(R.id.ivPostType);
-        ivPostType.setImageResource(getImageForPostType(post));
+        ivPostType.setImageResource(ModelUtils.getImageForPostType(post));
 
         // Post content
         TextView tvPostText = (TextView) convertView.findViewById(R.id.tvPostText);
@@ -101,7 +102,7 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
         // Commenter profile Image
         ImageView ivCommenterProfile = (ImageView) commentView
                 .findViewById(R.id.ivCommenterProfile);
-        ivCommenterProfile.setImageResource(getImageResourceForUser(comment.getUser()));
+        ivCommenterProfile.setImageResource(ModelUtils.getImageResourceForUser(comment.getUser()));
 
         // Commenter Name
         TextView tvCommenterName = (TextView)
@@ -118,7 +119,8 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
     private void populateNewCommentInputView(View newCommentView, final Post post) {
         // User's image
         ImageView ivPosterProfile = (ImageView) newCommentView.findViewById(R.id.ivPosterProfile);
-        ivPosterProfile.setImageResource(getImageResourceForUser((User) User.getCurrentUser()));
+        ivPosterProfile.setImageResource(ModelUtils.getImageResourceForUser((User) User
+                .getCurrentUser()));
 
         final EditText etComment = (EditText) newCommentView.findViewById(R.id.etComment);
 
@@ -139,32 +141,4 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
 
     }
 
-    private int getImageForPostType(Post post) {
-        // TODO: move this to Post Object later
-        if (post.getType() != null) {
-            PostType type = post.getType();
-            switch (type) {
-                case EVENT:
-                    return R.drawable.img_newpost_event;
-                case MESSAGE:
-                    return R.drawable.img_newpost_message;
-                case QUESTION:
-                    return R.drawable.img_newpost_question;
-                case REMINDER:
-                    return R.drawable.img_newpost_post;
-                default:
-                    return R.drawable.img_newpost_message;
-            }
-        } else {
-            return R.drawable.img_newpost_message;
-        }
-    }
-
-    private int getImageResourceForUser(User user) {
-        if (user.getProfileImageId() != 0) {
-            Log.d("DEBUG", "Profile Image ID: " + user.getProfileImageId());
-            return LendingCircleFriends.get(user.getProfileImageId() - 1).getDpDrawableId();
-        }
-        return R.drawable.profile_11;
-    }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalPostsAdapter;
 import org.missionassetfund.apps.android.fragments.NewPostDialog;
+import org.missionassetfund.apps.android.fragments.PostDetailDialog;
 import org.missionassetfund.apps.android.interfaces.SaveCommentListener;
 import org.missionassetfund.apps.android.interfaces.SavePostListener;
 import org.missionassetfund.apps.android.models.Comment;
@@ -25,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -70,6 +73,16 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
         // rootLayout = (FrameLayout) findViewById(R.id.flLCDetails);
         lvLCDetails = (ParallaxListView) findViewById(R.id.lvLCDetails);
+        lvLCDetails.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentManager fm = getSupportFragmentManager();
+                PostDetailDialog pdDialog = PostDetailDialog.newInstance("Post");
+                pdDialog.show(fm, "fragment_compose");
+            }
+
+        });
 
         setUpCircle();
 
