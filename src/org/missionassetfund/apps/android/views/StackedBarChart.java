@@ -69,7 +69,7 @@ public class StackedBarChart {
         renderer.setBarSpacing(0.5f);
         renderer.setLabelsTextSize(24);
         renderer.setYLabels(0);
-        renderer.setShowCustomTextGrid(true);
+        renderer.setShowCustomTextGrid(false);
         renderer.setClickEnabled(true);
         renderer.setOrientation(orientation);
         renderer.setBarWidth(width);
