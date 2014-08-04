@@ -88,8 +88,6 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
         });
 
-        setUpCircle();
-
         // llGoalPosts = (ListView) findViewById(R.id.llGoalPosts);
 
         btnCreatePost = (FloatingActionButton) findViewById(R.id.btnCreatePost);
@@ -112,6 +110,8 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     aposts = new GoalPostsAdapter(LCDetailsActivity.this, goal, posts);
                     // llGoalPosts.setAdapter(aposts);
                     lvLCDetails.setAdapter(aposts);
+                    
+                    setUpCircle();
                     getLCDetailsData();
                 } else {
                     Toast.makeText(LCDetailsActivity.this, R.string.parse_error_querying,
@@ -126,7 +126,7 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
     private void setUpCircle() {
         View circleView = getLayoutInflater().inflate(R.layout.item_lc_circle_view, null);
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-                AbsListView.LayoutParams.MATCH_PARENT, 400);
+                AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
         circleView.setLayoutParams(params);
 
         lvLCDetails.addParallaxedHeaderView(circleView);
@@ -240,9 +240,12 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
     }
 
     @Override
-    public void onCreateView(PeopleCircleFragment fragment) {
-        fragment.setGoalAmount(CurrencyUtils.newCurrency(1350d));
-        fragment.setGoalPaymentAmount(CurrencyUtils.newCurrency(300d));
-        fragment.setTotalPeopleOnCircle(8);
+    public void onSetupData(PeopleCircleFragment fragment) {
+        if (goal != null) {
+            fragment.setGoalAmount(CurrencyUtils.newCurrency(goal.getAmount()));
+            fragment.setGoalPaymentAmount(CurrencyUtils.newCurrency(goal.getPaymentAmount()));
+            // FIXME
+            fragment.setTotalPeopleOnCircle(8);
+        }
     }
 }
