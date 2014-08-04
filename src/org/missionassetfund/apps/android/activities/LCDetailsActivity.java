@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalPostsAdapter;
-import org.missionassetfund.apps.android.fragments.CreatePostFragment;
+import org.missionassetfund.apps.android.fragments.NewPostDialog;
 import org.missionassetfund.apps.android.interfaces.SaveCommentListener;
 import org.missionassetfund.apps.android.interfaces.SavePostListener;
 import org.missionassetfund.apps.android.models.Comment;
@@ -15,20 +15,26 @@ import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.User;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nirhart.parallaxscroll.views.ParallaxListView;
 import com.parse.FunctionCallback;
 import com.parse.GetCallback;
 import com.parse.ParseCloud;
@@ -42,14 +48,15 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
     private static final String TAG = "LCDetails";
 
     User currentUser;
-
-    FrameLayout circleOfLC;
+    // FrameLayout rootLayout;
+    // FrameLayout circleOfLC;
     List<User> usersOfLC;
 
     private Goal goal;
     private List<Post> posts;
     private GoalPostsAdapter aposts;
-    ListView llGoalPosts;
+    // ListView llGoalPosts;
+    ParallaxListView lvLCDetails;
 
     FloatingActionButton btnCreatePost;
 
@@ -59,16 +66,18 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
         setContentView(R.layout.activity_lc_details);
 
         currentUser = (User) User.getCurrentUser();
-
-        circleOfLC = (FrameLayout) findViewById(R.id.circleOfLC);
-        setUpCircle();
-
         posts = new ArrayList<Post>();
 
-        llGoalPosts = (ListView) findViewById(R.id.llGoalPosts);
+        // rootLayout = (FrameLayout) findViewById(R.id.flLCDetails);
+        lvLCDetails = (ParallaxListView) findViewById(R.id.lvLCDetails);
+
+        setUpCircle();
+
+        // llGoalPosts = (ListView) findViewById(R.id.llGoalPosts);
 
         btnCreatePost = (FloatingActionButton) findViewById(R.id.btnCreatePost);
-        btnCreatePost.listenTo(llGoalPosts);
+        // btnCreatePost.listenTo(llGoalPosts);
+        btnCreatePost.listenTo(lvLCDetails);
 
         // TODO This is temporary
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
@@ -84,8 +93,8 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     // call parseCloud to get all data elements for lending
                     // circle view
                     aposts = new GoalPostsAdapter(LCDetailsActivity.this, goal, posts);
-                    llGoalPosts.setAdapter(aposts);
-
+                    // llGoalPosts.setAdapter(aposts);
+                    lvLCDetails.setAdapter(aposts);
                     getLCDetailsData();
                 } else {
                     Toast.makeText(LCDetailsActivity.this, R.string.parse_error_querying,
@@ -96,7 +105,22 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
     }
 
+    @SuppressLint("InflateParams")
     private void setUpCircle() {
+        // View circleView =
+        // getLayoutInflater().inflate(R.layout.item_lc_circle_view, null);
+        // AbsListView.LayoutParams =
+        // // LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
+        // // 300);
+        // // circleView.setLayoutParams(params);
+
+        // FrameLayout circleOfLC = (FrameLayout)
+        // circleView.findViewById(R.id.circleOfLC);
+        RelativeLayout circleOfLC = new RelativeLayout(this);
+        AbsListView.LayoutParams params = new AbsListView.LayoutParams(
+                AbsListView.LayoutParams.MATCH_PARENT, 400);
+        circleOfLC.setLayoutParams(params);
+
         int numViews = 8;
         for (int i = 0; i < numViews; i++)
         {
@@ -128,6 +152,7 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
             circleOfLC.addView(v);
         }
 
+        lvLCDetails.addParallaxedHeaderView(circleOfLC);
     }
 
     protected void getLCDetailsData() {
@@ -169,7 +194,7 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
     public void onCreatePost(View v) {
         FragmentManager fm = getSupportFragmentManager();
-        CreatePostFragment cpDialog = CreatePostFragment.newInstance("Create Post");
+        NewPostDialog cpDialog = NewPostDialog.newInstance("Create Post");
         cpDialog.show(fm, "fragment_compose");
     }
 

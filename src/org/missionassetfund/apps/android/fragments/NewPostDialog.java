@@ -15,17 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-public class CreatePostFragment extends DialogFragment {
+public class NewPostDialog extends DialogFragment {
 
     private EditText etPost;
     private ImageButton btnPost;
 
-    public CreatePostFragment() {
+    public NewPostDialog() {
         // Empty constructor required for DialogFragment
     }
 
-    public static CreatePostFragment newInstance(String title) {
-        CreatePostFragment frag = new CreatePostFragment();
+    public static NewPostDialog newInstance(String title) {
+        NewPostDialog frag = new NewPostDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);

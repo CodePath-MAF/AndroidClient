@@ -14,6 +14,7 @@ import org.missionassetfund.apps.android.models.PostType;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -38,38 +39,40 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
 
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final Post post = getItem(position);
 
+        // TODO use viewholder
         convertView = LayoutInflater.from(getContext()).inflate(
                 R.layout.item_lc_post, parent, false);
 
         populatePostViews(post, convertView);
 
         // comments
-        LinearLayout llComments = (LinearLayout) convertView.findViewById(R.id.llComents);
-        llComments.removeAllViews();
-
-        List<Comment> comments = (List<Comment>) post.get("comments");
-        if (comments != null) {
-            for (Comment comment : comments) {
-                View commentView = LayoutInflater.from(getContext()).inflate(
-                        R.layout.item_lc_comment, parent, false);
-                populateCommentView(comment, commentView);
-                llComments.addView(commentView);
-            }
-
-        }
+        // LinearLayout llComments = (LinearLayout)
+        // convertView.findViewById(R.id.llComents);
+        // llComments.removeAllViews();
+        //
+        // List<Comment> comments = (List<Comment>) post.get("comments");
+        // if (comments != null) {
+        // for (Comment comment : comments) {
+        // View commentView = LayoutInflater.from(getContext()).inflate(
+        // R.layout.item_lc_comment, parent, false);
+        // populateCommentView(comment, commentView);
+        // llComments.addView(commentView);
+        // }
+        //
+        // }
 
         // New Comment input
-        View newCommentView = LayoutInflater.from(getContext()).inflate(
-                R.layout.item_lc_create_comment, parent, false);
-
-        populateNewCommentInputView(newCommentView, post);
-        llComments.addView(newCommentView);
-
+        // View newCommentView = LayoutInflater.from(getContext()).inflate(
+        // R.layout.item_lc_create_comment, parent, false);
+        //
+        // populateNewCommentInputView(newCommentView, post);
+        // llComments.addView(newCommentView);
+        //
         return convertView;
     }
 
