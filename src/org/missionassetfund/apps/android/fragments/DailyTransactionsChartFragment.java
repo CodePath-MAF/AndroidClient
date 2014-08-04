@@ -127,9 +127,22 @@ public class DailyTransactionsChartFragment extends Fragment {
 
         String[] xTitles = xLabels.toArray(new String[xLabels.size()]);
 
-        StackedBarChart barChart = new StackedBarChart(categoriesColors, X_VALUES_EDGE, MAX_CHART_VALUES, 
-                maxValue.floatValue(), xTitles, Orientation.HORIZONTAL, 50f);
-        mGraphicalView = barChart.getChartView(context, categoriesTitles, values); 
+        int[] margins = new int[] {
+                getResources().getDimensionPixelOffset(R.dimen.transaction_chart_margin_top),
+                getResources().getDimensionPixelOffset(R.dimen.transaction_chart_margin_left),
+                getResources().getDimensionPixelOffset(R.dimen.transaction_chart_margin_bottom),
+                getResources().getDimensionPixelOffset(R.dimen.transaction_chart_margin_right)
+        };
+
+        float labelsTextSize = getResources().getDimension(
+                R.dimen.transaction_chart_labels_text_size);
+
+        int xLabelColor = getResources().getColor(R.color.dashboard_cash_spent_chart_xlabel_text);
+
+        StackedBarChart barChart = new StackedBarChart(categoriesColors, X_VALUES_EDGE,
+                MAX_CHART_VALUES, maxValue.floatValue(), xTitles, Orientation.HORIZONTAL, 50f,
+                margins, labelsTextSize, xLabelColor);
+        mGraphicalView = barChart.getChartView(context, categoriesTitles, values);
 
         mGraphicalView.setOnClickListener(chartClickListener);
 

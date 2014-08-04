@@ -4,7 +4,8 @@
     xmlns:circular="http://schemas.android.com/apk/res/org.missionassetfund.apps.android"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    android:gravity="center" >
+    android:gravity="center"
+    android:background="@color/white" >
 
     <com.lylc.widget.circularprogressbar.example.CircularProgressBar
         android:id="@+id/cpbGoalDetail"
@@ -19,9 +20,9 @@
         circular:progressBackgroundColor="@color/lightgray"
         circular:progressColor="@color/app_green"
         circular:subtitleColor="@color/people_circle_subtitle"
-        circular:subtitleTextSize="30"
+        circular:subtitleTextSize="25"
         circular:titleColor="@color/black"
-        circular:titleTextSize="80" />
+        circular:titleTextSize="65" />
 
     <com.sababado.circularview.CircularView
         android:id="@+id/cvProfile"
