@@ -120,6 +120,8 @@ public class DashboardFragment extends Fragment {
                             // TODO: better handle if parse throws and exception
                             Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
                                     Toast.LENGTH_LONG).show();
+                            // Hide progress Bar
+                            hideMonthlySpentChartProgressBar();
                         }
 
                     }
@@ -251,9 +253,62 @@ public class DashboardFragment extends Fragment {
         fragmentGoalList.updateGoalList();
     }
 
+    private void refreshChart() {
+        showProgressBar();
+
+        ParseCloud.callFunctionInBackground("dashboardView", new HashMap<String, Object>(),
+                new FunctionCallback<HashMap<String, Object>>() {
+
+                    @Override
+                    public void done(HashMap<String, Object> result, ParseException exception) {
+
+                        if (exception == null) {
+                            // TODO: Handle case of no data points to plot
+
+                            final ObjectMapper mapper = new ObjectMapper();
+                            mapper.setSerializationInclusion(Include.NON_NULL);
+
+                            Log.d("DEBUG", result.toString());
+
+                            final MainDashboard mainDashboardData = mapper.convertValue(result,
+                                    MainDashboard.class);
+                            final CashSpentChart cashSpentChart = mainDashboardData
+                                    .getCashSpentChart();
+
+                            BigDecimal totalCash = mainDashboardData.getTotalCash();
+
+                            // Update total cash on Action Bar
+                            ActionBar actionBar = getActivity().getActionBar();
+
+                            actionBar.setSubtitle(
+                                    getResources().getString(
+                                            R.string.dashboard_subtitle_cash_available,
+                                            CurrencyUtils.getCurrencyValueFormatted(totalCash)));
+
+                            List<BigDecimal> data = cashSpentChart.getData();
+                            List<String> xLabels = cashSpentChart.getxLabels();
+
+                            Log.d("DEBUG", "Data points: " + data.toString());
+                            Log.d("DEBUG", "xLabels: " + xLabels.toString());
+                            Log.d("DEBUG", "# of goals: "
+                                    + String.valueOf(mainDashboardData.getGoals().size()));
+
+                            setupChart(rlMonthlySpentChart, data, xLabels);
+                            
+                        } else {
+                            // TODO: better handle if parse throws and exception
+                            Toast.makeText(getActivity(), getString(R.string.parse_error_querying),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        hideProgressBar();
+                    }
+                });
+    }
+
     @Override
     public void onResume() {
         refreshGoalList();
+        refreshChart();
         super.onResume();
     }
 
@@ -272,5 +327,15 @@ public class DashboardFragment extends Fragment {
 
     private void hideMonthlySpentChartProgressBar() {
         llMonthlySpentChartProgress.setVisibility(View.GONE);
+    }
+
+    // Should be called manually when an async task has started
+    public void showProgressBar() {
+        getActivity().setProgressBarIndeterminateVisibility(true);
+    }
+
+    // Should be called when an async task has finished
+    public void hideProgressBar() {
+        getActivity().setProgressBarIndeterminateVisibility(false);
     }
 }

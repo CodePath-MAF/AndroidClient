@@ -90,21 +90,9 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
             ivPosterProfile.setImageResource(R.drawable.profile_13);
 
             // set human-friendly due dates
-            int daysToDueDate = MAFDateUtils.getDaysTo(goal.getDueDate());
-            if (daysToDueDate > 1) {
-                if (daysToDueDate < 7) {
-                    tvPostReminderText.setText(getContext().getString(
-                            R.string.lc_item_due_date_days, daysToDueDate));
-                } else {
-                    tvPostReminderText.setText(getContext().getString(R.string.lc_item_due_date,
-                            FormatterUtils.formatMonthDate(goal.getDueDate())));
-                }
-            } else if (daysToDueDate == 1) {
-                tvPostReminderText.setText(getContext().getString(
-                        R.string.lc_item_due_date_tomorrow));
-            } else {
-                tvPostReminderText.setText(getContext().getString(R.string.lc_item_due_date_today));
-            }
+            tvPostReminderText.setText(getContext().getString(R.string.lc_item_due_date,
+                    FormatterUtils.formatMonthDate(goal.getNextPaymentDate())));
+            
             tvPostReminderText.setVisibility(View.VISIBLE);
             tvPostText.setVisibility(View.GONE);
 

@@ -31,7 +31,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;
@@ -249,7 +248,7 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
     public void onSetupData(PeopleCircleFragment fragment) {
         if (goal != null && mLendingCircleDetail != null) {
             fragment.setGoalAmount(CurrencyUtils.newCurrency(goal.getAmount()));
-            fragment.setGoalPaymentAmount(CurrencyUtils.newCurrency(goal.getPaymentAmount()));
+            fragment.setGoalCurrentTotal(CurrencyUtils.newCurrency(goal.getCurrentTotal()));
             fragment.setCashOutSchedule(mLendingCircleDetail.getCashOutSchedule());
         }
     }
