@@ -1,40 +1,33 @@
 
 package org.missionassetfund.apps.android.models;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
-@JsonRootName("result")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LCDetail {
 
-    // TODO finish this class
+    private List<CashOutSchedule> cashOutSchedule;
+    
+    @JsonProperty("isLendingCircle")
+    private boolean isLendingCircle;
 
-    @JsonProperty("transactionsByDate")
-    private Map<String, List<Transaction>> transactionsByDate;
-
-    @JsonProperty("stackedBarChart")
-    private Chart chart;
-
-    public Chart getChart() {
-        return chart;
+    public boolean isLendingCircle() {
+        return isLendingCircle;
     }
 
-    public void setChart(Chart chart) {
-        this.chart = chart;
+    public void setLendingCircle(boolean isLendingCircle) {
+        this.isLendingCircle = isLendingCircle;
     }
 
-    public Map<String, List<Transaction>> getTransactionsByDate() {
-        return transactionsByDate;
+    public List<CashOutSchedule> getCashOutSchedule() {
+        return cashOutSchedule;
     }
 
-    public void setTransactionsByDate(Map<String, List<Transaction>> transactionsByDate) {
-        this.transactionsByDate = transactionsByDate;
+    public void setCashOutSchedule(List<CashOutSchedule> cashOutSchedule) {
+        this.cashOutSchedule = cashOutSchedule;
     }
-
+    
 }

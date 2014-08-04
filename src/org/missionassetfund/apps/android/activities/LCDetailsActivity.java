@@ -15,6 +15,7 @@ import org.missionassetfund.apps.android.interfaces.SaveCommentListener;
 import org.missionassetfund.apps.android.interfaces.SavePostListener;
 import org.missionassetfund.apps.android.models.Comment;
 import org.missionassetfund.apps.android.models.Goal;
+import org.missionassetfund.apps.android.models.LCDetail;
 import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
@@ -57,6 +58,8 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
     ParallaxListView lvLCDetails;
 
     FloatingActionButton btnCreatePost;
+    
+    private LCDetail mLendingCircleDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,9 +106,6 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     goal = g;
                     // Setup Activity title base on the goal name
                     setTitle(g.getName());
-                    // call parseCloud to get all data elements for lending
-                    // circle view
-                    setUpCircle();
                     aposts = new GoalPostsAdapter(LCDetailsActivity.this, goal, posts);
                     // llGoalPosts.setAdapter(aposts);
                     lvLCDetails.setAdapter(aposts);
@@ -146,10 +146,14 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                         final ObjectMapper mapper = new ObjectMapper();
                         mapper.setSerializationInclusion(Include.NON_NULL);
 
-                        // final LCDetail lcDetail = mapper.convertValue(result,
-                        // LCDetail.class);
+                        mLendingCircleDetail = mapper.convertValue(result.get("goalDetails"),
+                                LCDetail.class);
                         posts.addAll((List<Post>) result.get("posts"));
                         aposts.notifyDataSetChanged();
+
+                        // call parseCloud to get all data elements for lending
+                        // circle view
+                        setUpCircle();
 
                         // for (Post post : posts) {
                         // List<Comment> comments = (List<Comment>)
@@ -238,11 +242,10 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
     @Override
     public void onSetupData(PeopleCircleFragment fragment) {
-        if (goal != null) {
+        if (goal != null && mLendingCircleDetail != null) {
             fragment.setGoalAmount(CurrencyUtils.newCurrency(goal.getAmount()));
             fragment.setGoalPaymentAmount(CurrencyUtils.newCurrency(goal.getPaymentAmount()));
-            // FIXME
-            fragment.setTotalPeopleOnCircle(8);
+            fragment.setCashOutSchedule(mLendingCircleDetail.getCashOutSchedule());
         }
     }
 }
