@@ -53,6 +53,7 @@ public class CircularProgressBar extends ProgressBar{
 	private final Paint mBackgroundColorPaint = new Paint();
 	private final Paint mTitlePaint = new Paint(); 
 	private final Paint mSubtitlePaint = new Paint();
+	private final Paint mProgressBackgroundColorPaint = new Paint();
 
 	private boolean mHasShadow = true;
 	private int mShadowColor = Color.BLACK;
@@ -127,6 +128,12 @@ public class CircularProgressBar extends ProgressBar{
 		
 		float titleTextSize = a.getFloat(R.styleable.CircularProgressBar_titleTextSize, 60);
         float subtitleTextSize = a.getFloat(R.styleable.CircularProgressBar_subtitleTextSize, 20);
+        
+        color = a.getString(R.styleable.CircularProgressBar_progressBackgroundColor);
+        if(color==null)
+            mProgressBackgroundColorPaint.setColor(Color.WHITE);
+        else
+            mProgressBackgroundColorPaint.setColor(Color.parseColor(color));
 
 		a.recycle();
 
@@ -150,10 +157,14 @@ public class CircularProgressBar extends ProgressBar{
 		mSubtitlePaint.setAntiAlias(true);
 		mSubtitlePaint.setTypeface(Typeface.create("Roboto-Thin", Typeface.BOLD));
 		//		mSubtitlePaint.setShadowLayer(0.1f, 0, 1, Color.GRAY);
+		
+		mProgressBackgroundColorPaint.setAntiAlias(true);
+		mProgressBackgroundColorPaint.setStyle(Paint.Style.FILL);
 	}
 
 	@Override
 	protected synchronized void onDraw(Canvas canvas) {
+	    canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, getMeasuredWidth()/2 - 20, mProgressBackgroundColorPaint);
 		canvas.drawArc(mCircleBounds, 0, 360 , false, mBackgroundColorPaint);
 
 		int prog = getProgress();
@@ -289,5 +300,9 @@ public class CircularProgressBar extends ProgressBar{
 
 	public boolean getHasShadow(){
 		return mHasShadow;
+	}
+	
+	public void setProgressColor(int color) {
+        this.mProgressColorPaint.setColor(color);
 	}
 }
