@@ -47,9 +47,7 @@ public class DailyTransactionsChartFragment extends Fragment {
         final RelativeLayout rlStackedBarChart = (RelativeLayout) view
                 .findViewById(R.id.rlStackedBarChart);
 
-        Boolean hasData = mChart.getHasData();
-
-        if (!hasData) {
+        if (mChart == null || !mChart.getHasData()) {
             return view;
         }
 
