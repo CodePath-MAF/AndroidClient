@@ -9,8 +9,8 @@
         android:id="@+id/rlPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp" >
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp" >
 
         <ImageView
             android:id="@+id/ivPosterProfile"
@@ -24,7 +24,7 @@
             android:src="@drawable/profile_1" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/ivPosterProfile"
             android:orientation="vertical" >
@@ -33,28 +33,59 @@
                 android:id="@+id/ivPostType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:adjustViewBounds="true"
                 android:maxHeight="15dp"
                 android:src="@drawable/img_newpost_post" />
 
             <TextView
                 android:id="@+id/tvPostText"
+                style="@style/LendingCircleUI.Message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/sample_post" />
+
+            <TextView
+                android:id="@+id/tvPostReminderText"
+                style="@style/LendingCircleUI.PostReminderText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/sample_post"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:visibility="gone" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tvPaymentDue"
-            style="@style/MediumAmount"
+            style="@style/LendingCircleUI.PaymentAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
             android:text="@string/sample_total_payment"
-            android:textColor="@color/app_green"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvNumberOfComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/number_comment_bg"
+            android:paddingBottom="3dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="3dp"
+            android:text="4"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <LinearLayout

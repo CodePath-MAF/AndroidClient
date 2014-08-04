@@ -39,6 +39,7 @@
     <!-- Lending Circle Goal View -->
     <color name="lc_goal_post_bg">#F3F3F3</color>
     <color name="lc_goal_comments_bg">#FBFBFB</color>
+    <color name="lc_message">#979797</color>
     
     <!-- Add Transaction -->
     <color name="add_transaction_input_item_display_name">#80FFFFFF</color>
