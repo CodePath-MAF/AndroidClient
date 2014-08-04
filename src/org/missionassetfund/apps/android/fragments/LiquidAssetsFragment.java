@@ -13,6 +13,7 @@ import org.missionassetfund.apps.android.adapters.TransactionsExpandableListAdap
 import org.missionassetfund.apps.android.models.CategoryTotal;
 import org.missionassetfund.apps.android.models.Chart;
 import org.missionassetfund.apps.android.models.TransactionsDashboard;
+import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
 import android.content.Intent;
@@ -38,7 +39,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 
 public class LiquidAssetsFragment extends Fragment {
 
@@ -84,7 +84,7 @@ public class LiquidAssetsFragment extends Fragment {
         pbLoadingLiquidAssets.setVisibility(View.VISIBLE);
 
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("userId", ParseUser.getCurrentUser().getObjectId());
+        params.put("userId", User.getCurrentUser().getObjectId());
 
         Calendar today = Calendar.getInstance();
         params.put("day", today.get(Calendar.DAY_OF_MONTH));

@@ -187,5 +187,6 @@
     <string name="com_parse_ui_login_dispatch_user_not_logged_in">User not logged in, starting ParseLoginActivity</string>
     <string name="title_activity_lcdetails">LCDetailsActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="new_post_hint">Post&#8230;</string>
 
 </resources>
