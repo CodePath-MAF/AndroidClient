@@ -99,7 +99,7 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
         btnCreatePost = (FloatingActionButton) findViewById(R.id.btnCreatePost);
         // btnCreatePost.listenTo(llGoalPosts);
-        btnCreatePost.listenTo(lvLCDetails);
+        // btnCreatePost.listenTo(lvLCDetails);
 
         // TODO This is temporary
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);

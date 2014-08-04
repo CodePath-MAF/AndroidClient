@@ -75,6 +75,12 @@ public class NewPostDialog extends DialogFragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle arg0) {
+        super.onActivityCreated(arg0);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.NewPostAnimation;
+    }
+
     private TextWatcher watcher = new TextWatcher() {
 
         @Override

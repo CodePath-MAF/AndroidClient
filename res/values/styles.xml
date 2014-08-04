@@ -277,22 +277,22 @@
         <item name="android:textColor">@color/frequency_fragment_item_dropdown_text</item>
         <item name="android:singleLine">true</item>
     </style>
-    
+
     <!-- Lending Circle -->
     <style name="LendingCircleUI" />
-    
+
     <style name="LendingCircleUI.Message">
         <item name="android:textColor">@color/lc_message</item>
         <item name="android:textSize">14sp</item>
     </style>
-    
+
     <style name="LendingCircleUI.PostReminderText">
         <item name="android:textColor">@color/lc_message</item>
         <item name="android:textSize">14sp</item>
         <item name="android:drawableLeft">@drawable/img_time_gray</item>
         <item name="android:drawablePadding">4dp</item>
     </style>
-    
+
     <style name="LendingCircleUI.PaymentAmount">
         <item name="android:textColor">@color/dashboard_goal_item_name_text</item>
         <item name="android:textSize">16sp</item>
@@ -332,6 +332,17 @@
 
     <style name="ParseLoginUI.EditText" parent="@android:style/Widget.EditText">
         <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- animation for dialog -->
+    <style name="PostDetailAnimation">
+        <item name="android:windowEnterAnimation">@anim/push_down_in</item>
+        <item name="android:windowExitAnimation">@anim/push_up_out</item>
+    </style>
+
+    <style name="NewPostAnimation">
+        <item name="android:windowEnterAnimation">@anim/push_down_in</item>
+        <item name="android:windowExitAnimation">@anim/push_up_out</item>
     </style>
 
     <!-- View page indicator -->
