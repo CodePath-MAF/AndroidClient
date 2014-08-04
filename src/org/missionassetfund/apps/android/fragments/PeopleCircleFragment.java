@@ -30,7 +30,7 @@ public class PeopleCircleFragment extends Fragment {
     private OnCreateViewListener listener;
     
     public interface OnCreateViewListener {
-        public void onCreateView(PeopleCircleFragment fragment);
+        public void onSetupData(PeopleCircleFragment fragment);
     }
     
     public void setGoalAmount(BigDecimal goalAmount) {
@@ -60,7 +60,7 @@ public class PeopleCircleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable
     ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_people_circle, container, false);
-        listener.onCreateView(this);
+        listener.onSetupData(this);
 
         cpbGoalDetail = (CircularProgressBar)
                 view.findViewById(R.id.cpbGoalDetail);
