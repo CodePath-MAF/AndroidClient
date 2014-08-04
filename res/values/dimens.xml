@@ -42,5 +42,6 @@
     
     <!-- Circle View -->
 	<dimen name="profile_icon_size">24dp</dimen>
+	<dimen name="profile_radius_padding">2dp</dimen>
 	
 </resources>

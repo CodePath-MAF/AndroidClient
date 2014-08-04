@@ -31,6 +31,13 @@ public class ProfileCircularViewAdapter extends SimpleCircularViewAdapter {
         
         marker.setSrc(profileId);
         marker.setRadius(mContext.getResources().getDimension(R.dimen.profile_icon_size));
+        
+        boolean paidOut = mCashOutSchedule.get(position).isPaidOut();
+        
+        if (paidOut) {
+            marker.setRadiusPadding(mContext.getResources().getDimension(R.dimen.profile_radius_padding));
+            marker.setCenterBackgroundColor(mContext.getResources().getColor(R.color.app_green));
+        }
     }
 
 }
