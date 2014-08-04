@@ -74,6 +74,7 @@ public class StackedBarChart {
         renderer.setOrientation(orientation);
         renderer.setBarWidth(width);
         renderer.setMargins(margins);
+        renderer.setShowAxes(false);
     }
 
     protected XYMultipleSeriesDataset buildBarDataset(String[] titles, List<double[]> values) {
