@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Mission Asset Fund</string>
+    <string name="app_name">MAF</string>
     <string name="title_add_goal">Add Goal</string>
     <string name="title_liquid_asset">Transactions</string>
     <string name="title_goal_details">Goals</string>
