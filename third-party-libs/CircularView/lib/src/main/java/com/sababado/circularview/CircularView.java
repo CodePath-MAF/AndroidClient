@@ -337,12 +337,12 @@ public class CircularView extends View {
         }
 
         // Draw line
-        if (mIsAnimating) {
-            final float radiusFromCenter = mCircle.getRadius() + CIRCLE_TO_MARKER_PADDING + BASE_MARKER_RADIUS;
-            final float x = (float) Math.cos(Math.toRadians(mHighlightedDegree)) * radiusFromCenter + mCircle.getX();
-            final float y = (float) Math.sin(Math.toRadians(mHighlightedDegree)) * radiusFromCenter + mCircle.getY();
-            canvas.drawLine(mCircle.getX(), mCircle.getY(), x, y, mCirclePaint);
-        }
+//        if (mIsAnimating) {
+//            final float radiusFromCenter = mCircle.getRadius() + CIRCLE_TO_MARKER_PADDING + BASE_MARKER_RADIUS;
+//            final float x = (float) Math.cos(Math.toRadians(mHighlightedDegree)) * radiusFromCenter + mCircle.getX();
+//            final float y = (float) Math.sin(Math.toRadians(mHighlightedDegree)) * radiusFromCenter + mCircle.getY();
+//            canvas.drawLine(mCircle.getX(), mCircle.getY(), x, y, mCirclePaint);
+//        }
 
 
         // Draw the text.

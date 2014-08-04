@@ -3,9 +3,11 @@ package org.missionassetfund.apps.android.fragments;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.ProfileCircularViewAdapter;
+import org.missionassetfund.apps.android.models.CashOutSchedule;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
 import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
@@ -25,7 +27,7 @@ public class PeopleCircleFragment extends Fragment {
     private CircularView cvProfile;
     private BigDecimal mGoalAmount;
     private BigDecimal mGoalPaymentAmount;
-    private int mTotalPeopleOnCircle;
+    private List<CashOutSchedule> mCashOutSchedule;
     
     private OnCreateViewListener listener;
     
@@ -41,8 +43,8 @@ public class PeopleCircleFragment extends Fragment {
         this.mGoalPaymentAmount = goalPaymentAmount;
     }
 
-    public void setTotalPeopleOnCircle(int totalPeopleOnCircle) {
-        this.mTotalPeopleOnCircle = totalPeopleOnCircle;
+    public void setCashOutSchedule(List<CashOutSchedule> cashOutSchedule) {
+        this.mCashOutSchedule = cashOutSchedule;
     }
 
     @Override
@@ -68,9 +70,11 @@ public class PeopleCircleFragment extends Fragment {
         cpbGoalDetail.setSubTitle(String.format("%s CONTRIBUTED\nTHIS MONTH", 
                 CurrencyUtils.getCurrencyValueFormatted(mGoalPaymentAmount)));
         cpbGoalDetail.setProgress(getProgress());
+        cpbGoalDetail.animateProgressTo(0, getProgress(), null);
 
-        ProfileCircularViewAdapter mAdapter = new ProfileCircularViewAdapter(view.getContext(), mTotalPeopleOnCircle);
+        ProfileCircularViewAdapter mAdapter = new ProfileCircularViewAdapter(view.getContext(), mCashOutSchedule);
         cvProfile = (CircularView) view.findViewById(R.id.cvProfile);
+        cvProfile.animateHighlightedDegree(0, 360, 3000);
         cvProfile.setAdapter(mAdapter);
 
         return view;

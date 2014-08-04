@@ -22,6 +22,10 @@ Goalie is a mobile application that enables [Mission Asset Fund](http://missiona
 &nbsp;&nbsp;
 ![Lending Circle](maf-lending-circle.png)
 &nbsp;&nbsp;
+![Lending Circle](maf-lending-circle-post.png)
+&nbsp;&nbsp;
+![Lending Circle](maf-lending-circle-2.png)
+&nbsp;&nbsp;
 ![Goal](maf-goals.png)
 
 ## Team

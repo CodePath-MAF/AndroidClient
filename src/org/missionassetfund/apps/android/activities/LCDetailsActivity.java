@@ -15,6 +15,7 @@ import org.missionassetfund.apps.android.interfaces.SaveCommentListener;
 import org.missionassetfund.apps.android.interfaces.SavePostListener;
 import org.missionassetfund.apps.android.models.Comment;
 import org.missionassetfund.apps.android.models.Goal;
+import org.missionassetfund.apps.android.models.LCDetail;
 import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
@@ -24,6 +25,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -58,10 +60,15 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
     FloatingActionButton btnCreatePost;
 
+    private LCDetail mLendingCircleDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lc_details);
+
+        // Add up action navigation
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         currentUser = (User) User.getCurrentUser();
         posts = new ArrayList<Post>();
@@ -105,12 +112,8 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     goal = g;
                     // Setup Activity title base on the goal name
                     setTitle(g.getName());
-                    // call parseCloud to get all data elements for lending
-                    // circle view
-                    setUpCircle();
                     aposts = new GoalPostsAdapter(LCDetailsActivity.this, goal, posts);
                     // llGoalPosts.setAdapter(aposts);
-                    lvLCDetails.setAdapter(aposts);
 
                     getLCDetailsData();
                 } else {
@@ -120,6 +123,24 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressLint("InflateParams")
@@ -148,10 +169,13 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                         final ObjectMapper mapper = new ObjectMapper();
                         mapper.setSerializationInclusion(Include.NON_NULL);
 
-                        // final LCDetail lcDetail = mapper.convertValue(result,
-                        // LCDetail.class);
+                        mLendingCircleDetail = mapper.convertValue(result.get("goalDetails"),
+                                LCDetail.class);
                         posts.addAll((List<Post>) result.get("posts"));
                         aposts.notifyDataSetChanged();
+
+                        setUpCircle();
+                        lvLCDetails.setAdapter(aposts);
 
                     }
                 });
@@ -228,11 +252,10 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
     @Override
     public void onSetupData(PeopleCircleFragment fragment) {
-        if (goal != null) {
+        if (goal != null && mLendingCircleDetail != null) {
             fragment.setGoalAmount(CurrencyUtils.newCurrency(goal.getAmount()));
             fragment.setGoalPaymentAmount(CurrencyUtils.newCurrency(goal.getPaymentAmount()));
-            // FIXME
-            fragment.setTotalPeopleOnCircle(8);
+            fragment.setCashOutSchedule(mLendingCircleDetail.getCashOutSchedule());
         }
     }
 }

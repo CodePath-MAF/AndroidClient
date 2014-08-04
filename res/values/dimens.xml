@@ -39,5 +39,9 @@
     <dimen name="com_parse_ui_large_vertical_spacing">24dp</dimen>
     <dimen name="com_parse_ui_xlarge_vertical_spacing">36dp</dimen>
     <dimen name="com_parse_ui_small_horizontal_spacing">8dp</dimen>
-
+    
+    <!-- Circle View -->
+	<dimen name="profile_icon_size">24dp</dimen>
+	<dimen name="profile_radius_padding">2dp</dimen>
+	
 </resources>
