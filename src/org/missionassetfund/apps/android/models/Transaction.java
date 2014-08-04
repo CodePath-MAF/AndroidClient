@@ -11,7 +11,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Transaction")
-@JsonIgnoreProperties(value = { "objectId" }, ignoreUnknown = true)
+@JsonIgnoreProperties(value = { "objectId", "goal" }, ignoreUnknown = true)
 public class Transaction extends ParseObject {
 
     public static final String USER_KEY = "user";
