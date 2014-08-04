@@ -37,17 +37,17 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
-public class CircularProgressBar extends ProgressBar{
-	private static final String TAG = "CircularProgressBar";
+public class CircularProgressBar extends ProgressBar {
+    private static final String TAG = "CircularProgressBar";
 
-	private static final int STROKE_WIDTH = 20;
+    private static final int STROKE_WIDTH = 20;
 
-	private String mTitle = "";		
-	private String mSubTitle = "";
+    private String mTitle = "";
+    private String mSubTitle = "";
 
-	private int mStrokeWidth = STROKE_WIDTH;
+    private int mStrokeWidth = STROKE_WIDTH;
 
-	private final RectF mCircleBounds = new RectF();
+    private final RectF mCircleBounds = new RectF();
 
 	private final Paint mProgressColorPaint = new Paint();
 	private final Paint mBackgroundColorPaint = new Paint();
@@ -55,24 +55,16 @@ public class CircularProgressBar extends ProgressBar{
 	private final Paint mSubtitlePaint = new Paint();
 	private final Paint mProgressBackgroundColorPaint = new Paint();
 
-	private boolean mHasShadow = true;
-	private int mShadowColor = Color.BLACK;
+    private boolean mHasShadow = true;
+    private int mShadowColor = Color.BLACK;
 
-	public interface ProgressAnimationListener{
-		public void onAnimationStart();
-		public void onAnimationFinish();
-		public void onAnimationProgress(int progress);
-	}
+    public interface ProgressAnimationListener {
+        public void onAnimationStart();
 
-	public CircularProgressBar(Context context) {
-		super(context);
-		init(null, 0);
-	}
+        public void onAnimationFinish();
 
-	public CircularProgressBar(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(attrs, 0);
-	}
+        public void onAnimationProgress(int progress);
+    }
 
 	public CircularProgressBar(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);

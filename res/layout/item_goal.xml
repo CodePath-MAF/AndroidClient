@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:circular="http://schemas.android.com/apk/res/org.missionassetfund.apps.android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="5dp" >
@@ -18,8 +19,68 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14dp"
+            android:layout_marginBottom="5dp"
             android:maxLines="1"
             android:text="@string/sample_goal_name" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/llGoalAmount"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvName" >
+
+            <com.lylc.widget.circularprogressbar.example.CircularProgressBar
+                android:id="@+id/cpbGoalProgress"
+                style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
+                android:layout_width="110dip"
+                android:layout_height="110dip"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dip"
+                circular:backgroundColor="@color/lightgray"
+                circular:progressColor="@color/app_green"
+                circular:circleStrokeWidth="10"
+                circular:subtitleColor="@color/darkgray"
+                circular:titleColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/ivGoalIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/llGoalProgress"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:maxHeight="35dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/img_lendingcircle_goal_icon" />
+
+            <LinearLayout
+                android:id="@+id/llGoalProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tvPctComplete"
+                    style="@style/DashboardUI.GoalItem.PercentageComplete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_goal_percentage_complete" />
+
+                <TextView
+                    android:id="@+id/tvComplete"
+                    style="@style/DashboardUI.GoalItem.Milestones"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dashboard_goal_item_complete_label" />
+            </LinearLayout>
+        </RelativeLayout>
 
         <View
             android:id="@+id/view1"
@@ -53,31 +114,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sample_total_payment" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/llGoalAmount"
-            android:layout_below="@+id/tvName"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:orientation="vertical"
-            android:gravity="center" >
-
-            <TextView
-                android:id="@+id/tvPctComplete"
-                style="@style/DashboardUI.GoalItem.PercentageComplete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sample_goal_percentage_complete" />
-
-            <TextView
-                android:id="@+id/tvComplete"
-                style="@style/DashboardUI.GoalItem.Milestones"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dashboard_goal_item_complete_label" />
         </LinearLayout>
     </RelativeLayout>
 

@@ -62,6 +62,7 @@
     <!-- Dashboard strings -->
     <string name="dashboard_title">Dashboard</string>
     <string name="dashboard_title_with_total_cash">Dashboard (%1$s Total Cash)</string>
+    <string name="dashboard_subtitle_cash_available">Cash Available %1$s</string>
     <string name="dashboard_total_cash_label">TOTAL CASH</string>
     <string name="dashboard_goal_item_due_date_today">due in today</string>
     <string name="dashboard_goal_item_due_date_tomorrow">due in tomorrow</string>
