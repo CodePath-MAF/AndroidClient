@@ -1,6 +1,7 @@
 
 package org.missionassetfund.apps.android.activities;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,15 +10,19 @@ import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalPostsAdapter;
 import org.missionassetfund.apps.android.fragments.NewPostDialog;
 import org.missionassetfund.apps.android.fragments.PostDetailDialog;
+import org.missionassetfund.apps.android.fragments.PeopleCircleFragment;
+import org.missionassetfund.apps.android.fragments.PeopleCircleFragment.OnCreateViewListener;
 import org.missionassetfund.apps.android.interfaces.SaveCommentListener;
 import org.missionassetfund.apps.android.interfaces.SavePostListener;
 import org.missionassetfund.apps.android.models.Comment;
 import org.missionassetfund.apps.android.models.Goal;
 import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.User;
+import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.provider.Contacts.PeopleColumns;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -46,8 +51,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 public class LCDetailsActivity extends FragmentActivity implements SavePostListener,
-        SaveCommentListener {
-    @SuppressWarnings("unused")
+        SaveCommentListener, OnCreateViewListener {
     private static final String TAG = "LCDetails";
 
     User currentUser;
@@ -120,52 +124,12 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
     @SuppressLint("InflateParams")
     private void setUpCircle() {
-        // View circleView =
-        // getLayoutInflater().inflate(R.layout.item_lc_circle_view, null);
-        // AbsListView.LayoutParams =
-        // // LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
-        // // 300);
-        // // circleView.setLayoutParams(params);
-
-        // FrameLayout circleOfLC = (FrameLayout)
-        // circleView.findViewById(R.id.circleOfLC);
-        RelativeLayout circleOfLC = new RelativeLayout(this);
+        View circleView = getLayoutInflater().inflate(R.layout.item_lc_circle_view, null);
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(
                 AbsListView.LayoutParams.MATCH_PARENT, 400);
-        circleOfLC.setLayoutParams(params);
+        circleView.setLayoutParams(params);
 
-        int numViews = 8;
-        for (int i = 0; i < numViews; i++)
-        {
-            // Create some quick TextViews that can be placed.
-            ImageView v = new ImageView(this);
-            // Set a text and center it in each view.
-            // v.setBackgroundColor(0xffff0000);
-            v.setImageResource(R.drawable.profile_1);
-            // Force the views to a nice size (150x100 px) that fits my display.
-            // This should of course be done in a display size independent way.
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(150, 100);
-            // Place all views in the center of the layout. We'll transform them
-            // away from there in the code below.
-            lp.gravity = Gravity.CENTER;
-            // Set layout params on view.
-            v.setLayoutParams(lp);
-
-            // Calculate the angle of the current view. Adjust by 90 degrees to
-            // get View 0 at the top. We need the angle in degrees and radians.
-            float angleDeg = i * 360.0f / numViews - 90.0f;
-            float angleRad = (float) (angleDeg * Math.PI / 180.0f);
-            // Calculate the position of the view, offset from center (300 px
-            // from center). Again, this should be done in a display size
-            // independent way.
-            v.setTranslationX(200 * (float) Math.cos(angleRad));
-            v.setTranslationY(200 * (float) Math.sin(angleRad));
-            // Set the rotation of the view.
-            // v.setRotation(angleDeg + 90.0f);
-            circleOfLC.addView(v);
-        }
-
-        lvLCDetails.addParallaxedHeaderView(circleOfLC);
+        lvLCDetails.addParallaxedHeaderView(circleView);
     }
 
     protected void getLCDetailsData() {
@@ -273,5 +237,12 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     }
                 });
 
+    }
+
+    @Override
+    public void onCreateView(PeopleCircleFragment fragment) {
+        fragment.setGoalAmount(CurrencyUtils.newCurrency(1350d));
+        fragment.setGoalPaymentAmount(CurrencyUtils.newCurrency(300d));
+        fragment.setTotalPeopleOnCircle(8);
     }
 }

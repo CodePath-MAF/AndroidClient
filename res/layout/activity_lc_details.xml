@@ -6,6 +6,13 @@
     tools:context="${relativePackage}.${activityClass}"
     android:id="@+id/flLCDetails" >
 
+<!--     <FrameLayout -->
+<!--         android:id="@+id/circleOfLC" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="250dp" -->
+<!--         android:visibility="visible" > -->
+<!--     </FrameLayout> -->
+
     <com.nirhart.parallaxscroll.views.ParallaxListView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -16,27 +23,6 @@
         app:parallax_factor="1.9"
         tools:context=".LCDetailsActivity" />
 
-    <!-- <FrameLayout -->
-    <!-- android:id="@+id/circleOfLC" -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="250dp" -->
-    <!-- android:layout_alignParentTop="true" -->
-    <!-- android:visibility="gone"> -->
-    <!-- </FrameLayout> -->
-
-
-    <!-- <FrameLayout -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_alignParentLeft="true" -->
-    <!-- android:layout_below="@+id/circleOfLC"> -->
-
-
-    <!-- <ListView -->
-    <!-- android:id="@+id/llGoalPosts" -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="match_parent" > -->
-    <!-- </ListView> -->
 
     <com.faizmalkani.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnCreatePost"

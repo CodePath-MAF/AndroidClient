@@ -25,6 +25,8 @@
     <color name="dashboard_goal_item_due_date_soon_text">#D0021B</color>
     <color name="dashboard_goal_item_milestones_text">#878787</color>
     <color name="dashboard_gray_line">#F3F3F3</color>
+    <color name="dashboard_lending_circle_progress_bar">#5495E3</color>
+    <color name="dashboard_goal_progress_bar">#FFA713</color>
     
     <!-- Transactions -->
     <color name="transactions_aggregate_label">#8D8D8D</color>
@@ -71,6 +73,9 @@
     <!-- Graph -->
     <color name="bar_chart_color">#FF7979</color>
     <color name="bar_chart_label">#8D8D8D</color>
+    
+    <!-- People Circle -->
+    <color name="people_circle_subtitle">#8D8D8D</color>
     
 
 </resources>

@@ -79,7 +79,7 @@
 
     <!-- Dashboard UI -->
     <style name="DashboardUI" />
-    
+
     <style name="DashboardUI.CashSpentChartTitle">
         <item name="android:textColor">@color/dashboard_cash_spent_chart_title_text</item>
         <item name="android:textSize">14sp</item>
@@ -148,10 +148,10 @@
         <item name="android:textColor">@color/dashboard_goal_item_milestones_text</item>
         <item name="android:textSize">12sp</item>
     </style>
-    
+
     <style name="DashboardUI.GoalItem.PercentageComplete">
         <item name="android:textColor">@color/dashboard_goal_item_name_text</item>
-        <item name="android:textSize">45sp</item>
+        <item name="android:textSize">30sp</item>
         <item name="fontPath">fonts/OpenSans-Light.ttf</item>
     </style>
 

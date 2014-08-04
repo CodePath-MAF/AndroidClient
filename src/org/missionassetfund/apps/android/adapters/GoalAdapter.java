@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.models.Goal;
+import org.missionassetfund.apps.android.models.GoalType;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
@@ -15,8 +16,10 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -47,6 +50,9 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
         TextView tvDueDate = (TextView) v.findViewById(R.id.tvDueDate);
         TextView tvPaymentDue = (TextView) v.findViewById(R.id.tvPaymentDue);
         TextView tvPctComplete = (TextView) v.findViewById(R.id.tvPctComplete);
+        CircularProgressBar cpbGoalProgress = (CircularProgressBar) v
+                .findViewById(R.id.cpbGoalProgress);
+        ImageView ivGoalIcon = (ImageView) v.findViewById(R.id.ivGoalIcon);
 
         // reset view style
         tvDueDate.setTextAppearance(getContext(), R.style.DashboardUI_GoalItem_DueDate);
@@ -79,17 +85,46 @@ public class GoalAdapter extends ParseQueryAdapter<Goal> {
 
         tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
 
+        float goalPctComplete = 0f;
         NumberFormat percentFormat = NumberFormat.getPercentInstance();
-        percentFormat.setMaximumFractionDigits(1);
+        percentFormat.setMaximumFractionDigits(0);
         String percentageComplete = "";
         if (goal.getNumPaymentsMade() != null) {
-            percentageComplete = percentFormat.format((float) goal.getNumPaymentsMade()
-                    / goal.getNumPayments());
+            goalPctComplete = (float) goal.getNumPaymentsMade() / goal.getNumPayments();
+            percentageComplete = percentFormat.format(goalPctComplete);
         } else {
             percentageComplete = percentFormat.format(0f);
         }
 
         Log.d("DEBUG", percentageComplete);
+
+        // circular progress bar with simple animation
+        if (goal.getType() == GoalType.LENDING_CIRCLE) {
+            ivGoalIcon.setImageResource(R.drawable.img_lendingcircle_goal_icon);
+            cpbGoalProgress.setProgressColor(getContext().getResources().getColor(
+                    R.color.dashboard_lending_circle_progress_bar));
+        } else {
+            // general visuals for other goals
+            ivGoalIcon.setImageResource(R.drawable.img_vacation_goal_icon);
+            cpbGoalProgress.setProgressColor(getContext().getResources().getColor(
+                    R.color.dashboard_goal_progress_bar));
+        }
+
+        cpbGoalProgress.animateProgressTo(0, (int) (goalPctComplete * 100),
+                new CircularProgressBar.ProgressAnimationListener() {
+
+                    @Override
+                    public void onAnimationStart() {
+                    }
+
+                    @Override
+                    public void onAnimationProgress(int progress) {
+                    }
+
+                    @Override
+                    public void onAnimationFinish() {
+                    }
+                });
 
         tvPctComplete.setText(percentageComplete);
 
