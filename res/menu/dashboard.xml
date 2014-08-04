@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item 
+
+    <item
         android:id="@+id/action_edit_profile"
         android:icon="@drawable/profile_button"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/title_edit_profile"/>
+    <item
+        android:id="@+id/action_add_goal"
+        android:icon="@drawable/add_button"
+        android:orderInCategory="200"
+        android:showAsAction="always"
+        android:title="@string/title_add_goal"/>
 
 </menu>
