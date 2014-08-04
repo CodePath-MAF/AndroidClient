@@ -73,9 +73,15 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Post post = aposts.getItem(position - 1); // wtf?
-                FragmentManager fm = getSupportFragmentManager();
-                PostDetailDialog pdDialog = PostDetailDialog.newInstance(post);
-                pdDialog.show(fm, "fragment_compose");
+                // Has comments?
+                List<Comment> comments = (List<Comment>) post.get("comments");
+                if (comments != null && comments.size() > 0) {
+                    FragmentManager fm = getSupportFragmentManager();
+                    PostDetailDialog pdDialog = PostDetailDialog.newInstance(post);
+                    pdDialog.show(fm, "fragment_compose");
+                } else {
+                    Log.d("DEGUB", "No comments! you can open this...");
+                }
             }
 
         });
