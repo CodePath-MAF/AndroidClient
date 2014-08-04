@@ -17,7 +17,7 @@
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>
-        <item name="android:homeAsUpIndicator">@drawable/leftarrow_white_button</item>
+        <item name="android:homeAsUpIndicator">@drawable/back_button</item>
     </style>
 
     <!-- TwoWayView Layout style -->
@@ -26,7 +26,7 @@
     </style>
 
     <!-- Custom SelectDate theme -->
-    <style name="Theme.SelectDate" parent="AppBaseTheme">
+    <style name="Theme.SelectDate" parent="AppTheme">
         <item name="android:editTextStyle">@style/Widget.EditText.White</item>
     </style>
 
