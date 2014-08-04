@@ -1,5 +1,10 @@
 package org.missionassetfund.apps.android.adapters;
 
+import java.util.List;
+
+import org.missionassetfund.apps.android.R;
+import org.missionassetfund.apps.android.models.CashOutSchedule;
+
 import android.content.Context;
 
 import com.sababado.circularview.Marker;
@@ -7,24 +12,32 @@ import com.sababado.circularview.SimpleCircularViewAdapter;
 
 public class ProfileCircularViewAdapter extends SimpleCircularViewAdapter {
     private Context mContext;
-    private int mTotalPeopleOnCircle;
+    private List<CashOutSchedule> mCashOutSchedule;
     
-    public ProfileCircularViewAdapter(Context context, int totalPeopleOnCircle) {
+    public ProfileCircularViewAdapter(Context context, List<CashOutSchedule> cashOutSchedule) {
         this.mContext = context;
-        this.mTotalPeopleOnCircle = totalPeopleOnCircle;
+        this.mCashOutSchedule = cashOutSchedule;
     }
     
     @Override
     public int getCount() {
-        return mTotalPeopleOnCircle;
+        return mCashOutSchedule.size();
     }
 
     @Override
     public void setupMarker(final int position, final Marker marker) {
-        int profileId = mContext.getResources().getIdentifier(String.format("profile_%s", position + 1), "drawable", mContext.getPackageName());
+        Integer profileImageId = mCashOutSchedule.get(position).getProfileImageId();
+        int profileId = mContext.getResources().getIdentifier(String.format("profile_%s", profileImageId), "drawable", mContext.getPackageName());
         
         marker.setSrc(profileId);
-        marker.setRadius(70f);
+        marker.setRadius(mContext.getResources().getDimension(R.dimen.profile_icon_size));
+        
+        boolean paidOut = mCashOutSchedule.get(position).isPaidOut();
+        
+        if (paidOut) {
+            marker.setRadiusPadding(mContext.getResources().getDimension(R.dimen.profile_radius_padding));
+            marker.setCenterBackgroundColor(mContext.getResources().getColor(R.color.app_green));
+        }
     }
 
 }
