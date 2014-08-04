@@ -21,10 +21,10 @@ public class StackedBarChart {
     private XYMultipleSeriesRenderer renderer;
 
     public StackedBarChart(int[] colors, double xValuesEdge, float maxChartValues, float maxValue,
-            String[] xTitles, Orientation orientantion, float barWidth) {
+            String[] xTitles, Orientation orientantion, float barWidth, int[] margins) {
         renderer = buildBarRenderer(colors);
         setChartSettings(renderer, xValuesEdge, maxChartValues + xValuesEdge, 0, maxValue,
-                Color.GRAY, Color.LTGRAY, xTitles, orientantion, barWidth);
+                Color.GRAY, Color.LTGRAY, xTitles, orientantion, barWidth, margins);
 
     }
 
@@ -46,7 +46,7 @@ public class StackedBarChart {
 
     protected void setChartSettings(XYMultipleSeriesRenderer renderer, double xMin, double xMax,
             double yMin, double yMax, int axesColor,
-            int labelsColor, String[] xTitles, Orientation orientation, float width) {
+            int labelsColor, String[] xTitles, Orientation orientation, float width, int[] margins) {
         renderer.setXAxisMin(xMin);
         renderer.setXAxisMax(xMax);
         renderer.setYAxisMin(yMin);
@@ -73,6 +73,7 @@ public class StackedBarChart {
         renderer.setClickEnabled(true);
         renderer.setOrientation(orientation);
         renderer.setBarWidth(width);
+        renderer.setMargins(margins);
     }
 
     protected XYMultipleSeriesDataset buildBarDataset(String[] titles, List<double[]> values) {
