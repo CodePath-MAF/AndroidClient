@@ -20,13 +20,14 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivCommenterProfile"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/ivCommenterProfile"
-        android:layout_alignTop="@+id/ivCommenterProfile"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/tvCommenterName"
+            style="@style/LendingCircleUI.Commenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sample_post_type"
@@ -34,6 +35,7 @@
 
         <TextView
             android:id="@+id/tvCommentText"
+            style="@style/LendingCircleUI.Comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sample_post"

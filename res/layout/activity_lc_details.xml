@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:parallax_factor="1.9"
+        app:circular_parallax="true"
         tools:context=".LCDetailsActivity" />
 
 

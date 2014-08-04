@@ -34,7 +34,7 @@ public class NewPostDialog extends DialogFragment {
     public static NewPostDialog newInstance(String title) {
         NewPostDialog frag = new NewPostDialog();
         frag.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-        
+
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -44,7 +44,7 @@ public class NewPostDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_post, container);
+        View view = inflater.inflate(R.layout.fragment_create_post, container, false);
 
         ivUserProfile = (ImageView) view.findViewById(R.id.ivUserProfile);
         tvUserName = (TextView) view.findViewById(R.id.tvUserName);
@@ -52,7 +52,7 @@ public class NewPostDialog extends DialogFragment {
         btnPost = (ImageButton) view.findViewById(R.id.btnPost);
         btnPost.setEnabled(false);
         etPost.addTextChangedListener(watcher);
-        
+
         User user = (User) User.getCurrentUser();
         tvUserName.setText(user.getName());
         ivUserProfile.setImageResource(ModelUtils.getImageResourceForUser(user));
@@ -74,25 +74,30 @@ public class NewPostDialog extends DialogFragment {
 
         return view;
     }
-    
+
+    @Override
+    public void onActivityCreated(Bundle arg0) {
+        super.onActivityCreated(arg0);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.NewPostAnimation;
+    }
+
     private TextWatcher watcher = new TextWatcher() {
-        
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             // no-op
         }
-        
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             // no-op
         }
-        
+
         @Override
         public void afterTextChanged(Editable s) {
             int totalCharacters = s.length();
             btnPost.setEnabled(totalCharacters > 0 ? true : false);
         }
     };
-
 
 }

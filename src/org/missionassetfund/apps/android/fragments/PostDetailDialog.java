@@ -17,10 +17,14 @@ import org.missionassetfund.apps.android.utils.ModelUtils;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
@@ -47,7 +51,7 @@ public class PostDetailDialog extends DialogFragment {
     ListView llComments;
 
     EditText etComment;
-    InputMethodManager imm;
+    ImageButton btnComment;
 
     public PostDetailDialog() {
         // Empty constructor required for DialogFragment
@@ -55,6 +59,8 @@ public class PostDetailDialog extends DialogFragment {
 
     public static PostDetailDialog newInstance(Post post) {
         PostDetailDialog frag = new PostDetailDialog();
+        frag.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+
         frag.post = post;
         return frag;
     }
@@ -65,9 +71,6 @@ public class PostDetailDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         comments = (List<Comment>) post.get("comments");
         acomments = new CommentsAdapter(getActivity(), comments);
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-
     }
 
     @Override
@@ -85,27 +88,40 @@ public class PostDetailDialog extends DialogFragment {
         llComments.setAdapter(acomments);
 
         etComment = (EditText) view.findViewById(R.id.etComment);
+        btnComment = (ImageButton) view.findViewById(R.id.btnComment);
+        btnComment.setEnabled(false);
 
-        etComment.setOnEditorActionListener(new OnEditorActionListener() {
+        getDialog().setCanceledOnTouchOutside(true);
+        Window window = getDialog().getWindow();
+        window.setLayout(400, 400);
+        window.setGravity(Gravity.CENTER);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        setListeners();
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle arg0) {
+        super.onActivityCreated(arg0);
+        getDialog().getWindow()
+                .getAttributes().windowAnimations = R.style.PostDetailAnimation;
+    }
+
+    private void setListeners() {
+        btnComment.setOnClickListener(new OnClickListener() {
 
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    SaveCommentListener saveCommentListener = (SaveCommentListener) getActivity();
-                    saveCommentListener.onSaveComment(
-                            post.getObjectId(), etComment.getText().toString());
-                    handled = true;
-                    dismiss();
-                }
-                return handled;
+            public void onClick(View v) {
+                saveComment();
             }
         });
 
-        // String title = getArguments().getString("title", "Your Tweet");
-        // getDialog().setTitle(title);
-        // Show soft keyboard automatically
-        return view;
+        etComment.addTextChangedListener(commentWatcher);
+
+        etComment.setOnEditorActionListener(sendKeyListner);
+
     }
 
     private void populatePostViews() {
@@ -123,6 +139,45 @@ public class PostDetailDialog extends DialogFragment {
             // tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentsDue()));
         }
 
+    }
+
+    private TextWatcher commentWatcher = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // no-op
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // no-op
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            int totalCharacters = s.length();
+            btnComment.setEnabled(totalCharacters > 0 ? true : false);
+        }
+    };
+
+    private OnEditorActionListener sendKeyListner = new OnEditorActionListener() {
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                saveComment();
+                handled = true;
+            }
+            return handled;
+        }
+    };
+
+    protected void saveComment() {
+        SaveCommentListener saveCommentListener = (SaveCommentListener) getActivity();
+        saveCommentListener.onSaveComment(
+                post.getObjectId(), etComment.getText().toString());
+        dismiss();
     }
 
 }
