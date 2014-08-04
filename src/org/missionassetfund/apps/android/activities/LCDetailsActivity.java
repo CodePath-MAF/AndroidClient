@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -65,6 +66,9 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lc_details);
+
+        // Add up action navigation
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         currentUser = (User) User.getCurrentUser();
         posts = new ArrayList<Post>();
@@ -118,6 +122,24 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressLint("InflateParams")
