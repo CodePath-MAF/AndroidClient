@@ -45,18 +45,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/sample_post"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:text="@string/sample_post" />
+
+            <TextView
+                android:id="@+id/tvPostReminderText"
+                style="@style/LendingCircleUI.PostReminderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tvPaymentDue"
-            style="@style/MediumAmount"
+            style="@style/LendingCircleUI.PaymentAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
             android:text="@string/sample_total_payment"
-            android:textColor="@color/app_green"
             android:visibility="gone" />
 
         <TextView
@@ -68,10 +77,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/number_comment_bg"
-            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
             android:text="4"
             android:textColor="@color/white"
             android:textSize="10sp"

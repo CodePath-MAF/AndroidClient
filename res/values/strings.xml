@@ -69,6 +69,12 @@
     <string name="dashboard_goal_item_due_date_days">due in %1$d days</string>
     <string name="dashboard_goal_item_due_date">due %1$s</string>
     <string name="dashboard_goal_item_complete_label">COMPLETE</string>
+    
+    
+    <string name="lc_item_due_date_today">Payment Due in Today</string>
+    <string name="lc_item_due_date_tomorrow">Payment Due in Tomorrow</string>
+    <string name="lc_item_due_date_days">Payment Due in %1$d days</string>
+    <string name="lc_item_due_date">Payment Due %1$s</string>
 
     <plurals name="dashboard_milestones_left_human">
         <item quantity="zero">No payments left</item>

@@ -2,6 +2,7 @@
 package org.missionassetfund.apps.android.adapters;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.activities.LCDetailsActivity;
@@ -12,6 +13,8 @@ import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.PostType;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
+import org.missionassetfund.apps.android.utils.FormatterUtils;
+import org.missionassetfund.apps.android.utils.MAFDateUtils;
 import org.missionassetfund.apps.android.utils.ModelUtils;
 
 import android.annotation.SuppressLint;
@@ -75,32 +78,58 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
     }
 
     private void populatePostViews(Post post, View convertView) {
-        // Profile Image
         ImageView ivPosterProfile = (ImageView) convertView.findViewById(R.id.ivPosterProfile);
-        ivPosterProfile.setImageResource(ModelUtils.getImageResourceForUser(post.getUser()));
-
-        // Has comments?
         TextView tvNumberOfComments = (TextView) convertView.findViewById(R.id.tvNumberOfComments);
-        List<Comment> comments = (List<Comment>) post.get("comments");
-        if (comments != null && comments.size() > 0) {
-            tvNumberOfComments.setText(String.valueOf(comments.size()));
-            tvNumberOfComments.setVisibility(View.VISIBLE);
-        }
-
-        // Post type
         ImageView ivPostType = (ImageView) convertView.findViewById(R.id.ivPostType);
-        ivPostType.setImageResource(ModelUtils.getImageForPostType(post));
-
-        // Post content
         TextView tvPostText = (TextView) convertView.findViewById(R.id.tvPostText);
-        tvPostText.setText(post.getContent());
+        TextView tvPaymentDue = (TextView) convertView.findViewById(R.id.tvPaymentDue);
+        TextView tvPostReminderText = (TextView) convertView.findViewById(R.id.tvPostReminderText);
 
-        // Payment Due for reminders
-        if (post.getType() != null && post.getType() == PostType.REMINDER) {
-            TextView tvPaymentDue = (TextView) convertView.findViewById(R.id.tvPaymentDue);
-            tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentsDue()));
+        if (post.getType() == PostType.REMINDER) {
+            // special MAF post render differently
+            ivPosterProfile.setImageResource(R.drawable.profile_13);
+
+            // set human-friendly due dates
+            int daysToDueDate = MAFDateUtils.getDaysTo(goal.getDueDate());
+            if (daysToDueDate > 1) {
+                if (daysToDueDate < 7) {
+                    tvPostReminderText.setText(getContext().getString(
+                            R.string.lc_item_due_date_days, daysToDueDate));
+                } else {
+                    tvPostReminderText.setText(getContext().getString(R.string.lc_item_due_date,
+                            FormatterUtils.formatMonthDate(goal.getDueDate())));
+                }
+            } else if (daysToDueDate == 1) {
+                tvPostReminderText.setText(getContext().getString(
+                        R.string.lc_item_due_date_tomorrow));
+            } else {
+                tvPostReminderText.setText(getContext().getString(R.string.lc_item_due_date_today));
+            }
+            tvPostReminderText.setVisibility(View.VISIBLE);
+            tvPostText.setVisibility(View.GONE);
+
+            // Payment Due for reminders
+            tvPaymentDue.setText(CurrencyUtils.getCurrencyValueFormatted(goal.getPaymentAmount()));
+            tvPaymentDue.setVisibility(View.VISIBLE);
+        } else {
+            // Profile Image
+            ivPosterProfile.setImageResource(ModelUtils.getImageResourceForUser(post.getUser()));
+
+            // Has comments?
+            List<Comment> comments = (List<Comment>) post.get("comments");
+            if (comments != null && comments.size() > 0) {
+                tvNumberOfComments.setText(String.valueOf(comments.size()));
+                tvNumberOfComments.setVisibility(View.VISIBLE);
+            }
+
+            // Post type
+            ivPostType.setImageResource(ModelUtils.getImageForPostType(post));
+
+            // Post content
+            tvPostText.setText(post.getContent());
+
+            tvPaymentDue.setVisibility(View.GONE);
         }
-
     }
 
     private void populateCommentView(Comment comment, View commentView) {
