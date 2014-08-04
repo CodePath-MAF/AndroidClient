@@ -1,30 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:paddingTop="16dp" >
 
-    <EditText
-        android:id="@+id/etPost"
+    <ImageView
+        android:id="@+id/ivUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginLeft="16dp"
+        android:paddingRight="4dp" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/ivUserProfile"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivUserProfile"
         android:ems="10"
-        android:inputType="textMultiLine" >
+        android:gravity="top"
+        android:hint="@string/new_post_hint"
+        android:inputType="textMultiLine"
+        android:minLines="5"
+        android:padding="16dp"
+        android:background="@android:color/transparent" >
 
         <requestFocus />
     </EditText>
 
-    <ImageButton
-        android:id="@+id/btnPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_below="@+id/etPost"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
-        android:background="@drawable/btn_newpost_highlighted"
-        android:contentDescription="@string/app_name" />
+        android:background="@color/gray" >
+
+        <ImageButton
+            android:id="@+id/btnPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/new_post_button"
+            android:contentDescription="@string/app_name" />
+    </RelativeLayout>
 
 </RelativeLayout>

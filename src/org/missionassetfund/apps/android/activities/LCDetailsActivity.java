@@ -1,7 +1,6 @@
 
 package org.missionassetfund.apps.android.activities;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +8,9 @@ import java.util.List;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalPostsAdapter;
 import org.missionassetfund.apps.android.fragments.NewPostDialog;
-import org.missionassetfund.apps.android.fragments.PostDetailDialog;
 import org.missionassetfund.apps.android.fragments.PeopleCircleFragment;
 import org.missionassetfund.apps.android.fragments.PeopleCircleFragment.OnCreateViewListener;
+import org.missionassetfund.apps.android.fragments.PostDetailDialog;
 import org.missionassetfund.apps.android.interfaces.SaveCommentListener;
 import org.missionassetfund.apps.android.interfaces.SavePostListener;
 import org.missionassetfund.apps.android.models.Comment;
@@ -22,21 +21,13 @@ import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.provider.Contacts.PeopleColumns;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;
@@ -151,8 +142,6 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
                         // final LCDetail lcDetail = mapper.convertValue(result,
                         // LCDetail.class);
-                        Toast.makeText(LCDetailsActivity.this, "Hi", Toast.LENGTH_LONG).show();
-                        Log.d("debug", result.toString());
                         posts.addAll((List<Post>) result.get("posts"));
                         aposts.notifyDataSetChanged();
 
