@@ -30,7 +30,7 @@ public class ModelUtils {
                 case QUESTION:
                     return R.drawable.img_newpost_question;
                 case REMINDER:
-                    return R.drawable.img_newpost_post;
+                    return R.drawable.img_lending_circle_post_type;
                 default:
                     return R.drawable.img_newpost_message;
             }

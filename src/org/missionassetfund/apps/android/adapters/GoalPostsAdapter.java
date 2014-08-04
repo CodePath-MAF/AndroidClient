@@ -89,10 +89,13 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
             // special MAF post render differently
             ivPosterProfile.setImageResource(R.drawable.profile_13);
 
+            // Post type
+            ivPostType.setImageResource(ModelUtils.getImageForPostType(post));
+
             // set human-friendly due dates
             tvPostReminderText.setText(getContext().getString(R.string.lc_item_due_date,
                     FormatterUtils.formatMonthDate(goal.getNextPaymentDate())));
-            
+
             tvPostReminderText.setVisibility(View.VISIBLE);
             tvPostText.setVisibility(View.GONE);
 
@@ -101,18 +104,18 @@ public class GoalPostsAdapter extends ArrayAdapter<Post> {
             tvPaymentDue.setVisibility(View.VISIBLE);
         } else if (post.getType() == PostType.EVENT) {
             // TODO: clean this up. Hack for demo day.
-            
+
             // special MAF post render differently
             ivPosterProfile.setImageResource(R.drawable.profile_13);
-            
+
             // Post type
             ivPostType.setImageResource(ModelUtils.getImageForPostType(post));
-            
+
             // Post content
             tvPostText.setText(post.getContent());
 
             tvPaymentDue.setVisibility(View.GONE);
-            
+
         } else {
             // Profile Image
             ivPosterProfile.setImageResource(ModelUtils.getImageResourceForUser(post.getUser()));
