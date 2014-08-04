@@ -72,5 +72,8 @@
     <color name="bar_chart_color">#FF7979</color>
     <color name="bar_chart_label">#8D8D8D</color>
     
+    <!-- People Circle -->
+    <color name="people_circle_subtitle">#8D8D8D</color>
+    
 
 </resources>

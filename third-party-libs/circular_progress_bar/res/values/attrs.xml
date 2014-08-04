@@ -11,5 +11,6 @@
         <attr name="circleStrokeWidth" format="integer"/>
         <attr name="titleTextSize" format="float"/>
         <attr name="subtitleTextSize" format="float"/>
+        <attr name="progressBackgroundColor" format="string"/>
     </declare-styleable>
 </resources>
