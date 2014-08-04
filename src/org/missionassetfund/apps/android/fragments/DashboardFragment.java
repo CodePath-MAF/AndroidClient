@@ -174,7 +174,7 @@ public class DashboardFragment extends Fragment {
 
         // Creating XYSeriesRenderer to customize expenseSeries
         XYSeriesRenderer expenseRenderer = new XYSeriesRenderer();
-        expenseRenderer.setColor(getResources().getColor(R.color.black));
+        expenseRenderer.setColor(getResources().getColor(R.color.app_green));
         // TODO: Add a custom PointStyle like the mocks
         expenseRenderer.setPointStyle(PointStyle.CIRCLE);
         expenseRenderer.setLineWidth(getResources().getDimension(R.dimen.spent_chart_line));
