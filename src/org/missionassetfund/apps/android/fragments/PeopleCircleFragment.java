@@ -70,9 +70,11 @@ public class PeopleCircleFragment extends Fragment {
         cpbGoalDetail.setSubTitle(String.format("%s CONTRIBUTED\nTHIS MONTH", 
                 CurrencyUtils.getCurrencyValueFormatted(mGoalPaymentAmount)));
         cpbGoalDetail.setProgress(getProgress());
+        cpbGoalDetail.animateProgressTo(0, getProgress(), null);
 
         ProfileCircularViewAdapter mAdapter = new ProfileCircularViewAdapter(view.getContext(), mCashOutSchedule);
         cvProfile = (CircularView) view.findViewById(R.id.cvProfile);
+        cvProfile.animateHighlightedDegree(0, 360, 3000);
         cvProfile.setAdapter(mAdapter);
 
         return view;
