@@ -108,11 +108,11 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     setTitle(g.getName());
                     // call parseCloud to get all data elements for lending
                     // circle view
+                    setUpCircle();
                     aposts = new GoalPostsAdapter(LCDetailsActivity.this, goal, posts);
                     // llGoalPosts.setAdapter(aposts);
                     lvLCDetails.setAdapter(aposts);
-                    
-                    setUpCircle();
+
                     getLCDetailsData();
                 } else {
                     Toast.makeText(LCDetailsActivity.this, R.string.parse_error_querying,
