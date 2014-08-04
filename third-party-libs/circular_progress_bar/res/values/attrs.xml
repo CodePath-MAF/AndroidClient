@@ -8,6 +8,9 @@
         <attr name="titleColor" format="string"/>
         <attr name="subtitle" format="string"/>
         <attr name="subtitleColor" format="string"/>
-        <attr name="strokeWidthCircular" format="integer"/>
+        <attr name="circleStrokeWidth" format="integer"/>
+        <attr name="titleTextSize" format="float"/>
+        <attr name="subtitleTextSize" format="float"/>
+        <attr name="progressBackgroundColor" format="string"/>
     </declare-styleable>
 </resources>

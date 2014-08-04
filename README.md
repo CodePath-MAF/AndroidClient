@@ -67,6 +67,10 @@ Below we have the list of third-party libraries used on the app:
 - [HoloGraphLibrary](https://bitbucket.org/danielnadeau/holographlibrary/wiki/Home): allow beautiful graphs and charts to be easily incorporated into Android
 - [Calligraphy](https://github.com/chrisjenx/Calligraphy): custom fonts for Android
 - [Android ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator): Paging indicator widgets
+- [CircularView](https://github.com/sababado/CircularView): A custom view for Android. It consists of a larger center circular view that is surrounded by other circles which may represent data
+- [FloatingActionButton](https://github.com/FaizMalkani/FloatingActionButton): Library to use the Floating Action Button (FAB) from Android L on Jellybean and KitKat
+- [TwoWay-View](https://github.com/lucasr/twoway-view): An AdapterView with support for vertical and horizontal scrolling
+- [Circular ProgressBar](https://github.com/ylyc/circular_progress_bar): A simple subclass of android.widget.ProgressBar that contains title and subtitile in the center
 
 ## License
 
