@@ -22,37 +22,38 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/profile_1" />
 
-<!--         <LinearLayout -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:layout_toRightOf="@+id/ivPosterProfile" -->
-<!--             android:orientation="vertical" > -->
+        <!-- <LinearLayout -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_toRightOf="@+id/ivPosterProfile" -->
+        <!-- android:orientation="vertical" > -->
 
-            <ImageView
-                android:id="@+id/ivPostType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/ivPosterProfile"
-                android:layout_marginTop="5dp"
-                android:adjustViewBounds="true"
-                android:maxHeight="15dp"
-                android:src="@drawable/img_newpost_post"
-                android:contentDescription="@string/app_name" />
+        <ImageView
+            android:id="@+id/ivPostType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/ivPosterProfile"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/app_name"
+            android:maxHeight="15dp"
+            android:src="@drawable/img_newpost_post" />
 
-            <TextView
-                android:id="@+id/tvPostText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/ivPostType"
-                android:layout_below="@+id/ivPostType"
-                android:layout_marginTop="5dp"
-                android:text="@string/sample_post"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-<!--         </LinearLayout> -->
+        <TextView
+            android:id="@+id/tvPostText"
+            style="@style/LendingCircleUI.Message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivPostType"
+            android:layout_below="@+id/ivPostType"
+            android:layout_marginTop="5dp"
+            android:text="@string/sample_post"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <!-- </LinearLayout> -->
 
         <TextView
             android:id="@+id/tvPaymentDue"
-            style="@style/MediumAmount"
+            style="@style/LendingCircleUI.PaymentAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -67,8 +68,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlPost" >
     </ListView>
-    
-    <RelativeLayout android:id="@+id/rlBottomButton"
+
+    <RelativeLayout
+        android:id="@+id/rlBottomButton"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
@@ -84,7 +86,7 @@
             android:background="@drawable/new_post_button"
             android:contentDescription="@string/app_name" />
     </RelativeLayout>
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,6 +95,7 @@
 
         <EditText
             android:id="@+id/etComment"
+            style="@style/LendingCircleUI.Comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -103,12 +106,11 @@
             android:hint="@string/new_comment_hint"
             android:imeOptions="actionSend"
             android:inputType="textMultiLine"
-            android:minLines="2"
+            android:minLines="1"
             android:padding="16dp" >
 
             <requestFocus />
         </EditText>
     </RelativeLayout>
-
 
 </RelativeLayout>

@@ -286,6 +286,15 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="LendingCircleUI.Comment">
+        <item name="android:textColor">@color/lc_message</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="LendingCircleUI.Commenter">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="LendingCircleUI.PostReminderText">
         <item name="android:textColor">@color/lc_message</item>
         <item name="android:textSize">14sp</item>
