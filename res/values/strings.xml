@@ -194,5 +194,6 @@
     <string name="title_activity_lcdetails">LCDetailsActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="new_post_hint">Post&#8230;</string>
-
+    <string name="new_comment_hint">Comment&#8230;</string>
+    
 </resources>

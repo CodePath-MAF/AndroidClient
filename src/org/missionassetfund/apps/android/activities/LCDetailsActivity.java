@@ -70,6 +70,7 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
         lvLCDetails = (ParallaxListView) findViewById(R.id.lvLCDetails);
         lvLCDetails.setOnItemClickListener(new OnItemClickListener() {
 
+            @SuppressWarnings("unchecked")
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Post post = aposts.getItem(position - 1); // wtf?
@@ -80,7 +81,8 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     PostDetailDialog pdDialog = PostDetailDialog.newInstance(post);
                     pdDialog.show(fm, "fragment_compose");
                 } else {
-                    Log.d("DEGUB", "No comments! you can open this...");
+                    // TODO show toast saying no comments
+                    Log.d("debug", "No comments! you can open this...");
                 }
             }
 
@@ -150,17 +152,6 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                         // LCDetail.class);
                         posts.addAll((List<Post>) result.get("posts"));
                         aposts.notifyDataSetChanged();
-
-                        // for (Post post : posts) {
-                        // List<Comment> comments = (List<Comment>)
-                        // post.get("comments");
-                        // if (comments != null) {
-                        // for (Comment comment : comments) {
-                        // Log.d("debug", comment.getContent());
-                        // }
-                        //
-                        // }
-                        // }
 
                     }
                 });
@@ -233,7 +224,6 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                         }
                     }
                 });
-
     }
 
     @Override
