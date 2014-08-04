@@ -27,6 +27,7 @@ public class PeopleCircleFragment extends Fragment {
     private CircularView cvProfile;
     private BigDecimal mGoalAmount;
     private BigDecimal mGoalPaymentAmount;
+    private BigDecimal mGoalCurrentTotal;
     private List<CashOutSchedule> mCashOutSchedule;
     
     private OnCreateViewListener listener;
@@ -41,6 +42,10 @@ public class PeopleCircleFragment extends Fragment {
 
     public void setGoalPaymentAmount(BigDecimal goalPaymentAmount) {
         this.mGoalPaymentAmount = goalPaymentAmount;
+    }
+    
+    public void setGoalCurrentTotal(BigDecimal goalCurrentTotal) {
+        this.mGoalCurrentTotal = goalCurrentTotal;
     }
 
     public void setCashOutSchedule(List<CashOutSchedule> cashOutSchedule) {
@@ -68,7 +73,7 @@ public class PeopleCircleFragment extends Fragment {
                 view.findViewById(R.id.cpbGoalDetail);
         cpbGoalDetail.setTitle(CurrencyUtils.getCurrencyValueFormatted(mGoalAmount));
         cpbGoalDetail.setSubTitle(String.format("%s CONTRIBUTED\nTHIS MONTH", 
-                CurrencyUtils.getCurrencyValueFormatted(mGoalPaymentAmount)));
+                CurrencyUtils.getCurrencyValueFormatted(mGoalCurrentTotal)));
         cpbGoalDetail.setProgress(getProgress());
         cpbGoalDetail.animateProgressTo(0, getProgress(), null);
 
@@ -81,7 +86,7 @@ public class PeopleCircleFragment extends Fragment {
     }
 
     private int getProgress() {
-        return mGoalPaymentAmount.divide(mGoalAmount, 4, RoundingMode.UP)
+        return mGoalCurrentTotal.divide(mGoalAmount, 4, RoundingMode.UP)
                 .multiply(CurrencyUtils.newCurrency(100d)).intValue();
     }
 }
