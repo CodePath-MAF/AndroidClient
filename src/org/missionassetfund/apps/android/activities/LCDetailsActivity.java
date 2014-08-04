@@ -8,7 +8,8 @@ import java.util.List;
 
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalPostsAdapter;
-import org.missionassetfund.apps.android.fragments.CreatePostFragment;
+import org.missionassetfund.apps.android.fragments.NewPostDialog;
+import org.missionassetfund.apps.android.fragments.PostDetailDialog;
 import org.missionassetfund.apps.android.fragments.PeopleCircleFragment;
 import org.missionassetfund.apps.android.fragments.PeopleCircleFragment.OnCreateViewListener;
 import org.missionassetfund.apps.android.interfaces.SaveCommentListener;
@@ -19,21 +20,29 @@ import org.missionassetfund.apps.android.models.Post;
 import org.missionassetfund.apps.android.models.User;
 import org.missionassetfund.apps.android.utils.CurrencyUtils;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.provider.Contacts.PeopleColumns;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nirhart.parallaxscroll.views.ParallaxListView;
 import com.parse.FunctionCallback;
 import com.parse.GetCallback;
 import com.parse.ParseCloud;
@@ -46,14 +55,15 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
     private static final String TAG = "LCDetails";
 
     User currentUser;
-
-    FrameLayout circleOfLC;
+    // FrameLayout rootLayout;
+    // FrameLayout circleOfLC;
     List<User> usersOfLC;
 
     private Goal goal;
     private List<Post> posts;
     private GoalPostsAdapter aposts;
-    ListView llGoalPosts;
+    // ListView llGoalPosts;
+    ParallaxListView lvLCDetails;
 
     FloatingActionButton btnCreatePost;
 
@@ -63,16 +73,28 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
         setContentView(R.layout.activity_lc_details);
 
         currentUser = (User) User.getCurrentUser();
-
-        circleOfLC = (FrameLayout) findViewById(R.id.circleOfLC);
-        setUpCircle();
-
         posts = new ArrayList<Post>();
 
-        llGoalPosts = (ListView) findViewById(R.id.llGoalPosts);
+        // rootLayout = (FrameLayout) findViewById(R.id.flLCDetails);
+        lvLCDetails = (ParallaxListView) findViewById(R.id.lvLCDetails);
+        lvLCDetails.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentManager fm = getSupportFragmentManager();
+                PostDetailDialog pdDialog = PostDetailDialog.newInstance("Post");
+                pdDialog.show(fm, "fragment_compose");
+            }
+
+        });
+
+        setUpCircle();
+
+        // llGoalPosts = (ListView) findViewById(R.id.llGoalPosts);
 
         btnCreatePost = (FloatingActionButton) findViewById(R.id.btnCreatePost);
-        btnCreatePost.listenTo(llGoalPosts);
+        // btnCreatePost.listenTo(llGoalPosts);
+        btnCreatePost.listenTo(lvLCDetails);
 
         // TODO This is temporary
         String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
@@ -88,8 +110,8 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     // call parseCloud to get all data elements for lending
                     // circle view
                     aposts = new GoalPostsAdapter(LCDetailsActivity.this, goal, posts);
-                    llGoalPosts.setAdapter(aposts);
-
+                    // llGoalPosts.setAdapter(aposts);
+                    lvLCDetails.setAdapter(aposts);
                     getLCDetailsData();
                 } else {
                     Toast.makeText(LCDetailsActivity.this, R.string.parse_error_querying,
@@ -100,38 +122,14 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
     }
 
+    @SuppressLint("InflateParams")
     private void setUpCircle() {
-        int numViews = 8;
-        for (int i = 0; i < numViews; i++)
-        {
-            // Create some quick TextViews that can be placed.
-            ImageView v = new ImageView(this);
-            // Set a text and center it in each view.
-            // v.setBackgroundColor(0xffff0000);
-            v.setImageResource(R.drawable.profile_1);
-            // Force the views to a nice size (150x100 px) that fits my display.
-            // This should of course be done in a display size independent way.
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(150, 100);
-            // Place all views in the center of the layout. We'll transform them
-            // away from there in the code below.
-            lp.gravity = Gravity.CENTER;
-            // Set layout params on view.
-            v.setLayoutParams(lp);
+        View circleView = getLayoutInflater().inflate(R.layout.item_lc_circle_view, null);
+        AbsListView.LayoutParams params = new AbsListView.LayoutParams(
+                AbsListView.LayoutParams.MATCH_PARENT, 400);
+        circleView.setLayoutParams(params);
 
-            // Calculate the angle of the current view. Adjust by 90 degrees to
-            // get View 0 at the top. We need the angle in degrees and radians.
-            float angleDeg = i * 360.0f / numViews - 90.0f;
-            float angleRad = (float) (angleDeg * Math.PI / 180.0f);
-            // Calculate the position of the view, offset from center (300 px
-            // from center). Again, this should be done in a display size
-            // independent way.
-            v.setTranslationX(200 * (float) Math.cos(angleRad));
-            v.setTranslationY(200 * (float) Math.sin(angleRad));
-            // Set the rotation of the view.
-            // v.setRotation(angleDeg + 90.0f);
-            circleOfLC.addView(v);
-        }
-
+        lvLCDetails.addParallaxedHeaderView(circleView);
     }
 
     protected void getLCDetailsData() {
@@ -173,7 +171,7 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
     public void onCreatePost(View v) {
         FragmentManager fm = getSupportFragmentManager();
-        CreatePostFragment cpDialog = CreatePostFragment.newInstance("Create Post");
+        NewPostDialog cpDialog = NewPostDialog.newInstance("Create Post");
         cpDialog.show(fm, "fragment_compose");
     }
 
