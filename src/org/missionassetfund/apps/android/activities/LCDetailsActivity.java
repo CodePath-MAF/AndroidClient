@@ -1,6 +1,7 @@
 
 package org.missionassetfund.apps.android.activities;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
 import org.missionassetfund.apps.android.R;
 import org.missionassetfund.apps.android.adapters.GoalPostsAdapter;
 import org.missionassetfund.apps.android.fragments.CreatePostFragment;
+import org.missionassetfund.apps.android.fragments.PeopleCircleFragment;
+import org.missionassetfund.apps.android.fragments.PeopleCircleFragment.OnCreateViewListener;
 import org.missionassetfund.apps.android.interfaces.SaveCommentListener;
 import org.missionassetfund.apps.android.interfaces.SavePostListener;
 import org.missionassetfund.apps.android.models.Comment;
@@ -18,6 +21,7 @@ import org.missionassetfund.apps.android.utils.CurrencyUtils;
 import org.missionassetfund.apps.android.utils.FormatterUtils;
 
 import android.os.Bundle;
+import android.provider.Contacts.PeopleColumns;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -40,7 +44,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 public class LCDetailsActivity extends FragmentActivity implements SavePostListener,
-        SaveCommentListener {
+        SaveCommentListener, OnCreateViewListener {
     private static final String TAG = "LCDetails";
 
     User currentUser;
@@ -237,5 +241,12 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     }
                 });
 
+    }
+
+    @Override
+    public void onCreateView(PeopleCircleFragment fragment) {
+        fragment.setGoalAmount(CurrencyUtils.newCurrency(1350d));
+        fragment.setGoalPaymentAmount(CurrencyUtils.newCurrency(300d));
+        fragment.setTotalPeopleOnCircle(8);
     }
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:circular="http://schemas.android.com/apk/res/org.missionassetfund.apps.android"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:gravity="center" >
+
+    <com.lylc.widget.circularprogressbar.example.CircularProgressBar
+        android:id="@+id/cpbGoalDetail"
+        style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        circular:backgroundColor="@color/gray"
+        circular:circleStrokeWidth="20"
+        circular:progressBackgroundColor="@color/lightgray"
+        circular:progressColor="@color/app_green"
+        circular:subtitleColor="@color/people_circle_subtitle"
+        circular:subtitleTextSize="30"
+        circular:titleColor="@color/black"
+        circular:titleTextSize="80" />
+
+    <com.sababado.circularview.CircularView
+        android:id="@+id/cvProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        app:centerBackgroundColor="@android:color/transparent"
+        app:editMode_markerCount="8"
+        app:fitToCircle="true"
+        app:markerStartingPoint="bottom" />
+    
+</RelativeLayout>

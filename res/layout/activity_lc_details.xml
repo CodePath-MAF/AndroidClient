@@ -5,19 +5,27 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
 
+    <fragment
+        android:id="@+id/fPeopleCircle"
+        android:name="org.missionassetfund.apps.android.fragments.PeopleCircleFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible" />
+
     <FrameLayout
         android:id="@+id/circleOfLC"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_alignParentTop="true"
-        android:visibility="gone">
+        android:layout_below="@+id/fPeopleCircle"
+        android:visibility="visible" >
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/circleOfLC">
+        android:layout_below="@+id/circleOfLC" >
 
         <ListView
             android:id="@+id/llGoalPosts"
