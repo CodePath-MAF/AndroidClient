@@ -277,6 +277,14 @@
         <item name="android:textColor">@color/frequency_fragment_item_dropdown_text</item>
         <item name="android:singleLine">true</item>
     </style>
+    
+    <!-- Lending Circle -->
+    <style name="LendingCircleUI" />
+    
+    <style name="LendingCircleUI.Message">
+        <item name="android:textColor">@color/lc_message</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
     <!-- Parse -->
     <style name="ParseLoginUI" />
