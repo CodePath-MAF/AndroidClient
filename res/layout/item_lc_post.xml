@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:adjustViewBounds="true"
-                android:maxHeight="15dp"
+                android:maxHeight="18dp"
                 android:src="@drawable/img_newpost_post" />
 
             <TextView
