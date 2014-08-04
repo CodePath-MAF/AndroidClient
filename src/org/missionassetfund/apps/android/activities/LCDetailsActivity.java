@@ -27,9 +27,11 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.faizmalkani.floatingactionbutton.FloatingActionButton;
@@ -48,8 +50,8 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
     private static final String TAG = "LCDetails";
 
     User currentUser;
-    // FrameLayout rootLayout;
-    // FrameLayout circleOfLC;
+    View loadingView;
+
     List<User> usersOfLC;
 
     private Goal goal;
@@ -67,42 +69,26 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lc_details);
 
+        // TODO This is temporary
+        String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
+        getGoalData(goalId);
+
         // Add up action navigation
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         currentUser = (User) User.getCurrentUser();
         posts = new ArrayList<Post>();
+        setUpViews();
 
-        // rootLayout = (FrameLayout) findViewById(R.id.flLCDetails);
+    }
+
+    protected void setUpViews() {
         lvLCDetails = (ParallaxListView) findViewById(R.id.lvLCDetails);
-        lvLCDetails.setOnItemClickListener(new OnItemClickListener() {
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Post post = aposts.getItem(position - 1); // wtf?
-                // Has comments?
-                List<Comment> comments = (List<Comment>) post.get("comments");
-                if (comments != null && comments.size() > 0) {
-                    FragmentManager fm = getSupportFragmentManager();
-                    PostDetailDialog pdDialog = PostDetailDialog.newInstance(post);
-                    pdDialog.show(fm, "fragment_compose");
-                } else {
-                    // TODO show toast saying no comments
-                    Log.d("debug", "No comments! you can open this...");
-                }
-            }
-
-        });
-
-        // llGoalPosts = (ListView) findViewById(R.id.llGoalPosts);
-
+        lvLCDetails.setOnItemClickListener(postClickListener);
         btnCreatePost = (FloatingActionButton) findViewById(R.id.btnCreatePost);
-        // btnCreatePost.listenTo(llGoalPosts);
-        // btnCreatePost.listenTo(lvLCDetails);
+    }
 
-        // TODO This is temporary
-        String goalId = getIntent().getStringExtra(Goal.GOAL_KEY);
+    private void getGoalData(String goalId) {
         ParseQuery<Goal> query = ParseQuery.getQuery(Goal.class);
         query.getInBackground(goalId, new GetCallback<Goal>() {
 
@@ -160,22 +146,31 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
         params.put("parentGoalId", goal.getParentGoal().getObjectId());
         params.put("goalId", goal.getObjectId());
 
+        showLoadingView();
+
         ParseCloud.callFunctionInBackground("goalDetailView", params,
                 new FunctionCallback<HashMap<String, Object>>() {
 
                     @SuppressWarnings("unchecked")
                     @Override
                     public void done(HashMap<String, Object> result, ParseException exception) {
-                        final ObjectMapper mapper = new ObjectMapper();
-                        mapper.setSerializationInclusion(Include.NON_NULL);
+                        if (exception == null) {
+                            final ObjectMapper mapper = new ObjectMapper();
+                            mapper.setSerializationInclusion(Include.NON_NULL);
 
-                        mLendingCircleDetail = mapper.convertValue(result.get("goalDetails"),
-                                LCDetail.class);
-                        posts.addAll((List<Post>) result.get("posts"));
-                        aposts.notifyDataSetChanged();
+                            mLendingCircleDetail = mapper.convertValue(result.get("goalDetails"),
+                                    LCDetail.class);
+                            posts.addAll((List<Post>) result.get("posts"));
+                            aposts.notifyDataSetChanged();
 
-                        setUpCircle();
-                        lvLCDetails.setAdapter(aposts);
+                            HideLoadingView();
+                            setUpCircle();
+                            lvLCDetails.setAdapter(aposts);
+                        } else {
+                            Toast.makeText(LCDetailsActivity.this, R.string.parse_error_querying,
+                                    Toast.LENGTH_LONG).show();
+                            Log.d("debug", exception.getLocalizedMessage());
+                        }
 
                     }
                 });
@@ -258,4 +253,42 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
             fragment.setCashOutSchedule(mLendingCircleDetail.getCashOutSchedule());
         }
     }
+
+    public void showLoadingView() {
+        loadingView = getLayoutInflater().inflate(R.layout.item_loading_view, null);
+        loadingView.setVisibility(View.VISIBLE);
+        ViewGroup root = ((ViewGroup) getWindow().getDecorView().getRootView());
+        root.addView(loadingView);
+    }
+
+    public void HideLoadingView() {
+        loadingView.setVisibility(View.GONE);
+        ViewGroup root = ((ViewGroup) getWindow().getDecorView().getRootView());
+        root.removeView(loadingView);
+    }
+
+    private OnItemClickListener postClickListener = new OnItemClickListener() {
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            int arrayIndex = position - 1;
+            if (arrayIndex < 0 || arrayIndex > posts.size() - 1) {
+                return;
+            }
+            Post post = aposts.getItem(arrayIndex);
+            // Has comments?
+            List<Comment> comments = (List<Comment>) post.get("comments");
+            if (comments != null && comments.size() > 0) {
+                FragmentManager fm = getSupportFragmentManager();
+                PostDetailDialog pdDialog = PostDetailDialog.newInstance(post);
+                pdDialog.show(fm, "fragment_compose");
+            } else {
+                // TODO show toast saying no comments
+                Log.d("debug", "No comments! you can open this...");
+            }
+        }
+
+    };
+
 }
