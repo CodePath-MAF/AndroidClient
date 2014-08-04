@@ -81,8 +81,9 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Post post = aposts.getItem(position - 1); // wtf?
                 FragmentManager fm = getSupportFragmentManager();
-                PostDetailDialog pdDialog = PostDetailDialog.newInstance("Post");
+                PostDetailDialog pdDialog = PostDetailDialog.newInstance(post);
                 pdDialog.show(fm, "fragment_compose");
             }
 
@@ -107,11 +108,11 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                     setTitle(g.getName());
                     // call parseCloud to get all data elements for lending
                     // circle view
+                    setUpCircle();
                     aposts = new GoalPostsAdapter(LCDetailsActivity.this, goal, posts);
                     // llGoalPosts.setAdapter(aposts);
                     lvLCDetails.setAdapter(aposts);
-                    
-                    setUpCircle();
+
                     getLCDetailsData();
                 } else {
                     Toast.makeText(LCDetailsActivity.this, R.string.parse_error_querying,
@@ -155,15 +156,16 @@ public class LCDetailsActivity extends FragmentActivity implements SavePostListe
                         posts.addAll((List<Post>) result.get("posts"));
                         aposts.notifyDataSetChanged();
 
-                        for (Post post : posts) {
-                            List<Comment> comments = (List<Comment>) post.get("comments");
-                            if (comments != null) {
-                                for (Comment comment : comments) {
-                                    Log.d("debug", comment.getContent());
-                                }
-
-                            }
-                        }
+                        // for (Post post : posts) {
+                        // List<Comment> comments = (List<Comment>)
+                        // post.get("comments");
+                        // if (comments != null) {
+                        // for (Comment comment : comments) {
+                        // Log.d("debug", comment.getContent());
+                        // }
+                        //
+                        // }
+                        // }
 
                     }
                 });
